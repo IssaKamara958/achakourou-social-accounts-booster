@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.validate_script_client_ownership() FROM PUBLIC, anon, authenticated;
