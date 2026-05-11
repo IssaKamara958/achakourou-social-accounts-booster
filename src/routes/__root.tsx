@@ -77,12 +77,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Achakourou TikTok AI — Viral SaaS for Agencies" },
       { name: "description", content: "AI-powered TikTok trend engine and viral script generator for marketing agencies." },
       { name: "author", content: "Achakourou Digital Services — Dev Issa KAMARA" },
-      { property: "og:title", content: "Achakourou TikTok AI Agency SaaS" },
-      { property: "og:description", content: "Trends, viral scoring and AI script generation for TikTok agencies." },
+      { property: "og:title", content: "Achakourou TikTok AI — Viral SaaS for Agencies" },
+      { property: "og:description", content: "AI-powered TikTok trend engine and viral script generator for marketing agencies." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
       { name: "theme-color", content: "#1a1530" },
+      { name: "twitter:title", content: "Achakourou TikTok AI — Viral SaaS for Agencies" },
+      { name: "twitter:description", content: "AI-powered TikTok trend engine and viral script generator for marketing agencies." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/xe0JEOTprOb81u8Q24ZurZT8f9k1/social-images/social-1778458817271-chackor.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/xe0JEOTprOb81u8Q24ZurZT8f9k1/social-images/social-1778458817271-chackor.webp" },
     ],
     links: [
       {
