@@ -5,11 +5,9 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
-  HeadContent,
-  Scripts,
 } from "@tanstack/react-router";
 
-import appCss from "../styles.css?url";
+import "../styles.css";
 import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -101,50 +99,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Achakourou TikTok AI — Viral SaaS for Agencies" },
-      { name: "description", content: "AI-powered TikTok trend engine and viral script generator for marketing agencies." },
-      { name: "author", content: "Achakourou Digital Services — Dev Issa KAMARA" },
-      { property: "og:title", content: "Achakourou TikTok AI — Viral SaaS for Agencies" },
-      { property: "og:description", content: "AI-powered TikTok trend engine and viral script generator for marketing agencies." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "theme-color", content: "#1a1530" },
-      { name: "twitter:title", content: "Achakourou TikTok AI — Viral SaaS for Agencies" },
-      { name: "twitter:description", content: "AI-powered TikTok trend engine and viral script generator for marketing agencies." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/xe0JEOTprOb81u8Q24ZurZT8f9k1/social-images/social-1778458817271-chackor.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/xe0JEOTprOb81u8Q24ZurZT8f9k1/social-images/social-1778458817271-chackor.webp" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-    ],
-  }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
-
-function RootShell({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
