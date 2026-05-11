@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiTrendsRouteImport } from './routes/api/trends'
 import { Route as ApiIdeasRouteImport } from './routes/api/ideas'
 import { Route as ApiGenerateScriptRouteImport } from './routes/api/generate-script'
 
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const ApiGenerateScriptRoute = ApiGenerateScriptRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRoute
   '/api/generate-script': typeof ApiGenerateScriptRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/app': typeof AppRoute
   '/api/generate-script': typeof ApiGenerateScriptRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
@@ -50,20 +58,33 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRoute
   '/api/generate-script': typeof ApiGenerateScriptRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/generate-script' | '/api/ideas' | '/api/trends'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/api/generate-script'
+    | '/api/ideas'
+    | '/api/trends'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/generate-script' | '/api/ideas' | '/api/trends'
-  id: '__root__' | '/' | '/api/generate-script' | '/api/ideas' | '/api/trends'
+  to: '/' | '/app' | '/api/generate-script' | '/api/ideas' | '/api/trends'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/api/generate-script'
+    | '/api/ideas'
+    | '/api/trends'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRoute
   ApiGenerateScriptRoute: typeof ApiGenerateScriptRoute
   ApiIdeasRoute: typeof ApiIdeasRoute
   ApiTrendsRoute: typeof ApiTrendsRoute
@@ -71,6 +92,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +132,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRoute,
   ApiGenerateScriptRoute: ApiGenerateScriptRoute,
   ApiIdeasRoute: ApiIdeasRoute,
   ApiTrendsRoute: ApiTrendsRoute,
@@ -111,3 +140,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
