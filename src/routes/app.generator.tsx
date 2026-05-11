@@ -44,7 +44,12 @@ function Generator() {
   async function fetchIdeas(niche: string) {
     setIdeasBusy(true);
     try {
-      const r = await fetch(`/api/ideas?niche=${encodeURIComponent(niche)}`);
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      if (!token) throw new Error("Not authenticated");
+      const r = await fetch(`/api/ideas?niche=${encodeURIComponent(niche)}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (!r.ok) throw new Error(await r.text());
       const j = await r.json();
       setIdeas(j.ideas ?? []);
@@ -60,9 +65,12 @@ function Generator() {
     setBusy(true);
     setScript(null);
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      if (!token) throw new Error("Not authenticated");
       const r = await fetch("/api/generate-script", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ topic, tone }),
       });
       if (r.status === 429) throw new Error("Rate limit reached. Please retry in a moment.");
