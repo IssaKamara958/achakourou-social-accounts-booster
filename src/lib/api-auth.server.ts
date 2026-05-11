@@ -14,8 +14,8 @@ export async function requireUser(request: Request) {
   const token = auth.slice(7).trim();
   if (!token) throw new Response("Unauthorized", { status: 401 });
 
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_PUBLISHABLE_KEY;
+  const url = import.meta.env.VITE_SUPABASE_URL;
+  const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
   if (!url || !key) throw new Response("Server misconfigured", { status: 500 });
 
   const supabase = createClient<Database>(url, key, {

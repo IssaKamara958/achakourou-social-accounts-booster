@@ -62,6 +62,39 @@ create table public.generated_scripts (
 alter table public.generated_scripts enable row level security;
 create policy "owner all scripts" on public.generated_scripts for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
+-- ai_generations (Quota tracking)
+create table public.ai_generations (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  type text not null, -- 'script', 'seo', 'audit'
+  created_at timestamptz not null default now()
+);
+alter table public.ai_generations enable row level security;
+create policy "owner view usage" on public.ai_generations for select using (auth.uid() = user_id);
+
+-- content_calendar
+create table public.content_calendar (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  script_id uuid references public.generated_scripts(id) on delete set null,
+  scheduled_at timestamptz not null,
+  status text default 'planned'
+);
+alter table public.content_calendar enable row level security;
+create policy "owner all calendar" on public.content_calendar for all using (auth.uid() = user_id);
+
+-- seo_reports
+create table public.seo_reports (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  keywords text[],
+  optimization_tips text,
+  score int not null default 0,
+  created_at timestamptz not null default now()
+);
+alter table public.seo_reports enable row level security;
+create policy "owner all seo" on public.seo_reports for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
 -- seed trends
 insert into public.trends (hashtag, topic, category, viral_score, growth, description) values
 ('#aitools', 'AI productivity hacks', 'Tech', 94, 312.5, 'Short demos of AI tools saving hours per week'),

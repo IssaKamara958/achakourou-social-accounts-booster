@@ -57,10 +57,10 @@ function ClientsPage() {
         <Card className="p-5 bg-card border-border lg:col-span-1">
           <div className="font-semibold mb-3 flex items-center gap-2"><Plus className="h-4 w-4" /> Add client</div>
           <form onSubmit={add} className="space-y-3">
-            <div><Label>Name</Label><Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required /></div>
-            <div><Label>TikTok handle</Label><Input value={form.handle} onChange={(e) => setForm({ ...form, handle: e.target.value })} placeholder="@brand" /></div>
-            <div><Label>Niche</Label><Input value={form.niche} onChange={(e) => setForm({ ...form, niche: e.target.value })} placeholder="Fitness, SaaS…" /></div>
-            <div><Label>Notes</Label><Textarea rows={3} value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} /></div>
+            <div><Label>Name</Label><Input value={form.name} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, name: e.target.value })} required /></div>
+            <div><Label>TikTok handle</Label><Input value={form.handle} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, handle: e.target.value })} placeholder="@brand" /></div>
+            <div><Label>Niche</Label><Input value={form.niche} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, niche: e.target.value })} placeholder="Fitness, SaaS…" /></div>
+            <div><Label>Notes</Label><Textarea rows={3} value={form.notes} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setForm({ ...form, notes: e.target.value })} /></div>
             <Button type="submit" className="w-full" style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }}>Add client</Button>
           </form>
         </Card>
@@ -72,7 +72,7 @@ function ClientsPage() {
               No clients yet. Add your first one.
             </Card>
           ) : (
-            clients.map((c) => (
+            clients.map((c: any) => (
               <Card key={c.id} className="p-4 bg-card border-border flex items-start justify-between gap-3">
                 <div>
                   <div className="font-semibold">{c.name} <span className="text-muted-foreground text-sm">{c.handle}</span></div>

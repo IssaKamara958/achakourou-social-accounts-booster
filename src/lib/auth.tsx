@@ -16,14 +16,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
+    
+    const initAuth = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        if (mounted) {
+          setSession(data.session);
+          setLoading(false);
+        }
+      } catch (err) {
+        console.error("Auth init error:", err);
+        if (mounted) setLoading(false);
+      }
+    };
+
     const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
-      setSession(s);
+      if (mounted) setSession(s);
     });
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setLoading(false);
-    });
-    return () => sub.subscription.unsubscribe();
+
+    initAuth();
+    
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   return (

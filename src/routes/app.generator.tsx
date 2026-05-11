@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -38,7 +38,9 @@ function Generator() {
   });
 
   useEffect(() => {
-    fetchIdeas("general");
+    let mounted = true;
+    if (mounted) fetchIdeas("general");
+    return () => { mounted = false; };
   }, []);
 
   async function fetchIdeas(niche: string) {
@@ -127,22 +129,22 @@ function Generator() {
         <Card className="p-6 space-y-4 bg-card border-border">
           <div className="space-y-2">
             <Label>Topic</Label>
-            <Textarea rows={3} value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="e.g. 3 AI tools that 10x designer workflow" />
+            <Textarea rows={3} value={topic} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTopic(e.target.value)} placeholder="e.g. 3 AI tools that 10x designer workflow" />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Tone</Label>
-              <Input value={tone} onChange={(e) => setTone(e.target.value)} />
+              <Input value={tone} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTone(e.target.value)} />
             </div>
             <div className="space-y-2">
               <Label>Client (optional)</Label>
               <select
                 value={clientId}
-                onChange={(e) => setClientId(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setClientId(e.target.value)}
                 className="w-full h-9 rounded-md border border-input bg-input px-3 text-sm"
               >
                 <option value="">— None —</option>
-                {clients?.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                {clients?.map((c: { id: string; name: string }) => <option key={c.id} value={c.id}>{c.name}</option>)}
               </select>
             </div>
           </div>
@@ -159,7 +161,7 @@ function Generator() {
               </Button>
             </div>
             <div className="flex flex-wrap gap-2">
-              {ideas.map((i, idx) => (
+              {ideas.map((i: string, idx: number) => (
                 <button key={idx} onClick={() => setTopic(i)} className="text-xs px-3 py-1.5 rounded-full border border-border bg-muted hover:border-primary/40">
                   {i}
                 </button>
@@ -168,7 +170,7 @@ function Generator() {
           </div>
         </Card>
 
-        <Card className="p-6 bg-card border-border min-h-[400px]">
+        <Card className="p-6 bg-card border-border min-h-100">
           {!script ? (
             <div className="h-full flex items-center justify-center text-center text-muted-foreground text-sm">
               Your viral script will appear here.

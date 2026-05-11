@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppBoosterRouteImport } from './routes/app.booster'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppTrendsRouteImport } from './routes/app.trends'
 import { Route as AppScriptsRouteImport } from './routes/app.scripts'
@@ -35,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppBoosterRoute = AppBoosterRouteImport.update({
+  id: '/booster',
+  path: '/booster',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/api/generate-script': typeof ApiGenerateScriptRoute
+  '/app/booster': typeof AppBoosterRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
   '/app/clients': typeof AppClientsRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/api/generate-script': typeof ApiGenerateScriptRoute
+  '/app/booster': typeof AppBoosterRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
   '/app/clients': typeof AppClientsRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
+  '/app/booster': typeof AppBoosterRoute
   '/api/generate-script': typeof ApiGenerateScriptRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
@@ -196,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/booster': {
+      id: '/app/booster'
+      path: '/booster'
+      fullPath: '/app/booster'
+      preLoaderRoute: typeof AppBoosterRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/trends': {
       id: '/app/trends'
       path: '/trends'
@@ -249,6 +265,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppBoosterRoute: typeof AppBoosterRoute
   AppClientsRoute: typeof AppClientsRoute
   AppGeneratorRoute: typeof AppGeneratorRoute
   AppScriptsRoute: typeof AppScriptsRoute
@@ -257,6 +274,7 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppBoosterRoute: AppBoosterRoute,
   AppClientsRoute: AppClientsRoute,
   AppGeneratorRoute: AppGeneratorRoute,
   AppScriptsRoute: AppScriptsRoute,

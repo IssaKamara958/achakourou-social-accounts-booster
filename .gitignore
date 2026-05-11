@@ -12,13 +12,29 @@ dist
 dist-ssr
 .output
 .vinxi
-.tanstack/**
+.tanstack/
 .nitro
 *.local
+build/
+vite.config.ts.timestamp-*
+
+# TanStack Router
+src/routeTree.gen.ts
+
+# Supabase
+supabase/.temp/
+supabase/functions/.env
+supabase/.branches/
+supabase/functions/_shared/
+
+# Firebase / Netlify
+.firebase/
+.netlify/
 
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars
+_worker.js
 
 # Editor directories and files
 .vscode/*
@@ -30,3 +46,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables
+.env
+.env.*
