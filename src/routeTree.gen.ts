@@ -9,38 +9,179 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppTrendsRouteImport } from './routes/app.trends'
+import { Route as AppScriptsRouteImport } from './routes/app.scripts'
+import { Route as AppGeneratorRouteImport } from './routes/app.generator'
+import { Route as AppClientsRouteImport } from './routes/app.clients'
+import { Route as ApiTrendsRouteImport } from './routes/api/trends'
+import { Route as ApiIdeasRouteImport } from './routes/api/ideas'
+import { Route as ApiGenerateScriptRouteImport } from './routes/api/generate-script'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTrendsRoute = AppTrendsRouteImport.update({
+  id: '/trends',
+  path: '/trends',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppScriptsRoute = AppScriptsRouteImport.update({
+  id: '/scripts',
+  path: '/scripts',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGeneratorRoute = AppGeneratorRouteImport.update({
+  id: '/generator',
+  path: '/generator',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClientsRoute = AppClientsRouteImport.update({
+  id: '/clients',
+  path: '/clients',
+  getParentRoute: () => AppRoute,
+} as any)
+const ApiTrendsRoute = ApiTrendsRouteImport.update({
+  id: '/api/trends',
+  path: '/api/trends',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiIdeasRoute = ApiIdeasRouteImport.update({
+  id: '/api/ideas',
+  path: '/api/ideas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiGenerateScriptRoute = ApiGenerateScriptRouteImport.update({
+  id: '/api/generate-script',
+  path: '/api/generate-script',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/api/generate-script': typeof ApiGenerateScriptRoute
+  '/api/ideas': typeof ApiIdeasRoute
+  '/api/trends': typeof ApiTrendsRoute
+  '/app/clients': typeof AppClientsRoute
+  '/app/generator': typeof AppGeneratorRoute
+  '/app/scripts': typeof AppScriptsRoute
+  '/app/trends': typeof AppTrendsRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/api/generate-script': typeof ApiGenerateScriptRoute
+  '/api/ideas': typeof ApiIdeasRoute
+  '/api/trends': typeof ApiTrendsRoute
+  '/app/clients': typeof AppClientsRoute
+  '/app/generator': typeof AppGeneratorRoute
+  '/app/scripts': typeof AppScriptsRoute
+  '/app/trends': typeof AppTrendsRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/api/generate-script': typeof ApiGenerateScriptRoute
+  '/api/ideas': typeof ApiIdeasRoute
+  '/api/trends': typeof ApiTrendsRoute
+  '/app/clients': typeof AppClientsRoute
+  '/app/generator': typeof AppGeneratorRoute
+  '/app/scripts': typeof AppScriptsRoute
+  '/app/trends': typeof AppTrendsRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/api/generate-script'
+    | '/api/ideas'
+    | '/api/trends'
+    | '/app/clients'
+    | '/app/generator'
+    | '/app/scripts'
+    | '/app/trends'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/api/generate-script'
+    | '/api/ideas'
+    | '/api/trends'
+    | '/app/clients'
+    | '/app/generator'
+    | '/app/scripts'
+    | '/app/trends'
+    | '/app'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/login'
+    | '/api/generate-script'
+    | '/api/ideas'
+    | '/api/trends'
+    | '/app/clients'
+    | '/app/generator'
+    | '/app/scripts'
+    | '/app/trends'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  ApiGenerateScriptRoute: typeof ApiGenerateScriptRoute
+  ApiIdeasRoute: typeof ApiIdeasRoute
+  ApiTrendsRoute: typeof ApiTrendsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +189,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/trends': {
+      id: '/app/trends'
+      path: '/trends'
+      fullPath: '/app/trends'
+      preLoaderRoute: typeof AppTrendsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/scripts': {
+      id: '/app/scripts'
+      path: '/scripts'
+      fullPath: '/app/scripts'
+      preLoaderRoute: typeof AppScriptsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/generator': {
+      id: '/app/generator'
+      path: '/generator'
+      fullPath: '/app/generator'
+      preLoaderRoute: typeof AppGeneratorRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/clients': {
+      id: '/app/clients'
+      path: '/clients'
+      fullPath: '/app/clients'
+      preLoaderRoute: typeof AppClientsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/api/trends': {
+      id: '/api/trends'
+      path: '/api/trends'
+      fullPath: '/api/trends'
+      preLoaderRoute: typeof ApiTrendsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/ideas': {
+      id: '/api/ideas'
+      path: '/api/ideas'
+      fullPath: '/api/ideas'
+      preLoaderRoute: typeof ApiIdeasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/generate-script': {
+      id: '/api/generate-script'
+      path: '/api/generate-script'
+      fullPath: '/api/generate-script'
+      preLoaderRoute: typeof ApiGenerateScriptRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppClientsRoute: typeof AppClientsRoute
+  AppGeneratorRoute: typeof AppGeneratorRoute
+  AppScriptsRoute: typeof AppScriptsRoute
+  AppTrendsRoute: typeof AppTrendsRoute
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppClientsRoute: AppClientsRoute,
+  AppGeneratorRoute: AppGeneratorRoute,
+  AppScriptsRoute: AppScriptsRoute,
+  AppTrendsRoute: AppTrendsRoute,
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
+  ApiGenerateScriptRoute: ApiGenerateScriptRoute,
+  ApiIdeasRoute: ApiIdeasRoute,
+  ApiTrendsRoute: ApiTrendsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
