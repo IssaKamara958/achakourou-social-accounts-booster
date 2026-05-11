@@ -12,12 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppBoosterRouteImport } from './routes/app.booster'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppTrendsRouteImport } from './routes/app.trends'
 import { Route as AppScriptsRouteImport } from './routes/app.scripts'
 import { Route as AppGeneratorRouteImport } from './routes/app.generator'
 import { Route as AppClientsRouteImport } from './routes/app.clients'
+import { Route as AppBoosterRouteImport } from './routes/app.booster'
 import { Route as ApiTrendsRouteImport } from './routes/api/trends'
 import { Route as ApiIdeasRouteImport } from './routes/api/ideas'
 import { Route as ApiGenerateScriptRouteImport } from './routes/api/generate-script'
@@ -36,11 +36,6 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AppBoosterRoute = AppBoosterRouteImport.update({
-  id: '/booster',
-  path: '/booster',
-  getParentRoute: () => AppRoute,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
@@ -67,6 +62,11 @@ const AppClientsRoute = AppClientsRouteImport.update({
   path: '/clients',
   getParentRoute: () => AppRoute,
 } as any)
+const AppBoosterRoute = AppBoosterRouteImport.update({
+  id: '/booster',
+  path: '/booster',
+  getParentRoute: () => AppRoute,
+} as any)
 const ApiTrendsRoute = ApiTrendsRouteImport.update({
   id: '/api/trends',
   path: '/api/trends',
@@ -88,9 +88,9 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/api/generate-script': typeof ApiGenerateScriptRoute
-  '/app/booster': typeof AppBoosterRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
+  '/app/booster': typeof AppBoosterRoute
   '/app/clients': typeof AppClientsRoute
   '/app/generator': typeof AppGeneratorRoute
   '/app/scripts': typeof AppScriptsRoute
@@ -101,9 +101,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/api/generate-script': typeof ApiGenerateScriptRoute
-  '/app/booster': typeof AppBoosterRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
+  '/app/booster': typeof AppBoosterRoute
   '/app/clients': typeof AppClientsRoute
   '/app/generator': typeof AppGeneratorRoute
   '/app/scripts': typeof AppScriptsRoute
@@ -115,10 +115,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
-  '/app/booster': typeof AppBoosterRoute
   '/api/generate-script': typeof ApiGenerateScriptRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
+  '/app/booster': typeof AppBoosterRoute
   '/app/clients': typeof AppClientsRoute
   '/app/generator': typeof AppGeneratorRoute
   '/app/scripts': typeof AppScriptsRoute
@@ -134,6 +134,7 @@ export interface FileRouteTypes {
     | '/api/generate-script'
     | '/api/ideas'
     | '/api/trends'
+    | '/app/booster'
     | '/app/clients'
     | '/app/generator'
     | '/app/scripts'
@@ -146,6 +147,7 @@ export interface FileRouteTypes {
     | '/api/generate-script'
     | '/api/ideas'
     | '/api/trends'
+    | '/app/booster'
     | '/app/clients'
     | '/app/generator'
     | '/app/scripts'
@@ -159,6 +161,7 @@ export interface FileRouteTypes {
     | '/api/generate-script'
     | '/api/ideas'
     | '/api/trends'
+    | '/app/booster'
     | '/app/clients'
     | '/app/generator'
     | '/app/scripts'
@@ -205,13 +208,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/booster': {
-      id: '/app/booster'
-      path: '/booster'
-      fullPath: '/app/booster'
-      preLoaderRoute: typeof AppBoosterRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/app/trends': {
       id: '/app/trends'
       path: '/trends'
@@ -238,6 +234,13 @@ declare module '@tanstack/react-router' {
       path: '/clients'
       fullPath: '/app/clients'
       preLoaderRoute: typeof AppClientsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/booster': {
+      id: '/app/booster'
+      path: '/booster'
+      fullPath: '/app/booster'
+      preLoaderRoute: typeof AppBoosterRouteImport
       parentRoute: typeof AppRoute
     }
     '/api/trends': {
@@ -295,3 +298,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
