@@ -14,6 +14,7 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppTrendsRouteImport } from './routes/app.trends'
+import { Route as AppScriptsRouteImport } from './routes/app.scripts'
 import { Route as AppGeneratorRouteImport } from './routes/app.generator'
 import { Route as AppClientsRouteImport } from './routes/app.clients'
 import { Route as ApiTrendsRouteImport } from './routes/api/trends'
@@ -43,6 +44,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
 const AppTrendsRoute = AppTrendsRouteImport.update({
   id: '/trends',
   path: '/trends',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppScriptsRoute = AppScriptsRouteImport.update({
+  id: '/scripts',
+  path: '/scripts',
   getParentRoute: () => AppRoute,
 } as any)
 const AppGeneratorRoute = AppGeneratorRouteImport.update({
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/api/trends': typeof ApiTrendsRoute
   '/app/clients': typeof AppClientsRoute
   '/app/generator': typeof AppGeneratorRoute
+  '/app/scripts': typeof AppScriptsRoute
   '/app/trends': typeof AppTrendsRoute
   '/app/': typeof AppIndexRoute
 }
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/api/trends': typeof ApiTrendsRoute
   '/app/clients': typeof AppClientsRoute
   '/app/generator': typeof AppGeneratorRoute
+  '/app/scripts': typeof AppScriptsRoute
   '/app/trends': typeof AppTrendsRoute
   '/app': typeof AppIndexRoute
 }
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/api/trends': typeof ApiTrendsRoute
   '/app/clients': typeof AppClientsRoute
   '/app/generator': typeof AppGeneratorRoute
+  '/app/scripts': typeof AppScriptsRoute
   '/app/trends': typeof AppTrendsRoute
   '/app/': typeof AppIndexRoute
 }
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/api/trends'
     | '/app/clients'
     | '/app/generator'
+    | '/app/scripts'
     | '/app/trends'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/api/trends'
     | '/app/clients'
     | '/app/generator'
+    | '/app/scripts'
     | '/app/trends'
     | '/app'
   id:
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/api/trends'
     | '/app/clients'
     | '/app/generator'
+    | '/app/scripts'
     | '/app/trends'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -191,6 +203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTrendsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/scripts': {
+      id: '/app/scripts'
+      path: '/scripts'
+      fullPath: '/app/scripts'
+      preLoaderRoute: typeof AppScriptsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/generator': {
       id: '/app/generator'
       path: '/generator'
@@ -232,6 +251,7 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppClientsRoute: typeof AppClientsRoute
   AppGeneratorRoute: typeof AppGeneratorRoute
+  AppScriptsRoute: typeof AppScriptsRoute
   AppTrendsRoute: typeof AppTrendsRoute
   AppIndexRoute: typeof AppIndexRoute
 }
@@ -239,6 +259,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppClientsRoute: AppClientsRoute,
   AppGeneratorRoute: AppGeneratorRoute,
+  AppScriptsRoute: AppScriptsRoute,
   AppTrendsRoute: AppTrendsRoute,
   AppIndexRoute: AppIndexRoute,
 }
