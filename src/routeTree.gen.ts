@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiTrendsRouteImport } from './routes/api/trends'
 import { Route as ApiIdeasRouteImport } from './routes/api/ideas'
+import { Route as ApiGenerateScriptRouteImport } from './routes/api/generate-script'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,33 +29,42 @@ const ApiIdeasRoute = ApiIdeasRouteImport.update({
   path: '/api/ideas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiGenerateScriptRoute = ApiGenerateScriptRouteImport.update({
+  id: '/api/generate-script',
+  path: '/api/generate-script',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/generate-script': typeof ApiGenerateScriptRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/generate-script': typeof ApiGenerateScriptRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/generate-script': typeof ApiGenerateScriptRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/ideas' | '/api/trends'
+  fullPaths: '/' | '/api/generate-script' | '/api/ideas' | '/api/trends'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/ideas' | '/api/trends'
-  id: '__root__' | '/' | '/api/ideas' | '/api/trends'
+  to: '/' | '/api/generate-script' | '/api/ideas' | '/api/trends'
+  id: '__root__' | '/' | '/api/generate-script' | '/api/ideas' | '/api/trends'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiGenerateScriptRoute: typeof ApiGenerateScriptRoute
   ApiIdeasRoute: typeof ApiIdeasRoute
   ApiTrendsRoute: typeof ApiTrendsRoute
 }
@@ -82,11 +92,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiIdeasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/generate-script': {
+      id: '/api/generate-script'
+      path: '/api/generate-script'
+      fullPath: '/api/generate-script'
+      preLoaderRoute: typeof ApiGenerateScriptRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiGenerateScriptRoute: ApiGenerateScriptRoute,
   ApiIdeasRoute: ApiIdeasRoute,
   ApiTrendsRoute: ApiTrendsRoute,
 }
