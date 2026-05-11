@@ -14,7 +14,134 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      clients: {
+        Row: {
+          created_at: string
+          handle: string | null
+          id: string
+          name: string
+          niche: string | null
+          notes: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          handle?: string | null
+          id?: string
+          name: string
+          niche?: string | null
+          notes?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          handle?: string | null
+          id?: string
+          name?: string
+          niche?: string | null
+          notes?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      generated_scripts: {
+        Row: {
+          client_id: string | null
+          content: string
+          created_at: string
+          cta: string
+          hook: string
+          id: string
+          topic: string
+          user_id: string
+          viral_score: number
+        }
+        Insert: {
+          client_id?: string | null
+          content: string
+          created_at?: string
+          cta: string
+          hook: string
+          id?: string
+          topic: string
+          user_id: string
+          viral_score?: number
+        }
+        Update: {
+          client_id?: string | null
+          content?: string
+          created_at?: string
+          cta?: string
+          hook?: string
+          id?: string
+          topic?: string
+          user_id?: string
+          viral_score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "generated_scripts_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          agency_name: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+        }
+        Insert: {
+          agency_name?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+        }
+        Update: {
+          agency_name?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      trends: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          growth: number
+          hashtag: string
+          id: string
+          topic: string
+          viral_score: number
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          growth?: number
+          hashtag: string
+          id?: string
+          topic: string
+          viral_score?: number
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          growth?: number
+          hashtag?: string
+          id?: string
+          topic?: string
+          viral_score?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
