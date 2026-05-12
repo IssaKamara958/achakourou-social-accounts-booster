@@ -94,13 +94,13 @@ graph TD
 
 1. **Clonage du repository** :
    ```bash
-   git clone https://github.com/votre-repo/achakourou-tiktok-ai.git
+   git clone https://github.com/IssaKamara958/scriptify-now.git
    cd achakourou-tiktok-ai
    ```
 
 2. **Installation des dépendances** :
    ```bash
-   bun install
+   npm install
    ```
 
 3. **Configuration de l'environnement** :

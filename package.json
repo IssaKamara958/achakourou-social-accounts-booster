@@ -1,8 +1,11 @@
 {
-  "name": "achakourou-tiktok-ai",
+  "name": "achakourou-tiktok-booster",
   "private": true,
   "sideEffects": false,
   "type": "module",
+   "engines": {
+      "node": "22"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
