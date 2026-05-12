@@ -1,7 +1,7 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { QueryClient } from '@tanstack/react-query';
 // @ts-ignore - Ce fichier est généré automatiquement par TanStack Router
-import { routeTree } from './src/routeTree.gen';
+import { routeTree } from './src/routeTree.gen'; // Assurez-vous que ce chemin est correct
 
 // Initialisation du QueryClient pour TanStack Query
 const queryClient = new QueryClient();

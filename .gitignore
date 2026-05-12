@@ -22,10 +22,13 @@ vite.config.ts.timestamp-*
 src/routeTree.gen.ts
 
 # Supabase
+.supabase/
 supabase/.temp/
-supabase/functions/.env
 supabase/.branches/
 supabase/functions/_shared/
+supabase/functions/**/node_modules/ # Exclure node_modules dans les fonctions Edge si elles en ont
+supabase/functions/**/.env
+deno.lock
 
 # Firebase / Netlify
 .firebase/
@@ -50,3 +53,4 @@ _worker.js
 # Environment variables
 .env
 .env.*
+bun.lockb
