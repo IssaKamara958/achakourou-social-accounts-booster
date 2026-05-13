@@ -14,18 +14,19 @@ export async function requireUser(request: Request) {
   const token = auth.slice(7).trim();
   if (!token) throw new Response("Unauthorized", { status: 401 });
 
-  const url = import.meta.env.VITE_SUPABASE_URL;
-  const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
-  if (!url || !key) throw new Response("Server misconfigured", { status: 500 });
+  const url = (import.meta.env.VITE_SUPABASE_URL || "").trim();
+  const key = (import.meta.env.VITE_SUPABASE_ANON_KEY || "").trim();
+  if (!url || !url.startsWith('http') || !key) throw new Response("Server misconfigured", { status: 500 });
 
   const supabase = createClient<Database>(url, key, {
     global: { headers: { Authorization: `Bearer ${token}` } },
     auth: { persistSession: false, autoRefreshToken: false, storage: undefined },
   });
 
-  const { data, error } = await supabase.auth.getClaims(token);
-  if (error || !data?.claims?.sub) {
+  // Correction: Utilisation de getUser() pour valider le token
+  const { data: { user }, error } = await supabase.auth.getUser(token);
+  if (error || !user) {
     throw new Response("Unauthorized", { status: 401 });
   }
-  return { supabase, userId: data.claims.sub as string };
+  return { supabase, userId: user.id };
 }

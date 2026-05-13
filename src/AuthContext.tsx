@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { User, Session } from '@supabase/supabase-js'; // Utilisation de 'import type' pour les importations de type
-import { wn } from './integrations/supabase'; // Assurez-vous que le chemin est correct
+import { supabase } from '@/integrations/supabase'; // Centralisation du client Supabase
 
 interface AuthContextType {
   user: User | null;
@@ -21,7 +21,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const getSession = async () => {
       try {
-        const { data: { session } } = await wn.auth.getSession();
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log("DEBUG - Connection Test Result:", { session });
         if (isMounted) {
           setSession(session);
           setUser(session?.user || null);
@@ -35,7 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     getSession();
 
-    const { data: { subscription } } = wn.auth.onAuthStateChange((_event, newSession) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
       if (isMounted) {
         setSession(newSession);
         setUser(newSession?.user || null);
@@ -49,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signOut = async () => {
-    await wn.auth.signOut();
+    await supabase.auth.signOut();
   };
 
   return (
