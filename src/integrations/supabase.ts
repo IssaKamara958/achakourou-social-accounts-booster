@@ -1,31 +1,39 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '@/integrations/supabase/types';
 
-// Utilisation de .trim() pour éliminer les espaces accidentels sur Netlify
-const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL ?? "").trim();
-const supabaseAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY ?? "").trim(); // Utilisation de ?? pour une meilleure robustesse
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() || '';
 
-// Validation critique : Si l'URL est manquante ou mal formatée, l'application ne peut pas fonctionner.
-// Cela empêche createClient de lancer une erreur générique et fournit un message plus clair.
-if (!supabaseUrl || !supabaseUrl.startsWith('http')) {
-  const errorMessage = `Supabase Error: Invalid VITE_SUPABASE_URL format. Must be a valid HTTP or HTTPS URL. Got: "${supabaseUrl}". Please verify your Netlify environment variables.`;
-  console.error(errorMessage);
-  throw new Error(errorMessage); // L'application ne peut pas démarrer sans une URL valide.
+// Vérification sans bloquer l'exécution
+if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes('your-project-id')) {
+  console.warn(
+    'ATTENTION: Configuration Supabase manquante ou fictive. L’authentification ne fonctionnera pas tant que vous n’aurez pas rempli les variables VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY dans votre fichier .env.'
+  );
 }
 
-// Validation critique : La clé anon est nécessaire pour l'authentification.
-if (!supabaseAnonKey) {
-  const errorMessage = `Supabase Error: VITE_SUPABASE_ANON_KEY is missing. Please verify your Netlify environment variables.`;
-  console.error(errorMessage);
-  throw new Error(errorMessage); // L'application ne peut pas démarrer sans une clé valide.
-}
+// Utilisation d'un pattern Singleton robuste pour Vite/HMR
+const getSupabaseClient = () => {
+  if (import.meta.env.DEV && (globalThis as any).__supabase_instance) {
+    return (globalThis as any).__supabase_instance;
+  }
 
-// Export centralisé unique
-// Note: Si d'autres fichiers utilisaient 'wn', ils doivent maintenant importer 'supabase'
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true,
-  },
-});
+  const client = createClient<Database>(
+    supabaseUrl,
+    supabaseAnonKey,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    }
+  );
+
+  if (import.meta.env.DEV) {
+    (globalThis as any).__supabase_instance = client;
+  }
+
+  return client;
+};
+
+export const supabase = getSupabaseClient();

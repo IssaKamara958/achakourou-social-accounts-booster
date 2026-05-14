@@ -1,71 +1,65 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { User, Session } from '@supabase/supabase-js'; // Utilisation de 'import type' pour les importations de type
-import { supabase } from '@/integrations/supabase'; // Centralisation du client Supabase
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from 'react';
+import type { Session, AuthChangeEvent } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase';
 
 interface AuthContextType {
-  user: User | null;
   session: Session | null;
+  user: Session['user'] | null;
   loading: boolean;
-  signOut: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let isMounted = true;
+    let mounted = true;
 
-    const getSession = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        console.log("DEBUG - Connection Test Result:", { session });
-        if (isMounted) {
+    // Fetch initial session
+    supabase.auth.getSession()
+      .then(({ data: { session } }: { data: { session: Session | null } }) => {
+        if (mounted) {
           setSession(session);
-          setUser(session?.user || null);
         }
-      } catch (error) {
-        console.error('Auth init error:', error);
-      } finally {
-        if (isMounted) setLoading(false);
+      })
+      .catch((err: any) => {
+        if (err.status === 429) {
+          console.error('Limite de requêtes atteinte. Veuillez réessayer dans quelques minutes.');
+        } else {
+          console.error('Erreur Auth initiale:', err.message);
+        }
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
+      });
+
+    // Set up real-time listener for auth state changes
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event: AuthChangeEvent, currentSession: Session | null) => {
+        setSession(currentSession);
+        setLoading(false); // Ensure loading is false after any auth state change
       }
-    };
+    );
 
-    getSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      if (isMounted) {
-        setSession(newSession);
-        setUser(newSession?.user || null);
-      }
-    });
-
+    // Cleanup the subscription when the component unmounts
     return () => {
-      isMounted = false;
-      subscription.unsubscribe();
+      mounted = false;
+      authListener.subscription.unsubscribe();
     };
-  }, []);
+  }, []); // Empty dependency array means this effect runs once on mount
 
-  const signOut = async () => {
-    await supabase.auth.signOut();
+  const value = {
+    session,
+    user: session?.user || null,
+    loading,
   };
 
-  return (
-    <AuthContext.Provider value={{ user, session, loading, signOut }}>
-      {/* On s'assure que le contenu est rendu même pendant le chargement 
-          pour que les bots SEO puissent indexer le squelette de la page */}
-      {loading ? <div className="seo-skeleton" aria-hidden="true">{children}</div> : children}
-    </AuthContext.Provider>
-  );
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
