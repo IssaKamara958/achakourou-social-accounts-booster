@@ -12,6 +12,7 @@ import {
   BarChart3, Plus
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { getQuota } from "@/lib/quota";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar
 } from "recharts";
@@ -229,6 +230,32 @@ function Dashboard() {
           </Card>
         </motion.div>
       </div>
+
+      <motion.div variants={fadeUp} className="grid sm:grid-cols-3 gap-4">
+        {(["ai", "posts", "seo"] as const).map((key) => {
+          const labels = { ai: "Générations IA", posts: "Publications", seo: "Pages SEO" };
+          const limits = { ai: 20, posts: 10, seo: 5 };
+          const { used, remaining, limit } = getQuota(key);
+          const pct = (used / limit) * 100;
+          const critical = remaining === 0;
+          const warn = !critical && pct >= 70;
+          return (
+            <Card key={key} className="p-4 bg-card border-border">
+              <div className="flex items-center justify-between mb-2">
+                <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{labels[key]}</div>
+                <div className={`text-xs font-mono font-bold ${critical ? "text-destructive" : warn ? "text-yellow-400" : "text-secondary"}`}>
+                  {remaining}/{limit}
+                </div>
+              </div>
+              <div className="h-1.5 rounded-full bg-muted overflow-hidden mb-1">
+                <div className="h-full rounded-full transition-all"
+                  style={{ width: `${pct}%`, background: critical ? "oklch(0.65 0.22 30)" : warn ? "oklch(0.75 0.18 70)" : "var(--gradient-brand)" }} />
+              </div>
+              <div className="text-[10px] text-muted-foreground">{used} utilisées aujourd'hui · renouvellement à minuit 🇸🇳</div>
+            </Card>
+          );
+        })}
+      </motion.div>
     </motion.div>
   );
 }

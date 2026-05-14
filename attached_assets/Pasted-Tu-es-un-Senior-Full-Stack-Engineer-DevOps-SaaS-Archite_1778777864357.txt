@@ -1,0 +1,100 @@
+Tu es un Senior Full-Stack Engineer + DevOps + SaaS Architect.
+
+🎯 OBJECTIF
+
+Transformer le projet en une plateforme :
+
+🇸🇳 100% GRATUITE pour les utilisateurs du Sénégal
+⚡ stable, scalable, optimisée, déployée automatiquement
+
+⚙️ 1. RÈGLES PRODUIT
+Accès gratuit pour tous utilisateurs Sénégal 🇸🇳
+Aucun paiement obligatoire
+IA avec quotas gratuits journaliers
+rate limiting strict par user
+anti-abuse system activé
+performance optimisée bas coût
+🧠 2. BACKEND (SUPABASE)
+vérifier connection Supabase
+exécuter migration complète SQL
+activer RLS sur toutes tables
+vérifier trigger auto profiles
+sécuriser social_accounts (tokens jamais exposés)
+⚡ 3. FONCTIONNALITÉS ACTIVES
+
+Activer complètement :
+
+AI Generator (avec quota gratuit)
+Trends explorer
+Scheduler (mode simulation si pas de worker actif)
+Analytics dashboard
+SEO pages generator
+Clients + Projects system
+Posts system multi-platform
+🧩 4. LIMITATIONS GRATUITES (IMPORTANT)
+
+Implémenter :
+
+20 générations IA / jour / user
+10 posts / jour
+5 SEO pages / jour
+1 projet actif gratuit max (option upgrade future)
+🔐 5. SECURITY
+RLS strict Supabase partout
+API rate limiting
+validation input (zod)
+no secrets exposed frontend
+social tokens server-only
+🚀 6. SEO GLOBAL
+meta tags complets
+sitemap.xml auto
+robots.txt correct
+OpenGraph + Twitter cards
+lazy loading pages
+code splitting activé
+📦 7. GITHUB AUTO UPDATE
+
+Exécuter :
+
+git add .
+git commit -m "Production SaaS ready - Free Senegal mode"
+git push origin main
+🌐 8. NETLIFY DEPLOYMENT
+build production Vite
+vérifier dist folder
+déployer automatiquement sur Netlify
+vérifier env vars :
+VITE_SUPABASE_URL
+VITE_SUPABASE_ANON_KEY
+🔄 9. SYNC FINAL
+
+Après deploy :
+
+vérifier live URL fonctionne
+tester login/signup
+tester AI generation
+tester dashboard
+tester SEO pages
+📊 10. SUCCESS CRITERIA
+
+Projet validé si :
+
+build OK
+GitHub à jour
+Netlify deploy OK
+Supabase connecté
+no TS errors
+all core features working
+quotas free enforced
+⚡ MODE FINAL
+
+Exécuter en mode :
+
+“free SaaS production deployment for Senegal users with controlled AI usage”
+
+💡 NOTE IMPORTANTE (réalité technique)
+
+Si tu veux vraiment que ce projet tienne longtemps :
+
+👉 IA doit être limitée + cache + fallback
+👉 sinon coûts explosent même en “gratuit”
