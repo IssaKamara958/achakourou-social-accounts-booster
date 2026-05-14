@@ -20,7 +20,6 @@ import { Route as AppClientsRouteImport } from './routes/app.clients'
 import { Route as AppBoosterRouteImport } from './routes/app.booster'
 import { Route as ApiTrendsRouteImport } from './routes/api/trends'
 import { Route as ApiIdeasRouteImport } from './routes/api/ideas'
-import { Route as ApiGenerateScriptRouteImport } from './routes/api/generate-script'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -77,17 +76,11 @@ const ApiIdeasRoute = ApiIdeasRouteImport.update({
   path: '/api/ideas',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiGenerateScriptRoute = ApiGenerateScriptRouteImport.update({
-  id: '/api/generate-script',
-  path: '/api/generate-script',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
-  '/api/generate-script': typeof ApiGenerateScriptRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
   '/app/booster': typeof AppBoosterRoute
@@ -100,7 +93,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/api/generate-script': typeof ApiGenerateScriptRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
   '/app/booster': typeof AppBoosterRoute
@@ -115,7 +107,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
-  '/api/generate-script': typeof ApiGenerateScriptRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
   '/app/booster': typeof AppBoosterRoute
@@ -131,7 +122,6 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
-    | '/api/generate-script'
     | '/api/ideas'
     | '/api/trends'
     | '/app/booster'
@@ -144,7 +134,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
-    | '/api/generate-script'
     | '/api/ideas'
     | '/api/trends'
     | '/app/booster'
@@ -158,7 +147,6 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
-    | '/api/generate-script'
     | '/api/ideas'
     | '/api/trends'
     | '/app/booster'
@@ -173,7 +161,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
-  ApiGenerateScriptRoute: typeof ApiGenerateScriptRoute
   ApiIdeasRoute: typeof ApiIdeasRoute
   ApiTrendsRoute: typeof ApiTrendsRoute
 }
@@ -257,13 +244,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiIdeasRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/generate-script': {
-      id: '/api/generate-script'
-      path: '/api/generate-script'
-      fullPath: '/api/generate-script'
-      preLoaderRoute: typeof ApiGenerateScriptRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -291,7 +271,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
-  ApiGenerateScriptRoute: ApiGenerateScriptRoute,
   ApiIdeasRoute: ApiIdeasRoute,
   ApiTrendsRoute: ApiTrendsRoute,
 }

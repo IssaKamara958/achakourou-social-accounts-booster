@@ -1,6 +1,5 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { QueryClient } from '@tanstack/react-query';
-import { AuthProvider } from './src/AuthContext';
 // @ts-ignore - Ce fichier est généré automatiquement par TanStack Router
 import { routeTree } from './src/routeTree.gen'; // Assurez-vous que ce chemin est correct
 
@@ -23,11 +22,7 @@ declare module '@tanstack/react-router' {
 }
 
 function App() {
-  return (
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

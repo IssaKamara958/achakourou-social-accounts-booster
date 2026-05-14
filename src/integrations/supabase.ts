@@ -4,36 +4,37 @@ import type { Database } from '@/integrations/supabase/types';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() || '';
 
-// Vérification sans bloquer l'exécution
 if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes('your-project-id')) {
   console.warn(
-    'ATTENTION: Configuration Supabase manquante ou fictive. L’authentification ne fonctionnera pas tant que vous n’aurez pas rempli les variables VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY dans votre fichier .env.'
+    'Supabase URL or Anon Key is not set. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file.'
   );
 }
 
-// Utilisation d'un pattern Singleton robuste pour Vite/HMR
-const getSupabaseClient = () => {
-  if (import.meta.env.DEV && (globalThis as any).__supabase_instance) {
-    return (globalThis as any).__supabase_instance;
-  }
+declare global {
+  var __supabase_client: ReturnType<typeof createClient<Database>> | undefined;
+}
 
-  const client = createClient<Database>(
-    supabaseUrl,
-    supabaseAnonKey,
-    {
+let supabase: ReturnType<typeof createClient<Database>>;
+
+if (import.meta.env.DEV) {
+  if (!globalThis.__supabase_client) {
+    globalThis.__supabase_client = createClient<Database>(supabaseUrl, supabaseAnonKey, {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true,
       },
-    }
-  );
-
-  if (import.meta.env.DEV) {
-    (globalThis as any).__supabase_instance = client;
+    });
   }
+  supabase = globalThis.__supabase_client;
+} else {
+  supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+    },
+  });
+}
 
-  return client;
-};
-
-export const supabase = getSupabaseClient();
+export { supabase };

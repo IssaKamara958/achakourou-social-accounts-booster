@@ -1,57 +1,29 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { generateText, Output } from "ai";
-import { z } from "zod";
-import { createLovableAiGatewayProvider } from "@/lib/ai-gateway";
+import { streamText } from "ai";
 import { requireUser } from "@/lib/api-auth.server";
+import { createLovableAiGatewayProvider } from "@/lib/ai-gateway";
 
-const schema = z.object({
-  hook: z.string().describe("Powerful 0-2s hook, max 12 words"),
-  content: z.string().describe("Body of the script (15-35s spoken). Short punchy sentences."),
-  cta: z.string().describe("Engagement call to action"),
-  viral_score: z.number().min(0).max(100).describe("Predicted virality 0-100"),
-});
+export async function POST(request: Request) {
+  if (request.method !== "POST") {
+    return new Response("Method not allowed", { status: 405 });
+  }
 
-const inputSchema = z.object({
-  topic: z.string().trim().min(3).max(500),
-  tone: z.string().trim().min(1).max(100).optional(),
-});
+  const { supabase } = await requireUser(request);
+  const { data: { user } } = await supabase.auth.getUser();
 
-export const Route = createFileRoute("/api/generate-script")({
-  server: {
-    handlers: {
-      POST: async ({ request }) => {
-        try {
-          await requireUser(request);
-        } catch (r) {
-          if (r instanceof Response) return r;
-          return new Response("Unauthorized", { status: 401 });
-        }
-        let parsed: z.infer<typeof inputSchema>;
-        try {
-          parsed = inputSchema.parse(await request.json());
-        } catch (e) {
-          const msg = e instanceof z.ZodError ? e.issues[0]?.message ?? "Invalid input" : "Invalid input";
-          return new Response(msg, { status: 400 });
-        }
-        const key = process.env.LOVABLE_API_KEY;
-        if (!key) return new Response("Missing LOVABLE_API_KEY", { status: 500 });
+  if (!user) {
+    return new Response("Unauthorized", { status: 401 });
+  }
 
-        const gateway = createLovableAiGatewayProvider(key);
-        try {
-          const { output } = await generateText({
-            model: gateway("google/gemini-3-flash-preview"),
-            system:
-              "You are a TikTok viral scriptwriter. Always produce HOOK + CONTENT + CTA in punchy short sentences. Optimize for retention and shares.",
-            prompt: `Topic: ${parsed.topic}. Tone: ${parsed.tone ?? "energetic, casual"}. Predict a realistic viral_score 50-95.`,
-            output: Output.object({ schema }),
-          });
-          return Response.json(output);
-        } catch (e: unknown) {
-          const msg = e instanceof Error ? e.message : "AI error";
-          const status = msg.includes("429") ? 429 : msg.includes("402") ? 402 : 500;
-          return new Response(msg, { status });
-        }
-      },
-    },
-  },
-});
+  const { prompt, on, service } = await request.json();
+
+  const openai = createLovableAiGatewayProvider(process.env.OPENAI_API_KEY!);
+
+  const result = await streamText({
+    model: openai("gpt-4-turbo"),
+    system:
+      "You are a TikTok video script generator. You generate scripts for TikTok videos. The scripts are short, punchy, and engaging. You use emojis and hashtags to make the scripts more appealing to a younger audience. The scripts are formatted in a way that is easy to read and follow. The scripts are also optimized for the TikTok platform. The scripts are creative, original, and tailored to the user’s prompt. The scripts are also safe for work and do not contain any offensive or inappropriate content.",
+    prompt: `Generate a TikTok video script about ${prompt} on ${on} for ${service}.`,
+  });
+
+  return result.toTextStreamResponse();
+}
