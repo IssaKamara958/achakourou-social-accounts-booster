@@ -7,26 +7,39 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+
+# Build outputs
 dist
 dist-ssr
+build/
 .output
 .vinxi
-.tanstack/
 .nitro
-*.local
-build/
+
+# TanStack
+.tanstack/
 vite.config.ts.timestamp-*
 
-# TanStack Router
+# TanStack Router (auto-generated)
 src/routeTree.gen.ts
+
+# Environment variables — NEVER commit
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.*
+!.env.example
 
 # Supabase
 .supabase/
 supabase/.temp/
 supabase/.branches/
 supabase/functions/_shared/
-supabase/functions/**/node_modules/ # Exclure node_modules dans les fonctions Edge si elles en ont
+supabase/functions/**/node_modules/
 supabase/functions/**/.env
 deno.lock
 
@@ -39,18 +52,19 @@ deno.lock
 .dev.vars
 _worker.js
 
-# Editor directories and files
+# Editor
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-# Environment variables
-.env
-.env.*
+# OS
+.DS_Store
+Thumbs.db
+
+# Package managers
 bun.lockb

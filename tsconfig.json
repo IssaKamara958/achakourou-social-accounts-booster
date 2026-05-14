@@ -7,6 +7,11 @@
     "vite.config.ts",
     "eslint.config.js"
   ],
+  "exclude": [
+    "src/entry-server.tsx",
+    "src/server.ts",
+    "src/start.ts"
+  ],
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "react-jsx",
@@ -14,13 +19,11 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vite/client", "node"],
 
-    /* Bundler mode */
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "noEmit": true,
 
-    /* Linting */
     "skipLibCheck": true,
     "strict": true,
     "noUnusedLocals": false,

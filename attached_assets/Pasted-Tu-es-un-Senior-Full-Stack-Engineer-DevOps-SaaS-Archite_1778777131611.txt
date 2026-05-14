@@ -1,0 +1,170 @@
+Tu es un Senior Full-Stack Engineer + DevOps + SaaS Architect.
+
+Ton objectif est de transformer le projet Achakourou Booster AI en une plateforme SaaS production-ready, scalable et monétisable.
+
+🧠 1. CONTEXTE DU PROJET
+
+Application SaaS de croissance sociale IA permettant :
+
+génération de contenu multi-plateforme (TikTok, Instagram, Facebook, SEO)
+analyse de tendances
+analytics engagement
+scheduling de posts
+gestion de clients
+génération IA de scripts
+SEO automation
+connexion réseaux sociaux
+
+Backend : Supabase (PostgreSQL + Auth + RLS)
+Frontend : React + TypeScript + TanStack Router
+IA : API LLM (OpenAI/Gemini)
+Charts : Recharts
+
+⚙️ 2. OBJECTIF GLOBAL
+
+Tu dois :
+
+Vérifier que Supabase est correctement connecté
+Activer et tester toutes les fonctionnalités du projet
+Corriger les erreurs TypeScript restantes
+Sécuriser totalement la base de données (RLS + API)
+Optimiser SEO global de la plateforme
+Finaliser le build production sans erreurs
+Mettre à jour .gitignore
+Mettre à jour README.md complet et professionnel
+Activer architecture SaaS complète (jobs + AI + scheduling)
+🗄️ 3. SUPABASE — VALIDATION OBLIGATOIRE
+Étapes :
+Vérifier connection VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY
+Tester login/signup flow
+Vérifier trigger handle_new_user
+Vérifier insertion automatique profile
+Tester chaque table :
+profiles
+projects
+posts
+analytics
+seo_pages
+trends
+schedules
+social_accounts
+ai_generations
+subscriptions
+Sécurité :
+vérifier RLS sur toutes les tables
+interdire accès cross-user
+vérifier social_accounts tokens NEVER exposed client-side
+⚡ 4. ACTIVATION FONCTIONNALITÉS COMPLETES
+A. AI ENGINE
+activer génération multi-platform
+ajouter fallback model
+limiter tokens par user
+log dans ai_generations
+B. SOCIAL MEDIA LAYER
+préparer connecteurs :
+TikTok API
+Instagram Graph API
+Facebook API
+préparer structure publish pipeline
+stocker tokens sécurisés uniquement server-side
+C. SCHEDULER SYSTEM
+activer table schedules
+créer worker (cron job system)
+exécuter auto publish posts
+update post_platforms status
+D. ANALYTICS ENGINE
+agréger analytics par post
+calcul engagement_rate automatiquement
+optimiser requêtes SQL
+E. SEO ENGINE (IMPORTANT)
+optimiser seo_pages table
+générer automatiquement :
+meta title
+meta description
+slug SEO friendly
+ajouter internal linking structure
+optimiser keywords auto-générés IA
+🧱 5. FRONTEND FINALIZATION
+corriger toutes erreurs TypeScript restantes
+supprimer any inutiles (remplacer proprement)
+vérifier routes TanStack Router
+vérifier dashboard rendering
+vérifier auth guard
+🚀 6. BUILD PRODUCTION
+exécuter build Vite
+corriger erreurs build si présentes
+optimiser bundle size
+vérifier assets loading
+🔐 7. SECURITY HARDENING
+audit complet RLS Supabase
+protéger API routes
+ajouter rate limiting AI endpoints
+vérifier injection SQL protection
+sécuriser env variables
+📈 8. SEO GLOBAL OPTIMIZATION
+Frontend SEO :
+meta tags dynamiques
+OpenGraph tags
+Twitter cards
+sitemap.xml généré
+robots.txt optimisé
+Performance SEO :
+lazy loading routes
+image optimization
+code splitting
+hydration optimization
+📁 9. .gitignore UPDATE
+
+Ajouter :
+
+.env
+.env.local
+.env.production
+node_modules
+dist
+supabase/.temp
+.DS_Store
+*.log
+📖 10. README.md COMPLET
+
+Créer README professionnel incluant :
+
+description SaaS
+features complètes
+stack technique
+setup local
+setup Supabase
+env variables
+deployment guide
+architecture overview
+roadmap future
+🧪 11. TEST FINAL OBLIGATOIRE
+
+Avant validation :
+
+signup/login OK
+create project OK
+generate AI content OK
+save post OK
+schedule post OK
+analytics visible OK
+SEO page generated OK
+no TypeScript errors
+no console errors
+build success
+✅ 12. CRITÈRE DE SUCCÈS
+
+Le projet est considéré terminé seulement si :
+
+Supabase fully connected
+no TS errors
+full build success
+all modules working end-to-end
+scheduling system functional
+AI generation logged
+SEO system active
+⚡ MODE FINAL
+
+Exécute tout en mode :
+
+“production-grade SaaS deployment readiness”
