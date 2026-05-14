@@ -1,0 +1,1066 @@
+# Guide Full Stack — Achakourou Booster AI
+
+## Vision du projet
+
+Achakourou Booster AI est une plateforme SaaS africaine de croissance sociale assistée par intelligence artificielle.
+
+L’objectif principal est de transformer les créateurs de contenus, artistes, influenceurs, PME et marques locales en véritables machines de visibilité digitale grâce à :
+
+* TikTok
+* Facebook
+* Instagram
+* SEO
+* IA
+* automatisation
+* analytics
+* synchronisation cross-platform
+
+Le projet devient donc un :
+
+# “Social SEO AI Orchestrator”
+
+---
+
+# Architecture globale recommandée
+
+```txt
+                        Frontend React
+                               │
+                               │
+                   TanStack Query / Router
+                               │
+                               ▼
+                      Supabase API Layer
+                               │
+        ┌──────────────────────┼──────────────────────┐
+        │                      │                      │
+        ▼                      ▼                      ▼
+   PostgreSQL            Edge Functions         Realtime
+        │                      │
+        │                      │
+        ▼                      ▼
+   Queue System          AI Processing
+        │                      │
+        ▼                      ▼
+ Upstash Redis        OpenAI / Groq / Gemini
+        │
+        ▼
+Publication Workers
+        │
+ ┌──────┼───────────────┐
+ ▼      ▼               ▼
+TikTok Facebook      Instagram
+```
+
+---
+
+# Stack technique complète
+
+## Frontend
+
+### Base
+
+* React
+* TypeScript
+* Vite
+
+### UI
+
+* Tailwind CSS
+* shadcn/ui
+* Radix UI
+* Lucide React
+
+### Routing
+
+* TanStack Router
+
+### State serveur
+
+* TanStack Query
+
+### Formulaires
+
+* React Hook Form
+* Zod
+
+### Charts
+
+* Recharts
+
+---
+
+# Backend principal
+
+## Supabase
+
+Le backend principal repose sur :
+
+* PostgreSQL
+* Auth
+* Storage
+* Realtime
+* Edge Functions
+* RLS
+
+Pourquoi Supabase est un excellent choix :
+
+* DX rapide
+* PostgreSQL natif
+* scalable
+* auth intégrée
+* coût réduit
+* temps de développement accéléré
+
+---
+
+# Hébergement actuel
+
+## Frontend
+
+Déployé sur :
+
+[https://achakourou-tiktok-booster.netlify.app/](https://achakourou-tiktok-booster.netlify.app/)
+
+Netlify est très bon pour :
+
+* frontend React
+* CI/CD automatique
+* previews
+* edge network
+
+Mais attention :
+
+Netlify seul ne suffira pas pour les workers lourds.
+
+---
+
+# Architecture finale recommandée
+
+## Garder Netlify pour :
+
+* frontend React
+* dashboard
+* landing pages
+* mini-sites SEO
+
+## Garder Supabase pour :
+
+* auth
+* database
+* realtime
+* storage
+* edge functions
+
+## Ajouter Cloudflare Workers pour :
+
+* publication sociale
+* traitements vidéo
+* synchronisation API
+* retries
+* cron jobs
+* files d’attente
+
+## Ajouter Upstash Redis pour :
+
+* queues
+* rate limiting
+* cache
+* retry jobs
+* workers distribués
+
+---
+
+# Objectif produit final
+
+Le produit doit permettre à un utilisateur de :
+
+1. connecter TikTok
+2. connecter Facebook
+3. connecter Instagram
+4. publier une vidéo
+5. générer automatiquement :
+
+* hooks
+* hashtags
+* descriptions
+* SEO
+* mini pages
+* reposts
+* analytics
+
+6. synchroniser automatiquement les réseaux
+7. analyser les performances
+8. améliorer la visibilité
+
+---
+
+# Fonctionnalités principales
+
+# 1. Authentification
+
+## Features
+
+* signup
+* login
+* OAuth social
+* récupération mot de passe
+* sessions persistantes
+* rôles utilisateurs
+
+## Tables concernées
+
+* profiles
+* user_settings
+* social_accounts
+* subscriptions
+
+---
+
+# 2. Connexion réseaux sociaux
+
+## Réseaux supportés
+
+* TikTok
+* Facebook
+* Instagram
+
+## Flux recommandé
+
+OAuth 2.0 officiel.
+
+NE PAS utiliser :
+
+* scraping agressif
+* bots
+* systèmes illégaux
+
+---
+
+# 3. Dashboard utilisateur
+
+Le dashboard doit afficher :
+
+* vues
+* engagement
+* croissance
+* vidéos
+* plateformes connectées
+* score SEO
+* tendances
+* recommandations IA
+
+---
+
+# 4. Publication synchronisée
+
+Quand l’utilisateur publie :
+
+Le système doit :
+
+* transcoder si nécessaire
+* adapter les formats
+* créer plusieurs hooks
+* créer plusieurs hashtags
+* programmer la diffusion
+* publier sur plusieurs plateformes
+
+---
+
+# 5. IA intégrée
+
+## Cas d’usage
+
+### Hooks viraux
+
+Exemple :
+
+* “Les Sénégalais vont comprendre…”
+* “Personne ne parle de ça…”
+* “Voici l’erreur que tout le monde fait…”
+
+### Hashtags
+
+* #senegal
+* #dakar
+* #buzzsn
+* #viral
+
+### Génération de scripts
+
+L’IA doit produire :
+
+* scripts TikTok
+* légendes Instagram
+* descriptions Facebook
+* SEO snippets
+
+---
+
+# 6. SEO automatique
+
+## Fonctionnement
+
+Chaque publication peut générer :
+
+* page SEO indexable
+* slug SEO
+* meta title
+* meta description
+* schema.org
+* mini article IA
+
+---
+
+# 7. Analytics
+
+## Données importantes
+
+* taux rétention
+* watch time
+* CTR
+* likes
+* commentaires
+* partages
+* abonnements gagnés
+* heures fortes
+
+---
+
+# 8. Tendances locales Afrique
+
+C’est votre avantage concurrentiel.
+
+Le système doit détecter :
+
+* tendances Sénégal
+* hashtags locaux
+* musique virale locale
+* sujets chauds
+* buzz culturels
+
+---
+
+# Architecture Frontend détaillée
+
+## Structure recommandée
+
+```txt
+src/
+ ├── app/
+ ├── components/
+ ├── features/
+ ├── hooks/
+ ├── lib/
+ ├── routes/
+ ├── services/
+ ├── stores/
+ ├── types/
+ └── utils/
+```
+
+---
+
+# Organisation des features
+
+```txt
+features/
+ ├── auth/
+ ├── dashboard/
+ ├── analytics/
+ ├── ai/
+ ├── social/
+ ├── seo/
+ ├── publishing/
+ ├── scheduling/
+ └── trends/
+```
+
+---
+
+# Sécurité critique
+
+# RLS obligatoire
+
+Toutes les tables doivent avoir :
+
+```sql
+alter table table_name enable row level security;
+```
+
+---
+
+# Règles sécurité importantes
+
+## Toujours :
+
+* vérifier user_id
+* utiliser policies strictes
+* ne jamais exposer service_role
+* séparer public/private
+* utiliser signed URLs
+
+---
+
+# Pipeline publication
+
+```txt
+User uploads video
+        │
+        ▼
+Supabase Storage
+        │
+        ▼
+Worker Queue
+        │
+        ▼
+AI Processing
+        │
+ ┌──────┼─────────┐
+ ▼      ▼         ▼
+TikTok Facebook Instagram
+```
+
+---
+
+# Gestion vidéo
+
+## Recommandé
+
+Utiliser FFmpeg.
+
+Cas :
+
+* resize
+* crop
+* compression
+* subtitles
+* format vertical
+* thumbnails
+
+---
+
+# IA recommandée
+
+## Providers
+
+### OpenAI
+
+Très bon pour :
+
+* hooks
+* SEO
+* copywriting
+
+### Groq
+
+Très rapide.
+
+### Gemini
+
+Très bon contexte.
+
+---
+
+# Modèle économique
+
+## Plans possibles
+
+### Gratuit
+
+* 1 compte social
+* 10 générations IA
+* analytics limités
+
+### Creator
+
+* multi plateformes
+* IA illimitée
+* SEO
+* scheduler
+
+### Agency
+
+* multi clients
+* analytics avancés
+* automation complète
+
+---
+
+# APIs sociales — Réalité technique
+
+## TikTok
+
+TikTok limite énormément l’automatisation.
+
+Il faut utiliser :
+
+* TikTok Login Kit
+* TikTok Content Posting API
+* TikTok Business APIs
+
+---
+
+# Facebook / Instagram
+
+Utiliser Meta Graph API.
+
+Important :
+
+* App Review obligatoire
+* permissions strictes
+* limitation des endpoints
+
+---
+
+# Architecture Workers
+
+## Pourquoi nécessaire
+
+La publication sociale peut échouer.
+
+Il faut :
+
+* retries
+* rate limiting
+* backoff
+* logs
+* dead-letter queues
+
+---
+
+# Recommandation Workers
+
+## Cloudflare Workers
+
+Excellent pour :
+
+* tâches distribuées
+* cron jobs
+* edge execution
+* faible coût
+
+---
+
+# Redis / Queues
+
+## Upstash Redis
+
+Utiliser pour :
+
+* jobs publication
+* retry queue
+* analytics cache
+* AI cache
+
+---
+
+# Structure base de données recommandée
+
+# Tables principales
+
+## users/profiles
+
+Gestion utilisateurs.
+
+## social_accounts
+
+Comptes connectés.
+
+## projects
+
+Marques / clients.
+
+## posts
+
+Publications.
+
+## post_platforms
+
+État publication par réseau.
+
+## ai_generations
+
+Historique IA.
+
+## analytics
+
+Performances.
+
+## seo_pages
+
+Pages SEO.
+
+## trends
+
+Tendances locales.
+
+## schedules
+
+Programmation.
+
+---
+
+# Tests obligatoires
+
+## Unitaires
+
+* Vitest
+
+## Frontend
+
+* React Testing Library
+
+## E2E
+
+* Playwright
+
+---
+
+# Monitoring recommandé
+
+## Logs
+
+* Sentry
+* BetterStack
+
+## Analytics produit
+
+* PostHog
+
+---
+
+# Optimisations performances
+
+## Frontend
+
+* lazy loading
+* code splitting
+* virtual lists
+* image optimization
+
+## Backend
+
+* indexes PostgreSQL
+* caching Redis
+* batching queries
+* background jobs
+
+---
+
+# Roadmap idéale
+
+# Phase 1 — Stabilisation
+
+## Objectif
+
+Sécuriser la base actuelle.
+
+## Priorités
+
+* auth stable
+* RLS complet
+* offline mode
+* retries réseau
+* monitoring
+* gestion erreurs
+* tests
+
+---
+
+# Phase 2 — Social Core
+
+## Construire
+
+* connexion TikTok
+* connexion Instagram
+* connexion Facebook
+* scheduler
+* publication multi plateforme
+
+---
+
+# Phase 3 — IA
+
+## Ajouter
+
+* génération hooks
+* génération hashtags
+* scripts viraux
+* SEO IA
+* recommandations horaires
+
+---
+
+# Phase 4 — SEO Social
+
+## Ajouter
+
+* mini sites SEO
+* indexation automatique
+* pages publiques
+* backlinks sociaux
+* blog IA
+
+---
+
+# Phase 5 — Scale
+
+## Ajouter
+
+* workers distribués
+* queues massives
+* analytics avancés
+* multi agences
+* facturation
+
+---
+
+# Ce qu’il faut absolument éviter
+
+## Ne PAS faire
+
+* achat de vues
+* faux likes
+* bots agressifs
+* scraping illégal
+* spam automation
+
+---
+
+# Positionnement marketing recommandé
+
+NE PAS vendre :
+
+* “fake engagement”
+
+MAIS :
+
+* visibilité organique
+* SEO social
+* IA marketing
+* automatisation contenu
+* branding créateur
+
+---
+
+# SQL COMPLET — Backend Supabase
+
+```sql
+create extension if not exists pgcrypto;
+
+-- PROFILES
+
+create table public.profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  username text unique,
+  full_name text,
+  avatar_url text,
+  bio text,
+  country text default 'Senegal',
+  city text,
+  role text default 'creator',
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+alter table public.profiles enable row level security;
+
+create policy "profiles_select_own"
+on public.profiles
+for select
+using (auth.uid() = id);
+
+create policy "profiles_insert_own"
+on public.profiles
+for insert
+with check (auth.uid() = id);
+
+create policy "profiles_update_own"
+on public.profiles
+for update
+using (auth.uid() = id);
+
+-- USER SETTINGS
+
+create table public.user_settings (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  timezone text default 'Africa/Dakar',
+  language text default 'fr',
+  ai_enabled boolean default true,
+  seo_enabled boolean default true,
+  auto_publish boolean default false,
+  created_at timestamptz default now()
+);
+
+alter table public.user_settings enable row level security;
+
+create policy "settings_owner_all"
+on public.user_settings
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+-- PROJECTS / CLIENTS
+
+create table public.projects (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  name text not null,
+  niche text,
+  description text,
+  logo_url text,
+  created_at timestamptz default now()
+);
+
+alter table public.projects enable row level security;
+
+create policy "projects_owner_all"
+on public.projects
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+-- SOCIAL ACCOUNTS
+
+create table public.social_accounts (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  project_id uuid references public.projects(id) on delete cascade,
+  platform text not null,
+  platform_user_id text,
+  username text,
+  access_token text,
+  refresh_token text,
+  expires_at timestamptz,
+  connected boolean default true,
+  created_at timestamptz default now()
+);
+
+alter table public.social_accounts enable row level security;
+
+create policy "social_accounts_owner_all"
+on public.social_accounts
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+-- POSTS
+
+create table public.posts (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  project_id uuid references public.projects(id) on delete cascade,
+  title text,
+  description text,
+  hook text,
+  hashtags text[],
+  video_url text,
+  thumbnail_url text,
+  status text default 'draft',
+  seo_title text,
+  seo_description text,
+  scheduled_at timestamptz,
+  created_at timestamptz default now()
+);
+
+alter table public.posts enable row level security;
+
+create policy "posts_owner_all"
+on public.posts
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+-- POST PLATFORMS
+
+create table public.post_platforms (
+  id uuid primary key default gen_random_uuid(),
+  post_id uuid references public.posts(id) on delete cascade,
+  platform text,
+  platform_post_id text,
+  publish_status text default 'pending',
+  published_at timestamptz,
+  error_message text,
+  created_at timestamptz default now()
+);
+
+alter table public.post_platforms enable row level security;
+
+create policy "post_platforms_access"
+on public.post_platforms
+for select
+using (
+  exists (
+    select 1 from public.posts p
+    where p.id = post_id
+    and p.user_id = auth.uid()
+  )
+);
+
+-- AI GENERATIONS
+
+create table public.ai_generations (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  prompt text,
+  response text,
+  model text,
+  tokens integer,
+  created_at timestamptz default now()
+);
+
+alter table public.ai_generations enable row level security;
+
+create policy "ai_generations_owner_all"
+on public.ai_generations
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+-- ANALYTICS
+
+create table public.analytics (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  post_id uuid references public.posts(id) on delete cascade,
+  platform text,
+  views integer default 0,
+  likes integer default 0,
+  comments integer default 0,
+  shares integer default 0,
+  watch_time numeric default 0,
+  retention_rate numeric default 0,
+  engagement_rate numeric default 0,
+  collected_at timestamptz default now()
+);
+
+alter table public.analytics enable row level security;
+
+create policy "analytics_owner_access"
+on public.analytics
+for select
+using (auth.uid() = user_id);
+
+-- SEO PAGES
+
+create table public.seo_pages (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  post_id uuid references public.posts(id) on delete cascade,
+  slug text unique,
+  title text,
+  meta_description text,
+  content text,
+  indexed boolean default false,
+  created_at timestamptz default now()
+);
+
+alter table public.seo_pages enable row level security;
+
+create policy "seo_pages_owner_all"
+on public.seo_pages
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+-- TRENDS
+
+create table public.trends (
+  id uuid primary key default gen_random_uuid(),
+  country text,
+  city text,
+  platform text,
+  hashtag text,
+  trend_score numeric,
+  collected_at timestamptz default now()
+);
+
+alter table public.trends enable row level security;
+
+create policy "trends_public_read"
+on public.trends
+for select
+using (true);
+
+-- SCHEDULES
+
+create table public.schedules (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  post_id uuid references public.posts(id) on delete cascade,
+  scheduled_for timestamptz,
+  timezone text default 'Africa/Dakar',
+  status text default 'pending',
+  created_at timestamptz default now()
+);
+
+alter table public.schedules enable row level security;
+
+create policy "schedules_owner_all"
+on public.schedules
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+-- SUBSCRIPTIONS
+
+create table public.subscriptions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  plan text default 'free',
+  status text default 'active',
+  current_period_end timestamptz,
+  created_at timestamptz default now()
+);
+
+alter table public.subscriptions enable row level security;
+
+create policy "subscriptions_owner_access"
+on public.subscriptions
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+-- INDEXES
+
+create index idx_posts_user_id on public.posts(user_id);
+create index idx_posts_project_id on public.posts(project_id);
+create index idx_analytics_post_id on public.analytics(post_id);
+create index idx_social_accounts_user_id on public.social_accounts(user_id);
+create index idx_seo_pages_slug on public.seo_pages(slug);
+create index idx_schedules_post_id on public.schedules(post_id);
+
+```
+
+---
+
+# Conclusion finale
+
+Achakourou Booster AI peut devenir :
+
+* une plateforme SaaS africaine moderne,
+* un hub SEO social,
+* un orchestrateur IA multi-réseaux,
+* un outil de croissance créateur.
+
+Le véritable avantage compétitif n’est pas simplement TikTok.
+
+C’est :
+
+* TikTok + Facebook + Instagram
+* synchronisation intelligente
+* IA
+* SEO
+* tendances locales Afrique
+* automatisation scalable
+
+La clé du succès sera :
+
+* stabilité backend,
+* sécurité,
+* workers fiables,
+* conformité API,
+* qualité UX,
+* et automatisation robuste.
