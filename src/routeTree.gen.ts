@@ -14,10 +14,15 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppTrendsRouteImport } from './routes/app.trends'
+import { Route as AppSocialRouteImport } from './routes/app.social'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppSeoRouteImport } from './routes/app.seo'
 import { Route as AppScriptsRouteImport } from './routes/app.scripts'
+import { Route as AppPublisherRouteImport } from './routes/app.publisher'
 import { Route as AppGeneratorRouteImport } from './routes/app.generator'
 import { Route as AppClientsRouteImport } from './routes/app.clients'
 import { Route as AppBoosterRouteImport } from './routes/app.booster'
+import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as ApiTrendsRouteImport } from './routes/api/trends'
 import { Route as ApiIdeasRouteImport } from './routes/api/ideas'
 
@@ -46,9 +51,29 @@ const AppTrendsRoute = AppTrendsRouteImport.update({
   path: '/trends',
   getParentRoute: () => AppRoute,
 } as any)
+const AppSocialRoute = AppSocialRouteImport.update({
+  id: '/social',
+  path: '/social',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSeoRoute = AppSeoRouteImport.update({
+  id: '/seo',
+  path: '/seo',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppScriptsRoute = AppScriptsRouteImport.update({
   id: '/scripts',
   path: '/scripts',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPublisherRoute = AppPublisherRouteImport.update({
+  id: '/publisher',
+  path: '/publisher',
   getParentRoute: () => AppRoute,
 } as any)
 const AppGeneratorRoute = AppGeneratorRouteImport.update({
@@ -64,6 +89,11 @@ const AppClientsRoute = AppClientsRouteImport.update({
 const AppBoosterRoute = AppBoosterRouteImport.update({
   id: '/booster',
   path: '/booster',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
 const ApiTrendsRoute = ApiTrendsRouteImport.update({
@@ -83,10 +113,15 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
+  '/app/analytics': typeof AppAnalyticsRoute
   '/app/booster': typeof AppBoosterRoute
   '/app/clients': typeof AppClientsRoute
   '/app/generator': typeof AppGeneratorRoute
+  '/app/publisher': typeof AppPublisherRoute
   '/app/scripts': typeof AppScriptsRoute
+  '/app/seo': typeof AppSeoRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/social': typeof AppSocialRoute
   '/app/trends': typeof AppTrendsRoute
   '/app/': typeof AppIndexRoute
 }
@@ -95,10 +130,15 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
+  '/app/analytics': typeof AppAnalyticsRoute
   '/app/booster': typeof AppBoosterRoute
   '/app/clients': typeof AppClientsRoute
   '/app/generator': typeof AppGeneratorRoute
+  '/app/publisher': typeof AppPublisherRoute
   '/app/scripts': typeof AppScriptsRoute
+  '/app/seo': typeof AppSeoRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/social': typeof AppSocialRoute
   '/app/trends': typeof AppTrendsRoute
   '/app': typeof AppIndexRoute
 }
@@ -109,10 +149,15 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/api/ideas': typeof ApiIdeasRoute
   '/api/trends': typeof ApiTrendsRoute
+  '/app/analytics': typeof AppAnalyticsRoute
   '/app/booster': typeof AppBoosterRoute
   '/app/clients': typeof AppClientsRoute
   '/app/generator': typeof AppGeneratorRoute
+  '/app/publisher': typeof AppPublisherRoute
   '/app/scripts': typeof AppScriptsRoute
+  '/app/seo': typeof AppSeoRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/social': typeof AppSocialRoute
   '/app/trends': typeof AppTrendsRoute
   '/app/': typeof AppIndexRoute
 }
@@ -124,10 +169,15 @@ export interface FileRouteTypes {
     | '/login'
     | '/api/ideas'
     | '/api/trends'
+    | '/app/analytics'
     | '/app/booster'
     | '/app/clients'
     | '/app/generator'
+    | '/app/publisher'
     | '/app/scripts'
+    | '/app/seo'
+    | '/app/settings'
+    | '/app/social'
     | '/app/trends'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
@@ -136,10 +186,15 @@ export interface FileRouteTypes {
     | '/login'
     | '/api/ideas'
     | '/api/trends'
+    | '/app/analytics'
     | '/app/booster'
     | '/app/clients'
     | '/app/generator'
+    | '/app/publisher'
     | '/app/scripts'
+    | '/app/seo'
+    | '/app/settings'
+    | '/app/social'
     | '/app/trends'
     | '/app'
   id:
@@ -149,10 +204,15 @@ export interface FileRouteTypes {
     | '/login'
     | '/api/ideas'
     | '/api/trends'
+    | '/app/analytics'
     | '/app/booster'
     | '/app/clients'
     | '/app/generator'
+    | '/app/publisher'
     | '/app/scripts'
+    | '/app/seo'
+    | '/app/settings'
+    | '/app/social'
     | '/app/trends'
     | '/app/'
   fileRoutesById: FileRoutesById
@@ -202,11 +262,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTrendsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/social': {
+      id: '/app/social'
+      path: '/social'
+      fullPath: '/app/social'
+      preLoaderRoute: typeof AppSocialRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/seo': {
+      id: '/app/seo'
+      path: '/seo'
+      fullPath: '/app/seo'
+      preLoaderRoute: typeof AppSeoRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/scripts': {
       id: '/app/scripts'
       path: '/scripts'
       fullPath: '/app/scripts'
       preLoaderRoute: typeof AppScriptsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/publisher': {
+      id: '/app/publisher'
+      path: '/publisher'
+      fullPath: '/app/publisher'
+      preLoaderRoute: typeof AppPublisherRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/generator': {
@@ -230,6 +318,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBoosterRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/analytics': {
+      id: '/app/analytics'
+      path: '/analytics'
+      fullPath: '/app/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/api/trends': {
       id: '/api/trends'
       path: '/api/trends'
@@ -248,19 +343,29 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppBoosterRoute: typeof AppBoosterRoute
   AppClientsRoute: typeof AppClientsRoute
   AppGeneratorRoute: typeof AppGeneratorRoute
+  AppPublisherRoute: typeof AppPublisherRoute
   AppScriptsRoute: typeof AppScriptsRoute
+  AppSeoRoute: typeof AppSeoRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppSocialRoute: typeof AppSocialRoute
   AppTrendsRoute: typeof AppTrendsRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAnalyticsRoute: AppAnalyticsRoute,
   AppBoosterRoute: AppBoosterRoute,
   AppClientsRoute: AppClientsRoute,
   AppGeneratorRoute: AppGeneratorRoute,
+  AppPublisherRoute: AppPublisherRoute,
   AppScriptsRoute: AppScriptsRoute,
+  AppSeoRoute: AppSeoRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppSocialRoute: AppSocialRoute,
   AppTrendsRoute: AppTrendsRoute,
   AppIndexRoute: AppIndexRoute,
 }

@@ -74,7 +74,7 @@ function ScriptsPage() {
                   <div className="font-semibold truncate">{s.topic}</div>
                   <div className="text-xs text-muted-foreground">
                     {new Date(s.created_at).toLocaleDateString()}
-                    {s.clients && ` · ${(s.clients as { name: string }).name}`}
+                    {s.clients && ` · ${((s.clients as unknown as { name: string })).name}`}
                   </div>
                 </div>
                 <Badge style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }}>{s.viral_score}</Badge>
