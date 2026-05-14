@@ -16,9 +16,15 @@ declare global {
 
 let supabase: ReturnType<typeof createClient<Database>>;
 
+const PLACEHOLDER_URL = 'https://placeholder.supabase.co';
+const PLACEHOLDER_KEY = 'placeholder-anon-key';
+
+const effectiveUrl = supabaseUrl || PLACEHOLDER_URL;
+const effectiveKey = supabaseAnonKey || PLACEHOLDER_KEY;
+
 if (import.meta.env.DEV) {
   if (!globalThis.__supabase_client) {
-    globalThis.__supabase_client = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+    globalThis.__supabase_client = createClient<Database>(effectiveUrl, effectiveKey, {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
@@ -28,7 +34,7 @@ if (import.meta.env.DEV) {
   }
   supabase = globalThis.__supabase_client;
 } else {
-  supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+  supabase = createClient<Database>(effectiveUrl, effectiveKey, {
     auth: {
       persistSession: true,
       autoRefreshToken: true,
