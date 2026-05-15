@@ -1,6 +1,6 @@
-# Achakourou Booster AI
+# Achakourou Social Accounts Booster
 
-**Plateforme SaaS de croissance sociale propulsée par l'IA — conçue pour les créateurs africains.**
+**Plateforme SaaS de croissance sociale propulsée par Issa KAMARA, Entrepreneur Independant & Informaticien, Developpeur spécialisé Dev-Web Frontend — conçue pour les créateurs de contenus, marketeur influenceurs investi dans la propagation de VERITE à l'Etat PURE au Sénégal particuliairement et en Afrique.**
 
 Générez des scripts viraux TikTok, Instagram et Facebook, analysez les tendances en temps réel, planifiez vos publications et gérez vos clients depuis un tableau de bord unifié.
 
