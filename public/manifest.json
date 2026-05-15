@@ -1,0 +1,56 @@
+{
+  "name": "Achakourou Booster AI",
+  "short_name": "Achakourou",
+  "description": "Plateforme africaine IA pour créateurs TikTok, Instagram et Facebook — boostez vos contenus sociaux 🇸🇳",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d14",
+  "theme_color": "#c026d3",
+  "orientation": "portrait-primary",
+  "lang": "fr",
+  "categories": ["social", "productivity", "entertainment"],
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon",
+      "form_factor": "narrow",
+      "label": "Dashboard Achakourou"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "AI Générateur",
+      "short_name": "Générer",
+      "description": "Générer un script viral",
+      "url": "/app/generator",
+      "icons": [{ "src": "/favicon.ico", "sizes": "48x48" }]
+    },
+    {
+      "name": "Publisher",
+      "short_name": "Publier",
+      "description": "Publier sur les réseaux",
+      "url": "/app/publisher",
+      "icons": [{ "src": "/favicon.ico", "sizes": "48x48" }]
+    }
+  ]
+}
