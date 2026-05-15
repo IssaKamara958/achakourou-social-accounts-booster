@@ -44,3 +44,5 @@ publicDir = "dist"
 [userenv.shared]
 VITE_SUPABASE_URL = "https://jaqotacitljdsurbcrtx.supabase.co"
 VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphcW90YWNpdGxqZHN1cmJjcnR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTY5MDgsImV4cCI6MjA5NDI3MjkwOH0.CKi81AKwcuqhqq6MYrKBIvuzMoFik0yl3maHLCAAtyo"
+NETLIFY_AUTH_TOKEN = "nfp_ugBUE461qdyj51WADzrvC2LpgaB9u2DBaa85"
+NETLIFY_SITE_ID = "a3d8e724-107c-4997-ae79-a4fef408fa92"
