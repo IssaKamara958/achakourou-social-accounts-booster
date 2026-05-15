@@ -316,4 +316,4 @@ src/
 
 ## Licence
 
-Propriétaire — © 2026 Achakourou Booster AI. Tous droits réservés.
+Propriétaire — © 2026 CHACKOR ORGANISATION => Achakourou Digital Sérvices. Tous droits réservés.
