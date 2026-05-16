@@ -26,6 +26,7 @@ import { Route as AppBoosterRouteImport } from './routes/app.booster'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as ApiTrendsRouteImport } from './routes/api/trends'
 import { Route as ApiIdeasRouteImport } from './routes/api/ideas'
+import { Route as AuthCallbackPlatformRouteImport } from './routes/auth.callback.$platform'
 
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
@@ -112,6 +113,11 @@ const ApiIdeasRoute = ApiIdeasRouteImport.update({
   path: '/api/ideas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthCallbackPlatformRoute = AuthCallbackPlatformRouteImport.update({
+  id: '/auth/callback/$platform',
+  path: '/auth/callback/$platform',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/app/social': typeof AppSocialRoute
   '/app/trends': typeof AppTrendsRoute
   '/app/': typeof AppIndexRoute
+  '/auth/callback/$platform': typeof AuthCallbackPlatformRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/app/social': typeof AppSocialRoute
   '/app/trends': typeof AppTrendsRoute
   '/app': typeof AppIndexRoute
+  '/auth/callback/$platform': typeof AuthCallbackPlatformRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/app/social': typeof AppSocialRoute
   '/app/trends': typeof AppTrendsRoute
   '/app/': typeof AppIndexRoute
+  '/auth/callback/$platform': typeof AuthCallbackPlatformRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -190,6 +199,7 @@ export interface FileRouteTypes {
     | '/app/social'
     | '/app/trends'
     | '/app/'
+    | '/auth/callback/$platform'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/app/social'
     | '/app/trends'
     | '/app'
+    | '/auth/callback/$platform'
   id:
     | '__root__'
     | '/'
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/app/social'
     | '/app/trends'
     | '/app/'
+    | '/auth/callback/$platform'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -236,6 +248,7 @@ export interface RootRouteChildren {
   OnboardingRoute: typeof OnboardingRoute
   ApiIdeasRoute: typeof ApiIdeasRoute
   ApiTrendsRoute: typeof ApiTrendsRoute
+  AuthCallbackPlatformRoute: typeof AuthCallbackPlatformRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -359,6 +372,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiIdeasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/callback/$platform': {
+      id: '/auth/callback/$platform'
+      path: '/auth/callback/$platform'
+      fullPath: '/auth/callback/$platform'
+      preLoaderRoute: typeof AuthCallbackPlatformRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -399,6 +419,7 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRoute: OnboardingRoute,
   ApiIdeasRoute: ApiIdeasRoute,
   ApiTrendsRoute: ApiTrendsRoute,
+  AuthCallbackPlatformRoute: AuthCallbackPlatformRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

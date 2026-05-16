@@ -16,7 +16,11 @@ export default defineConfig({
     port: 5000,
     allowedHosts: true,
   },
+  esbuild: {
+    target: "ES2022",
+  },
   build: {
+    target: "ES2022",
     outDir: "dist",
     chunkSizeWarningLimit: 600,
     rollupOptions: {
