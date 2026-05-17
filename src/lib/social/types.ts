@@ -1,8 +1,8 @@
 // Types TypeScript pour les intégrations sociales
 
-export type SocialPlatform = 'facebook' | 'instagram' | 'tiktok';
+export type SocialPlatform = "facebook" | "instagram" | "tiktok";
 
-export type PostStatus = 'draft' | 'scheduled' | 'published' | 'failed';
+export type PostStatus = "draft" | "scheduled" | "published" | "failed";
 
 export interface SocialAccount {
   id: string;
@@ -55,7 +55,7 @@ export interface SocialComment {
   content: string;
   likes_count: number;
   replies_count: number;
-  sentiment: 'positive' | 'neutral' | 'negative';
+  sentiment: "positive" | "neutral" | "negative";
   metadata: Record<string, any>;
   created_at: string;
   updated_at: string;
@@ -111,8 +111,8 @@ export interface SocialAuthResponse {
 export interface SyncQueueItem {
   id: string;
   account_id: string;
-  sync_type: 'posts' | 'comments' | 'analytics' | 'followers';
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  sync_type: "posts" | "comments" | "analytics" | "followers";
+  status: "pending" | "processing" | "completed" | "failed";
   error_message?: string;
   last_attempted_at?: string;
   retry_count: number;

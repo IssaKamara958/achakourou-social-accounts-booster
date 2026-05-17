@@ -22,7 +22,7 @@ export function QuotaBadge({ quotaKey, label, className }: Props) {
         critical && "border-destructive/50 text-destructive",
         warning && !critical && "border-yellow-500/50 text-yellow-400",
         !warning && !critical && "border-secondary/40 text-secondary",
-        className
+        className,
       )}
     >
       {label && <span>{label}</span>}

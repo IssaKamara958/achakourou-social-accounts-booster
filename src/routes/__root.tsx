@@ -1,14 +1,10 @@
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  Outlet,
-  Link,
-  createRootRouteWithContext,
-  useRouter,
-} from "@tanstack/react-router";
+import { Outlet, Link, createRootRouteWithContext, useRouter } from "@tanstack/react-router";
 
 import "../styles.css";
 import { AuthProvider } from "@/lib/auth";
+import { AppStatusProvider } from "@/lib/app-status";
 import { Toaster } from "@/components/ui/sonner";
 
 class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean }> {
@@ -27,7 +23,7 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { has
         <div className="flex min-h-screen items-center justify-center bg-background p-4 text-center">
           <div>
             <h1 className="text-xl font-bold">App error - refresh required</h1>
-            <button 
+            <button
               onClick={() => window.location.reload()}
               className="mt-4 rounded bg-primary px-4 py-2 text-primary-foreground"
             >
@@ -98,7 +94,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient, request?: Request }>()({
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient; request?: Request }>()({
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
@@ -111,8 +107,10 @@ function RootComponent() {
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <Outlet />
-          <Toaster theme="dark" position="top-right" />
+          <AppStatusProvider>
+            <Outlet />
+            <Toaster theme="dark" position="top-right" />
+          </AppStatusProvider>
         </AuthProvider>
       </QueryClientProvider>
     </ErrorBoundary>

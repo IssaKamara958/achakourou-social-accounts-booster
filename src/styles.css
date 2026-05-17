@@ -66,28 +66,30 @@
   /* Achakourou TikTok AI — premium dark SaaS */
   --background: oklch(0.16 0.02 270);
   --foreground: oklch(0.97 0.01 260);
-  --card: oklch(0.20 0.025 270);
+  --card: oklch(0.2 0.025 270);
   --card-foreground: oklch(0.97 0.01 260);
-  --popover: oklch(0.20 0.025 270);
+  --popover: oklch(0.2 0.025 270);
   --popover-foreground: oklch(0.97 0.01 260);
   --primary: oklch(0.72 0.18 340);
   --primary-foreground: oklch(0.16 0.02 270);
   --secondary: oklch(0.78 0.16 200);
   --secondary-foreground: oklch(0.16 0.02 270);
   --muted: oklch(0.26 0.02 270);
-  --muted-foreground: oklch(0.70 0.02 260);
+  --muted-foreground: oklch(0.7 0.02 260);
   --accent: oklch(0.78 0.16 200);
   --accent-foreground: oklch(0.16 0.02 270);
   --destructive: oklch(0.65 0.22 25);
   --destructive-foreground: oklch(0.98 0.01 260);
-  --border: oklch(0.30 0.02 270);
+  --border: oklch(0.3 0.02 270);
   --input: oklch(0.26 0.02 270);
   --ring: oklch(0.72 0.18 340);
-  --brand-pink: oklch(0.72 0.20 340);
-  --brand-cyan: oklch(0.80 0.15 200);
-  --gradient-brand: linear-gradient(135deg, oklch(0.72 0.20 340), oklch(0.80 0.15 200));
-  --gradient-radial: radial-gradient(circle at 20% 0%, oklch(0.72 0.20 340 / 0.25), transparent 50%), radial-gradient(circle at 80% 100%, oklch(0.80 0.15 200 / 0.18), transparent 55%);
-  --shadow-glow: 0 20px 60px -20px oklch(0.72 0.20 340 / 0.45);
+  --brand-pink: oklch(0.72 0.2 340);
+  --brand-cyan: oklch(0.8 0.15 200);
+  --gradient-brand: linear-gradient(135deg, oklch(0.72 0.2 340), oklch(0.8 0.15 200));
+  --gradient-radial:
+    radial-gradient(circle at 20% 0%, oklch(0.72 0.2 340 / 0.25), transparent 50%),
+    radial-gradient(circle at 80% 100%, oklch(0.8 0.15 200 / 0.18), transparent 55%);
+  --shadow-glow: 0 20px 60px -20px oklch(0.72 0.2 340 / 0.45);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);

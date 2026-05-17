@@ -26,8 +26,22 @@ type Post = {
 };
 
 const sampleQueue: Post[] = [
-  { id: "1", title: "3 erreurs à éviter sur TikTok", platforms: ["tiktok", "instagram"], scheduledAt: "2026-05-15 08:00", status: "pending", hook: "Tout le monde fait cette erreur…" },
-  { id: "2", title: "Comment doubler ton audience en 7 jours", platforms: ["tiktok"], scheduledAt: "2026-05-16 12:00", status: "pending", hook: "Le secret que les grands créateurs cachent…" },
+  {
+    id: "1",
+    title: "3 erreurs à éviter sur TikTok",
+    platforms: ["tiktok", "instagram"],
+    scheduledAt: "2026-05-15 08:00",
+    status: "pending",
+    hook: "Tout le monde fait cette erreur…",
+  },
+  {
+    id: "2",
+    title: "Comment doubler ton audience en 7 jours",
+    platforms: ["tiktok"],
+    scheduledAt: "2026-05-16 12:00",
+    status: "pending",
+    hook: "Le secret que les grands créateurs cachent…",
+  },
 ];
 
 const PLATFORMS = [
@@ -36,7 +50,16 @@ const PLATFORMS = [
   { id: "facebook", label: "Facebook", emoji: "👥", color: "oklch(0.60 0.15 250)" },
 ];
 
-const HASHTAG_SUGGESTIONS = ["#senegal", "#dakar", "#tiktokafrique", "#buzzsn", "#viral", "#créateur", "#contenu", "#afrique"];
+const HASHTAG_SUGGESTIONS = [
+  "#senegal",
+  "#dakar",
+  "#tiktokafrique",
+  "#buzzsn",
+  "#viral",
+  "#créateur",
+  "#contenu",
+  "#afrique",
+];
 
 const fadeUp = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
 
@@ -56,10 +79,12 @@ function PublisherPage() {
   const quotaExhausted = quota.remaining === 0;
 
   function togglePlatform(id: string) {
-    setSelectedPlatforms((prev) => prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id]);
+    setSelectedPlatforms((prev) =>
+      prev.includes(id) ? prev.filter((p) => p !== id) : [...prev, id],
+    );
   }
   function toggleHashtag(tag: string) {
-    setHashtags((prev) => prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]);
+    setHashtags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
   }
 
   async function schedule() {
@@ -72,14 +97,22 @@ function PublisherPage() {
     setPublishing(true);
     await new Promise((r) => setTimeout(r, 1200));
     const newPost: Post = {
-      id: Date.now().toString(), title, platforms: selectedPlatforms,
+      id: Date.now().toString(),
+      title,
+      platforms: selectedPlatforms,
       scheduledAt: scheduleDate ? `${scheduleDate} ${scheduleTime}` : "Immédiat",
-      status: "pending", hook,
+      status: "pending",
+      hook,
     };
-    incrementQuota("posts"); refreshQuota();
+    incrementQuota("posts");
+    refreshQuota();
     setQueue((prev) => [newPost, ...prev]);
-    setTitle(""); setHook(""); setContent(""); setHashtags([]);
-    setScheduleDate(""); setSelectedPlatforms(["tiktok"]);
+    setTitle("");
+    setHook("");
+    setContent("");
+    setHashtags([]);
+    setScheduleDate("");
+    setSelectedPlatforms(["tiktok"]);
     setPublishing(false);
     toast.success(scheduleDate ? "Post programmé !" : "Post publié !");
   }
@@ -96,12 +129,21 @@ function PublisherPage() {
   };
 
   return (
-    <motion.div className="space-y-6" initial="hidden" animate="show"
-      variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } }}>
+    <motion.div
+      className="space-y-6"
+      initial="hidden"
+      animate="show"
+      variants={{
+        hidden: { opacity: 0 },
+        show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+      }}
+    >
       <motion.div variants={fadeUp} className="flex items-end justify-between flex-wrap gap-2">
         <div>
           <h1 className="text-3xl font-black tracking-tight">Publisher</h1>
-          <p className="text-sm text-muted-foreground mt-1">Créez et programmez vos posts sur tous vos réseaux.</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            Créez et programmez vos posts sur tous vos réseaux.
+          </p>
         </div>
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <Send className="h-3.5 w-3.5 text-primary" /> Posts restants :
@@ -115,7 +157,9 @@ function PublisherPage() {
             <AlertTriangle className="h-5 w-5 text-destructive shrink-0" />
             <div>
               <span className="font-semibold text-destructive">Quota journalier atteint — </span>
-              <span className="text-muted-foreground">{quota.limit} posts/jour en plan gratuit. Renouvellement à minuit. 🇸🇳</span>
+              <span className="text-muted-foreground">
+                {quota.limit} posts/jour en plan gratuit. Renouvellement à minuit. 🇸🇳
+              </span>
             </div>
           </div>
         </motion.div>
@@ -130,29 +174,59 @@ function PublisherPage() {
 
             <div className="space-y-2">
               <Label>Titre / Sujet</Label>
-              <Input value={title} onChange={(e) => setTitle(e.target.value)}
-                placeholder="3 astuces pour devenir viral au Sénégal…" disabled={quotaExhausted} />
+              <Input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="3 astuces pour devenir viral au Sénégal…"
+                disabled={quotaExhausted}
+              />
             </div>
 
             <div className="space-y-2">
-              <Label>HOOK <span className="text-muted-foreground text-xs">(première phrase, ultra importante)</span></Label>
-              <Textarea rows={2} value={hook} onChange={(e) => setHook(e.target.value)}
-                placeholder="Personne ne parle de ça…" className="resize-none" disabled={quotaExhausted} />
+              <Label>
+                HOOK{" "}
+                <span className="text-muted-foreground text-xs">
+                  (première phrase, ultra importante)
+                </span>
+              </Label>
+              <Textarea
+                rows={2}
+                value={hook}
+                onChange={(e) => setHook(e.target.value)}
+                placeholder="Personne ne parle de ça…"
+                className="resize-none"
+                disabled={quotaExhausted}
+              />
             </div>
 
             <div className="space-y-2">
               <Label>Contenu / Description</Label>
-              <Textarea rows={4} value={content} onChange={(e) => setContent(e.target.value)}
-                placeholder="Le contenu principal de votre post…" className="resize-none" disabled={quotaExhausted} />
+              <Textarea
+                rows={4}
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Le contenu principal de votre post…"
+                className="resize-none"
+                disabled={quotaExhausted}
+              />
             </div>
 
             <div className="space-y-2">
-              <Label className="flex items-center gap-1"><Hash className="h-3.5 w-3.5" /> Hashtags suggérés</Label>
+              <Label className="flex items-center gap-1">
+                <Hash className="h-3.5 w-3.5" /> Hashtags suggérés
+              </Label>
               <div className="flex flex-wrap gap-2">
                 {HASHTAG_SUGGESTIONS.map((tag) => (
-                  <button key={tag} onClick={() => toggleHashtag(tag)} disabled={quotaExhausted}
+                  <button
+                    key={tag}
+                    onClick={() => toggleHashtag(tag)}
+                    disabled={quotaExhausted}
                     className={`text-xs px-2.5 py-1 rounded-full border transition-all disabled:opacity-40 ${
-                      hashtags.includes(tag) ? "border-primary bg-primary/10 text-primary" : "border-border bg-muted/40 text-muted-foreground hover:border-primary/40"}`}>
+                      hashtags.includes(tag)
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border bg-muted/40 text-muted-foreground hover:border-primary/40"
+                    }`}
+                  >
                     {tag}
                   </button>
                 ))}
@@ -163,10 +237,17 @@ function PublisherPage() {
               <Label>Plateformes cibles</Label>
               <div className="flex gap-2">
                 {PLATFORMS.map((p) => (
-                  <button key={p.id} onClick={() => togglePlatform(p.id)} disabled={quotaExhausted}
+                  <button
+                    key={p.id}
+                    onClick={() => togglePlatform(p.id)}
+                    disabled={quotaExhausted}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all disabled:opacity-40 ${
-                      selectedPlatforms.includes(p.id) ? "border-transparent text-white" : "border-border bg-muted/40 text-muted-foreground hover:border-primary/40"}`}
-                    style={selectedPlatforms.includes(p.id) ? { background: p.color } : {}}>
+                      selectedPlatforms.includes(p.id)
+                        ? "border-transparent text-white"
+                        : "border-border bg-muted/40 text-muted-foreground hover:border-primary/40"
+                    }`}
+                    style={selectedPlatforms.includes(p.id) ? { background: p.color } : {}}
+                  >
                     <span>{p.emoji}</span> {p.label}
                   </button>
                 ))}
@@ -175,30 +256,70 @@ function PublisherPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" /> Date</Label>
-                <Input type="date" value={scheduleDate} onChange={(e) => setScheduleDate(e.target.value)} disabled={quotaExhausted} />
+                <Label className="flex items-center gap-1">
+                  <Calendar className="h-3.5 w-3.5" /> Date
+                </Label>
+                <Input
+                  type="date"
+                  value={scheduleDate}
+                  onChange={(e) => setScheduleDate(e.target.value)}
+                  disabled={quotaExhausted}
+                />
               </div>
               <div className="space-y-2">
-                <Label className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> Heure</Label>
-                <Input type="time" value={scheduleTime} onChange={(e) => setScheduleTime(e.target.value)} disabled={quotaExhausted} />
+                <Label className="flex items-center gap-1">
+                  <Clock className="h-3.5 w-3.5" /> Heure
+                </Label>
+                <Input
+                  type="time"
+                  value={scheduleTime}
+                  onChange={(e) => setScheduleTime(e.target.value)}
+                  disabled={quotaExhausted}
+                />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Button className="w-full font-semibold gap-2"
-                style={!quotaExhausted ? { background: "var(--gradient-brand)", color: "var(--primary-foreground)" } : {}}
-                onClick={schedule} disabled={publishing || quotaExhausted}>
-                {quotaExhausted ? `Quota atteint (${quota.limit}/jour)` : publishing ? "Publication…" : scheduleDate
-                  ? <><Calendar className="h-4 w-4" /> Programmer</>
-                  : <><Send className="h-4 w-4" /> Publier maintenant</>}
+              <Button
+                className="w-full font-semibold gap-2"
+                style={
+                  !quotaExhausted
+                    ? { background: "var(--gradient-brand)", color: "var(--primary-foreground)" }
+                    : {}
+                }
+                onClick={schedule}
+                disabled={publishing || quotaExhausted}
+              >
+                {quotaExhausted ? (
+                  `Quota atteint (${quota.limit}/jour)`
+                ) : publishing ? (
+                  "Publication…"
+                ) : scheduleDate ? (
+                  <>
+                    <Calendar className="h-4 w-4" /> Programmer
+                  </>
+                ) : (
+                  <>
+                    <Send className="h-4 w-4" /> Publier maintenant
+                  </>
+                )}
               </Button>
               {!quotaExhausted && (
                 <div className="flex items-center justify-between text-xs text-muted-foreground px-1">
-                  <span>{quota.used}/{quota.limit} posts aujourd'hui</span>
+                  <span>
+                    {quota.used}/{quota.limit} posts aujourd'hui
+                  </span>
                   <div className="h-1.5 w-24 rounded-full bg-muted overflow-hidden">
-                    <div className="h-full rounded-full transition-all"
-                      style={{ width: `${(quota.used / quota.limit) * 100}%`,
-                        background: quota.used / quota.limit > 0.7 ? "oklch(0.65 0.20 30)" : "var(--gradient-brand)" }} />
+                    <div
+                      className="h-full rounded-full transition-all"
+                      style={{
+                        width: `${(quota.used / quota.limit) * 100}%`,
+                        background:
+                          quota.used / quota.limit > 0.7
+                            ? "oklch(0.65 0.20 30)"
+                            : "var(--gradient-brand)",
+                      }}
+                    />
                   </div>
                 </div>
               )}
@@ -208,28 +329,51 @@ function PublisherPage() {
 
         <motion.div variants={fadeUp} className="lg:col-span-2 space-y-3">
           <div className="font-semibold flex items-center justify-between">
-            <span className="flex items-center gap-2"><Calendar className="h-4 w-4 text-primary" /> File de publication</span>
-            <Badge variant="outline" className="text-xs">{queue.length} posts</Badge>
+            <span className="flex items-center gap-2">
+              <Calendar className="h-4 w-4 text-primary" /> File de publication
+            </span>
+            <Badge variant="outline" className="text-xs">
+              {queue.length} posts
+            </Badge>
           </div>
 
           <AnimatePresence>
             {queue.map((post) => (
-              <motion.div key={post.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, x: 20 }}>
+              <motion.div
+                key={post.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+              >
                 <Card className="p-4 bg-card border-border">
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <div className="font-medium text-sm truncate flex-1">{post.title}</div>
-                    <Badge variant="outline" className={`text-[10px] shrink-0 ${statusMap[post.status].color}`}>{statusMap[post.status].label}</Badge>
+                    <Badge
+                      variant="outline"
+                      className={`text-[10px] shrink-0 ${statusMap[post.status].color}`}
+                    >
+                      {statusMap[post.status].label}
+                    </Badge>
                   </div>
                   <div className="text-xs text-muted-foreground italic mb-2">"{post.hook}"</div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5">
                       {post.platforms.map((pid) => {
                         const pl = PLATFORMS.find((p) => p.id === pid);
-                        return pl ? <span key={pid} className="text-sm">{pl.emoji}</span> : null;
+                        return pl ? (
+                          <span key={pid} className="text-sm">
+                            {pl.emoji}
+                          </span>
+                        ) : null;
                       })}
                       <span className="text-[10px] text-muted-foreground">{post.scheduledAt}</span>
                     </div>
-                    <Button variant="ghost" size="sm" onClick={() => remove(post.id)} className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => remove(post.id)}
+                      className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
+                    >
                       <Trash2 className="h-3.5 w-3.5" />
                     </Button>
                   </div>

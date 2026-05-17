@@ -31,6 +31,7 @@ ACAB est une plateforme SaaS de gestion multi-réseaux sociaux propulsée par IA
 ### Stack Technologique
 
 **Frontend:**
+
 - React 18 + TypeScript
 - Vite (build)
 - TanStack Router + TanStack Query
@@ -38,15 +39,18 @@ ACAB est une plateforme SaaS de gestion multi-réseaux sociaux propulsée par IA
 - Framer Motion (animations)
 
 **Backend:**
+
 - Supabase (PostgreSQL + Auth + Realtime)
 - Edge Functions (Deno)
 - OAuth 2.0 (Facebook, Instagram, TikTok)
 
 **AI/ML:**
+
 - OpenAI GPT-3.5-turbo (ou compatible)
 - Analyse NLP pour optimisation contenu
 
 **Déploiement:**
+
 - Netlify (Frontend)
 - Supabase (Backend)
 
@@ -146,7 +150,7 @@ supabase projects link
 ### Connecter un Compte Social
 
 ```tsx
-import { SocialAccountsManager } from '@/components/social/SocialAccountsManager';
+import { SocialAccountsManager } from "@/components/social/SocialAccountsManager";
 
 export function MyPage() {
   return <SocialAccountsManager />;
@@ -156,14 +160,14 @@ export function MyPage() {
 ### Récupérer les Comptes Connectés
 
 ```tsx
-import { useSocialAccounts } from '@/hooks/use-social-accounts';
+import { useSocialAccounts } from "@/hooks/use-social-accounts";
 
 export function MyComponent() {
   const { accounts, isLoading, deleteAccount } = useSocialAccounts();
 
   return (
     <>
-      {accounts.map(account => (
+      {accounts.map((account) => (
         <div key={account.id}>
           <h3>{account.account_name}</h3>
           <p>{account.platform}</p>
@@ -178,32 +182,27 @@ export function MyComponent() {
 ### Gérer les Publications
 
 ```tsx
-import { useSocialPosts } from '@/hooks/use-social-accounts';
+import { useSocialPosts } from "@/hooks/use-social-accounts";
 
 export function PostsComponent() {
-  const {
-    posts,
-    createPost,
-    publishPost,
-    deletePost
-  } = useSocialPosts(accountId);
+  const { posts, createPost, publishPost, deletePost } = useSocialPosts(accountId);
 
   const handleCreate = () => {
     createPost({
       account_id: accountId,
-      platform: 'tiktok',
-      caption: 'Mon nouveau contenu',
-      hashtags: ['#viral', '#content'],
+      platform: "tiktok",
+      caption: "Mon nouveau contenu",
+      hashtags: ["#viral", "#content"],
       media_urls: [],
       media_types: [],
-      status: 'draft'
+      status: "draft",
     });
   };
 
   return (
     <>
       <button onClick={handleCreate}>Créer Post</button>
-      {posts.map(post => (
+      {posts.map((post) => (
         <div key={post.id}>
           <p>{post.caption}</p>
           <span>{post.status}</span>
@@ -217,43 +216,39 @@ export function PostsComponent() {
 ### Utiliser l'IA pour Optimisation
 
 ```tsx
-import { AIOptimizationService } from '@/lib/social/ai-optimization';
+import { AIOptimizationService } from "@/lib/social/ai-optimization";
 
 // Générer des recommandations
 const recommendations = await AIOptimizationService.analyzePost(
-  'Ma publication...',
-  ['#marketing', '#ia'],
-  'tiktok'
+  "Ma publication...",
+  ["#marketing", "#ia"],
+  "tiktok",
 );
 
 console.log(recommendations.overall_viral_score); // 0-100
 console.log(recommendations.cta_suggestions); // ['CTA1', 'CTA2']
 
 // Générer des hashtags
-const hashtags = await AIOptimizationService.generateHashtags(
-  'Ma publication',
-  'instagram',
-  20
-);
+const hashtags = await AIOptimizationService.generateHashtags("Ma publication", "instagram", 20);
 
 // Générer une description SEO
 const seoDescription = await AIOptimizationService.generateSEODescription(
-  'Ma publication',
-  'tiktok'
+  "Ma publication",
+  "tiktok",
 );
 
 // Prédire le potentiel viral
 const viralScore = await AIOptimizationService.predictViralPotential(
-  'Ma publication',
+  "Ma publication",
   hashtags,
-  'tiktok'
+  "tiktok",
 );
 ```
 
 ### Synchroniser les Comptes
 
 ```tsx
-import { SocialSyncService } from '@/lib/social/sync';
+import { SocialSyncService } from "@/lib/social/sync";
 
 // Synchroniser tous les comptes d'un utilisateur
 await SocialSyncService.syncUserAccounts(userId);
@@ -269,12 +264,14 @@ await SocialSyncService.syncAccount(account);
 ### Services Principaux
 
 #### OAuthService
+
 - `getAuthUrl(platform)` - Retourne l'URL d'authentification
 - `exchangeCodeForToken(platform, code)` - Échange le code contre un token
 - `refreshToken(platform, refreshToken)` - Rafraîchit le token
 - `revokeAccess(platform, accessToken)` - Révoque l'accès
 
 #### SocialAccountsService
+
 - `createAccount(accountData)`
 - `getUserAccounts(userId)`
 - `updateAccount(accountId, updates)`
@@ -283,6 +280,7 @@ await SocialSyncService.syncAccount(account);
 - `updateToken(accountId, accessToken, refreshToken, expiresAt)`
 
 #### SocialPostsService
+
 - `createPost(postData)`
 - `getAccountPosts(accountId, status?)`
 - `updatePost(postId, updates)`
@@ -291,6 +289,7 @@ await SocialSyncService.syncAccount(account);
 - `deletePost(postId)`
 
 #### AIOptimizationService
+
 - `analyzePost(caption, hashtags, platform, analytics?)`
 - `generateSEODescription(caption, platform)`
 - `generateHashtags(caption, platform, count?)`
@@ -379,18 +378,21 @@ supabase functions deploy sync-social-accounts \
 ## Prochaines Phases
 
 ### Phase 2 - Dashboard Business
+
 - [ ] Analytics consolidés multi-réseaux
 - [ ] Graphiques en temps réel
 - [ ] KPI business
 - [ ] Rapports exportables
 
 ### Phase 3 - PWA
+
 - [ ] Installable mobile/desktop
 - [ ] Offline mode
 - [ ] Background sync
 - [ ] Push notifications
 
 ### Phase 4 - Advanced Features
+
 - [ ] AI Content Generation
 - [ ] Scheduling avancé
 - [ ] Team Collaboration
@@ -402,18 +404,21 @@ supabase functions deploy sync-social-accounts \
 ## Troubleshooting
 
 ### Token expiré
+
 ```
 Error: "Token has expired"
 → Implémenter refresh token automatique (déjà intégré)
 ```
 
 ### API Rate Limit
+
 ```
 Error: "Rate limit exceeded"
 → Implémenter backoff exponentiel dans sync service
 ```
 
 ### CORS Issues
+
 ```
 Error: "CORS policy blocked"
 → Utiliser des Edge Functions au lieu d'appels directs
@@ -424,6 +429,7 @@ Error: "CORS policy blocked"
 ## Support & Contribution
 
 Pour les issues ou questions:
+
 - GitHub Issues: [project-issues]
 - Email: support@achakourou.com
 - Discord: [community-link]

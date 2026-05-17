@@ -1,12 +1,12 @@
-import { createClient } from '@supabase/supabase-js';
-import type { Database } from '@/integrations/supabase/types';
+import { createClient } from "@supabase/supabase-js";
+import type { Database } from "@/integrations/supabase/types";
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() || '';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() || "";
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() || "";
 
-if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes('your-project-id')) {
+if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes("your-project-id")) {
   console.warn(
-    'Supabase URL or Anon Key is not set. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file.'
+    "Supabase URL or Anon Key is not set. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file.",
   );
 }
 
@@ -16,8 +16,8 @@ declare global {
 
 let supabase: ReturnType<typeof createClient<Database>>;
 
-const PLACEHOLDER_URL = 'https://placeholder.supabase.co';
-const PLACEHOLDER_KEY = 'placeholder-anon-key';
+const PLACEHOLDER_URL = "https://placeholder.supabase.co";
+const PLACEHOLDER_KEY = "placeholder-anon-key";
 
 const effectiveUrl = supabaseUrl || PLACEHOLDER_URL;
 const effectiveKey = supabaseAnonKey || PLACEHOLDER_KEY;

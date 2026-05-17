@@ -16,7 +16,8 @@ export async function requireUser(request: Request) {
 
   const url = (import.meta.env.VITE_SUPABASE_URL || "").trim();
   const key = (import.meta.env.VITE_SUPABASE_ANON_KEY || "").trim();
-  if (!url || !url.startsWith('http') || !key) throw new Response("Server misconfigured", { status: 500 });
+  if (!url || !url.startsWith("http") || !key)
+    throw new Response("Server misconfigured", { status: 500 });
 
   const supabase = createClient<Database>(url, key, {
     global: { headers: { Authorization: `Bearer ${token}` } },
@@ -24,7 +25,10 @@ export async function requireUser(request: Request) {
   });
 
   // Correction: Utilisation de getUser() pour valider le token
-  const { data: { user }, error } = await supabase.auth.getUser(token);
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser(token);
   if (error || !user) {
     throw new Response("Unauthorized", { status: 401 });
   }

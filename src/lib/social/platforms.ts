@@ -1,11 +1,11 @@
 // Services API pour interagir avec les plateformes sociales
 // Gère les requêtes aux APIs Graph des plateformes
 
-import { SocialAccount, SocialPost, SocialComment, SocialAnalytics } from './types';
+import type { SocialAccount, SocialPost, SocialComment, SocialAnalytics } from "./types";
 
 export class FacebookAPI {
   private accessToken: string;
-  private baseUrl = 'https://graph.facebook.com/v19.0';
+  private baseUrl = "https://graph.facebook.com/v19.0";
 
   constructor(accessToken: string) {
     this.accessToken = accessToken;
@@ -15,8 +15,10 @@ export class FacebookAPI {
    * Récupère les informations du profil utilisateur
    */
   async getUserProfile(): Promise<any> {
-    const response = await fetch(`${this.baseUrl}/me?fields=id,name,picture,email&access_token=${this.accessToken}`);
-    if (!response.ok) throw new Error('Erreur récupération profil Facebook');
+    const response = await fetch(
+      `${this.baseUrl}/me?fields=id,name,picture,email&access_token=${this.accessToken}`,
+    );
+    if (!response.ok) throw new Error("Erreur récupération profil Facebook");
     return response.json();
   }
 
@@ -25,9 +27,9 @@ export class FacebookAPI {
    */
   async getPages(): Promise<any[]> {
     const response = await fetch(
-      `${this.baseUrl}/me/accounts?fields=id,name,picture,followers_count&access_token=${this.accessToken}`
+      `${this.baseUrl}/me/accounts?fields=id,name,picture,followers_count&access_token=${this.accessToken}`,
     );
-    if (!response.ok) throw new Error('Erreur récupération pages Facebook');
+    if (!response.ok) throw new Error("Erreur récupération pages Facebook");
     const data = await response.json();
     return data.data || [];
   }
@@ -37,9 +39,9 @@ export class FacebookAPI {
    */
   async getPagePosts(pageId: string): Promise<any[]> {
     const response = await fetch(
-      `${this.baseUrl}/${pageId}/posts?fields=id,created_time,message,story,permalink_url,shares,likes.summary(total_count)&access_token=${this.accessToken}`
+      `${this.baseUrl}/${pageId}/posts?fields=id,created_time,message,story,permalink_url,shares,likes.summary(total_count)&access_token=${this.accessToken}`,
     );
-    if (!response.ok) throw new Error('Erreur récupération posts Facebook');
+    if (!response.ok) throw new Error("Erreur récupération posts Facebook");
     const data = await response.json();
     return data.data || [];
   }
@@ -49,19 +51,19 @@ export class FacebookAPI {
    */
   async createPost(pageId: string, message: string, mediaUrls?: string[]): Promise<any> {
     const formData = new FormData();
-    formData.append('message', message);
-    formData.append('access_token', this.accessToken);
+    formData.append("message", message);
+    formData.append("access_token", this.accessToken);
 
     if (mediaUrls && mediaUrls.length > 0) {
-      formData.append('link', mediaUrls[0]);
+      formData.append("link", mediaUrls[0]);
     }
 
     const response = await fetch(`${this.baseUrl}/${pageId}/feed`, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
 
-    if (!response.ok) throw new Error('Erreur création post Facebook');
+    if (!response.ok) throw new Error("Erreur création post Facebook");
     return response.json();
   }
 
@@ -70,7 +72,7 @@ export class FacebookAPI {
    */
   async deletePost(postId: string): Promise<boolean> {
     const response = await fetch(`${this.baseUrl}/${postId}?access_token=${this.accessToken}`, {
-      method: 'DELETE',
+      method: "DELETE",
     });
     return response.ok;
   }
@@ -80,15 +82,15 @@ export class FacebookAPI {
    */
   async getPageInsights(pageId: string, since?: string, until?: string): Promise<any> {
     const params = new URLSearchParams({
-      fields: 'page_impressions,page_engaged_users,page_post_engagements,page_fans',
+      fields: "page_impressions,page_engaged_users,page_post_engagements,page_fans",
       access_token: this.accessToken,
     });
 
-    if (since) params.append('since', since);
-    if (until) params.append('until', until);
+    if (since) params.append("since", since);
+    if (until) params.append("until", until);
 
     const response = await fetch(`${this.baseUrl}/${pageId}/insights?${params}`);
-    if (!response.ok) throw new Error('Erreur récupération insights Facebook');
+    if (!response.ok) throw new Error("Erreur récupération insights Facebook");
     return response.json();
   }
 
@@ -97,9 +99,9 @@ export class FacebookAPI {
    */
   async getPostComments(postId: string): Promise<any[]> {
     const response = await fetch(
-      `${this.baseUrl}/${postId}/comments?fields=id,message,from,created_time,like_count&access_token=${this.accessToken}`
+      `${this.baseUrl}/${postId}/comments?fields=id,message,from,created_time,like_count&access_token=${this.accessToken}`,
     );
-    if (!response.ok) throw new Error('Erreur récupération commentaires Facebook');
+    if (!response.ok) throw new Error("Erreur récupération commentaires Facebook");
     const data = await response.json();
     return data.data || [];
   }
@@ -107,7 +109,7 @@ export class FacebookAPI {
 
 export class InstagramAPI {
   private accessToken: string;
-  private baseUrl = 'https://graph.instagram.com/v19.0';
+  private baseUrl = "https://graph.instagram.com/v19.0";
   private businessAccountId: string;
 
   constructor(accessToken: string, businessAccountId: string) {
@@ -120,9 +122,9 @@ export class InstagramAPI {
    */
   async getUserProfile(): Promise<any> {
     const response = await fetch(
-      `${this.baseUrl}/me?fields=id,username,name,biography,website,profile_picture_url,followers_count&access_token=${this.accessToken}`
+      `${this.baseUrl}/me?fields=id,username,name,biography,website,profile_picture_url,followers_count&access_token=${this.accessToken}`,
     );
-    if (!response.ok) throw new Error('Erreur récupération profil Instagram');
+    if (!response.ok) throw new Error("Erreur récupération profil Instagram");
     return response.json();
   }
 
@@ -131,9 +133,9 @@ export class InstagramAPI {
    */
   async getMedia(): Promise<any[]> {
     const response = await fetch(
-      `${this.baseUrl}/${this.businessAccountId}/media?fields=id,caption,media_type,media_url,timestamp,permalink,like_count,comments_count&access_token=${this.accessToken}`
+      `${this.baseUrl}/${this.businessAccountId}/media?fields=id,caption,media_type,media_url,timestamp,permalink,like_count,comments_count&access_token=${this.accessToken}`,
     );
-    if (!response.ok) throw new Error('Erreur récupération médias Instagram');
+    if (!response.ok) throw new Error("Erreur récupération médias Instagram");
     const data = await response.json();
     return data.data || [];
   }
@@ -141,7 +143,7 @@ export class InstagramAPI {
   /**
    * Crée un post Instagram (nécessite approbation préalable)
    */
-  async createPost(caption: string, mediaUrl: string, mediaType: 'IMAGE' | 'VIDEO'): Promise<any> {
+  async createPost(caption: string, mediaUrl: string, mediaType: "IMAGE" | "VIDEO"): Promise<any> {
     // Créer un container d'abord
     const containerResponse = await fetch(
       `${this.baseUrl}/${this.businessAccountId}/media?` +
@@ -149,10 +151,10 @@ export class InstagramAPI {
         `media_type=${mediaType}&` +
         `caption=${encodeURIComponent(caption)}&` +
         `access_token=${this.accessToken}`,
-      { method: 'POST' }
+      { method: "POST" },
     );
 
-    if (!containerResponse.ok) throw new Error('Erreur création container Instagram');
+    if (!containerResponse.ok) throw new Error("Erreur création container Instagram");
     const container = await containerResponse.json();
 
     // Publier le container
@@ -160,10 +162,10 @@ export class InstagramAPI {
       `${this.baseUrl}/${this.businessAccountId}/media_publish?` +
         `creation_id=${container.id}&` +
         `access_token=${this.accessToken}`,
-      { method: 'POST' }
+      { method: "POST" },
     );
 
-    if (!publishResponse.ok) throw new Error('Erreur publication Instagram');
+    if (!publishResponse.ok) throw new Error("Erreur publication Instagram");
     return publishResponse.json();
   }
 
@@ -171,10 +173,9 @@ export class InstagramAPI {
    * Supprime un post
    */
   async deletePost(mediaId: string): Promise<boolean> {
-    const response = await fetch(
-      `${this.baseUrl}/${mediaId}?access_token=${this.accessToken}`,
-      { method: 'DELETE' }
-    );
+    const response = await fetch(`${this.baseUrl}/${mediaId}?access_token=${this.accessToken}`, {
+      method: "DELETE",
+    });
     return response.ok;
   }
 
@@ -183,9 +184,9 @@ export class InstagramAPI {
    */
   async getMediaInsights(mediaId: string): Promise<any> {
     const response = await fetch(
-      `${this.baseUrl}/${mediaId}/insights?fields=engagement,impressions,reach,saved,video_views&access_token=${this.accessToken}`
+      `${this.baseUrl}/${mediaId}/insights?fields=engagement,impressions,reach,saved,video_views&access_token=${this.accessToken}`,
     );
-    if (!response.ok) throw new Error('Erreur récupération insights Instagram');
+    if (!response.ok) throw new Error("Erreur récupération insights Instagram");
     return response.json();
   }
 
@@ -194,9 +195,9 @@ export class InstagramAPI {
    */
   async getMediaComments(mediaId: string): Promise<any[]> {
     const response = await fetch(
-      `${this.baseUrl}/${mediaId}/comments?fields=id,text,from,timestamp,like_count&access_token=${this.accessToken}`
+      `${this.baseUrl}/${mediaId}/comments?fields=id,text,from,timestamp,like_count&access_token=${this.accessToken}`,
     );
-    if (!response.ok) throw new Error('Erreur récupération commentaires Instagram');
+    if (!response.ok) throw new Error("Erreur récupération commentaires Instagram");
     const data = await response.json();
     return data.data || [];
   }
@@ -206,16 +207,16 @@ export class InstagramAPI {
    */
   async getAccountInsights(): Promise<any> {
     const response = await fetch(
-      `${this.baseUrl}/${this.businessAccountId}/insights?fields=impressions,reach,profile_views,follower_count&access_token=${this.accessToken}`
+      `${this.baseUrl}/${this.businessAccountId}/insights?fields=impressions,reach,profile_views,follower_count&access_token=${this.accessToken}`,
     );
-    if (!response.ok) throw new Error('Erreur récupération insights compte Instagram');
+    if (!response.ok) throw new Error("Erreur récupération insights compte Instagram");
     return response.json();
   }
 }
 
 export class TikTokAPI {
   private accessToken: string;
-  private baseUrl = 'https://open.tiktokapis.com/v1';
+  private baseUrl = "https://open.tiktokapis.com/v1";
 
   constructor(accessToken: string) {
     this.accessToken = accessToken;
@@ -230,7 +231,7 @@ export class TikTokAPI {
         Authorization: `Bearer ${this.accessToken}`,
       },
     });
-    if (!response.ok) throw new Error('Erreur récupération utilisateur TikTok');
+    if (!response.ok) throw new Error("Erreur récupération utilisateur TikTok");
     return response.json();
   }
 
@@ -243,7 +244,7 @@ export class TikTokAPI {
         Authorization: `Bearer ${this.accessToken}`,
       },
     });
-    if (!response.ok) throw new Error('Erreur récupération vidéos TikTok');
+    if (!response.ok) throw new Error("Erreur récupération vidéos TikTok");
     const data = await response.json();
     return data.data?.videos || [];
   }
@@ -253,19 +254,19 @@ export class TikTokAPI {
    */
   async uploadVideo(file: File, title: string, description: string): Promise<any> {
     const formData = new FormData();
-    formData.append('video', file);
-    formData.append('title', title);
-    formData.append('description', description);
+    formData.append("video", file);
+    formData.append("title", title);
+    formData.append("description", description);
 
     const response = await fetch(`${this.baseUrl}/video/upload/`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
       },
       body: formData,
     });
 
-    if (!response.ok) throw new Error('Erreur upload vidéo TikTok');
+    if (!response.ok) throw new Error("Erreur upload vidéo TikTok");
     return response.json();
   }
 
@@ -274,10 +275,10 @@ export class TikTokAPI {
    */
   async deleteVideo(videoId: string): Promise<boolean> {
     const response = await fetch(`${this.baseUrl}/video/delete/`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ video_id: videoId }),
     });
@@ -294,9 +295,9 @@ export class TikTokAPI {
         headers: {
           Authorization: `Bearer ${this.accessToken}`,
         },
-      }
+      },
     );
-    if (!response.ok) throw new Error('Erreur récupération analytics TikTok');
+    if (!response.ok) throw new Error("Erreur récupération analytics TikTok");
     return response.json();
   }
 
@@ -304,15 +305,12 @@ export class TikTokAPI {
    * Récupère les commentaires d'une vidéo
    */
   async getVideoComments(videoId: string): Promise<any[]> {
-    const response = await fetch(
-      `${this.baseUrl}/video/comments/?video_id=${videoId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${this.accessToken}`,
-        },
-      }
-    );
-    if (!response.ok) throw new Error('Erreur récupération commentaires TikTok');
+    const response = await fetch(`${this.baseUrl}/video/comments/?video_id=${videoId}`, {
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+      },
+    });
+    if (!response.ok) throw new Error("Erreur récupération commentaires TikTok");
     const data = await response.json();
     return data.data?.comments || [];
   }

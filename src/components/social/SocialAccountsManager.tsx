@@ -1,11 +1,11 @@
 // Composant pour connecter/afficher les comptes sociaux
-import { useState } from 'react';
-import { useSocialAccounts } from '@/hooks/use-social-accounts';
-import { OAuthService } from '@/lib/social/oauth';
-import { SocialAccountsService } from '@/lib/social/database';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { useState } from "react";
+import { useSocialAccounts } from "@/hooks/use-social-accounts";
+import { OAuthService } from "@/lib/social/oauth";
+import { SocialAccountsService } from "@/lib/social/database";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,14 +14,14 @@ import {
   AlertDialogDescription,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Loader2 } from 'lucide-react';
+} from "@/components/ui/alert-dialog";
+import { Loader2 } from "lucide-react";
 
 export function SocialAccountsManager() {
   const { accounts, isLoading, isDeleting, deleteAccount } = useSocialAccounts();
   const [connectingPlatform, setConnectingPlatform] = useState<string | null>(null);
 
-  const handleConnect = async (platform: 'facebook' | 'instagram' | 'tiktok') => {
+  const handleConnect = async (platform: "facebook" | "instagram" | "tiktok") => {
     try {
       setConnectingPlatform(platform);
       const authUrl = OAuthService.getAuthUrl(platform);
@@ -36,20 +36,20 @@ export function SocialAccountsManager() {
     try {
       await deleteAccount(accountId);
     } catch (error) {
-      console.error('Erreur déconnexion:', error);
+      console.error("Erreur déconnexion:", error);
     }
   };
 
   const platformColors = {
-    facebook: 'bg-blue-600',
-    instagram: 'bg-gradient-to-r from-purple-600 to-pink-600',
-    tiktok: 'bg-black',
+    facebook: "bg-blue-600",
+    instagram: "bg-gradient-to-r from-purple-600 to-pink-600",
+    tiktok: "bg-black",
   };
 
   const platformLabels = {
-    facebook: 'Facebook',
-    instagram: 'Instagram',
-    tiktok: 'TikTok',
+    facebook: "Facebook",
+    instagram: "Instagram",
+    tiktok: "TikTok",
   };
 
   return (
@@ -68,7 +68,7 @@ export function SocialAccountsManager() {
             <p className="text-sm text-muted-foreground">Aucun compte connecté</p>
           ) : (
             <div className="space-y-3">
-              {accounts.map(account => (
+              {accounts.map((account) => (
                 <div
                   key={account.id}
                   className="flex items-center justify-between rounded-lg border bg-card p-4"
@@ -101,14 +101,18 @@ export function SocialAccountsManager() {
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="ghost" size="sm" disabled={isDeleting}>
-                          {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Déconnecter'}
+                          {isDeleting ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            "Déconnecter"
+                          )}
                         </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogTitle>Déconnecter le compte</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Êtes-vous sûr de vouloir déconnecter {account.account_name}? Cette action ne peut pas être
-                          annulée.
+                          Êtes-vous sûr de vouloir déconnecter {account.account_name}? Cette action
+                          ne peut pas être annulée.
                         </AlertDialogDescription>
                         <div className="flex justify-end gap-2">
                           <AlertDialogCancel>Annuler</AlertDialogCancel>
@@ -134,29 +138,33 @@ export function SocialAccountsManager() {
         <CardContent>
           <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
             <Button
-              onClick={() => handleConnect('facebook')}
-              disabled={connectingPlatform === 'facebook'}
+              onClick={() => handleConnect("facebook")}
+              disabled={connectingPlatform === "facebook"}
               className="bg-blue-600 hover:bg-blue-700"
             >
-              {connectingPlatform === 'facebook' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {connectingPlatform === "facebook" && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Connecter Facebook
             </Button>
 
             <Button
-              onClick={() => handleConnect('instagram')}
-              disabled={connectingPlatform === 'instagram'}
+              onClick={() => handleConnect("instagram")}
+              disabled={connectingPlatform === "instagram"}
               className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
             >
-              {connectingPlatform === 'instagram' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {connectingPlatform === "instagram" && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
               Connecter Instagram
             </Button>
 
             <Button
-              onClick={() => handleConnect('tiktok')}
-              disabled={connectingPlatform === 'tiktok'}
+              onClick={() => handleConnect("tiktok")}
+              disabled={connectingPlatform === "tiktok"}
               className="bg-black hover:bg-gray-900"
             >
-              {connectingPlatform === 'tiktok' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {connectingPlatform === "tiktok" && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Connecter TikTok
             </Button>
           </div>

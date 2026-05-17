@@ -9,7 +9,12 @@ type AuthCtx = {
   signOut: () => Promise<void>;
 };
 
-const Ctx = createContext<AuthCtx>({ user: null, session: null, loading: true, signOut: async () => {} });
+const Ctx = createContext<AuthCtx>({
+  user: null,
+  session: null,
+  loading: true,
+  signOut: async () => {},
+});
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
@@ -17,7 +22,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
-    
+
     const initAuth = async () => {
       try {
         const { data } = await supabase.auth.getSession();
@@ -36,7 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     initAuth();
-    
+
     return () => {
       mounted = false;
       sub.subscription.unsubscribe();
