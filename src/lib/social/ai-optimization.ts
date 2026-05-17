@@ -1,14 +1,14 @@
 // Moteur IA d'optimisation SEO social
 // Analyse et génère des recommandations pour optimiser les publications
 
-import { generateText } from 'ai';
-import { openai } from '@ai-sdk/openai-compatible';
-import { AIOptimizationRecommendations } from './types';
-import { supabase } from '@/integrations/supabase';
+import { generateText } from "ai";
+import { openai } from "@ai-sdk/openai-compatible";
+import type { AIOptimizationRecommendations } from "./types";
+import { supabase } from "@/integrations/supabase";
 
 export class AIOptimizationService {
-  private static model = openai('gpt-3.5-turbo', {
-    baseURL: import.meta.env.VITE_AI_API_URL || 'https://api.openai.com/v1'
+  private static model = openai("gpt-3.5-turbo", {
+    baseURL: import.meta.env.VITE_AI_API_URL || "https://api.openai.com/v1",
   });
 
   /**
@@ -17,8 +17,8 @@ export class AIOptimizationService {
   static async analyzePost(
     caption: string,
     hashtags: string[],
-    platform: 'facebook' | 'instagram' | 'tiktok',
-    analytics?: any
+    platform: "facebook" | "instagram" | "tiktok",
+    analytics?: any,
   ): Promise<AIOptimizationRecommendations> {
     try {
       const prompt = this.buildAnalysisPrompt(caption, hashtags, platform, analytics);
@@ -32,7 +32,7 @@ export class AIOptimizationService {
 
       return this.parseAIResponse(text);
     } catch (error) {
-      console.error('Error analyzing post:', error);
+      console.error("Error analyzing post:", error);
       return this.getDefaultRecommendations();
     }
   }
@@ -42,7 +42,7 @@ export class AIOptimizationService {
    */
   static async generateSEODescription(
     caption: string,
-    platform: 'facebook' | 'instagram' | 'tiktok'
+    platform: "facebook" | "instagram" | "tiktok",
   ): Promise<string> {
     try {
       const prompt = `You are an expert social media SEO specialist. Optimize the following ${platform} caption for search visibility and engagement. Keep it concise but impactful. Return only the optimized text.
@@ -58,7 +58,7 @@ Original caption: "${caption}"`;
 
       return text;
     } catch (error) {
-      console.error('Error generating SEO description:', error);
+      console.error("Error generating SEO description:", error);
       return caption;
     }
   }
@@ -68,8 +68,8 @@ Original caption: "${caption}"`;
    */
   static async generateHashtags(
     caption: string,
-    platform: 'facebook' | 'instagram' | 'tiktok',
-    count: number = 10
+    platform: "facebook" | "instagram" | "tiktok",
+    count: number = 10,
   ): Promise<string[]> {
     try {
       const platformLimits = {
@@ -99,11 +99,11 @@ Return only the hashtags, one per line, starting with #`;
       });
 
       return text
-        .split('\n')
-        .filter(tag => tag.startsWith('#'))
+        .split("\n")
+        .filter((tag) => tag.startsWith("#"))
         .slice(0, actualCount);
     } catch (error) {
-      console.error('Error generating hashtags:', error);
+      console.error("Error generating hashtags:", error);
       return [];
     }
   }
@@ -111,7 +111,10 @@ Return only the hashtags, one per line, starting with #`;
   /**
    * Génère un titre viral optimisé
    */
-  static async generateViralTitle(caption: string, platform: 'facebook' | 'instagram' | 'tiktok'): Promise<string> {
+  static async generateViralTitle(
+    caption: string,
+    platform: "facebook" | "instagram" | "tiktok",
+  ): Promise<string> {
     try {
       const prompt = `Create a viral, engaging title for a ${platform} post that:
 - Grabs attention immediately
@@ -131,7 +134,7 @@ Return only the title, nothing else.`;
 
       return text.trim();
     } catch (error) {
-      console.error('Error generating viral title:', error);
+      console.error("Error generating viral title:", error);
       return caption.substring(0, 100);
     }
   }
@@ -139,8 +142,11 @@ Return only the title, nothing else.`;
   /**
    * Analyse le sentiment et suggestion de CTA
    */
-  static async analyzeSentimentAndCTA(caption: string, platform: 'facebook' | 'instagram' | 'tiktok'): Promise<{
-    sentiment: 'positive' | 'negative' | 'neutral' | 'mixed';
+  static async analyzeSentimentAndCTA(
+    caption: string,
+    platform: "facebook" | "instagram" | "tiktok",
+  ): Promise<{
+    sentiment: "positive" | "negative" | "neutral" | "mixed";
     suggestedCTAs: string[];
   }> {
     try {
@@ -165,15 +171,15 @@ Respond in JSON format:
         return JSON.parse(text);
       } catch {
         return {
-          sentiment: 'neutral',
-          suggestedCTAs: ['Like & Share', 'Comment Your Thoughts', 'Follow for More'],
+          sentiment: "neutral",
+          suggestedCTAs: ["Like & Share", "Comment Your Thoughts", "Follow for More"],
         };
       }
     } catch (error) {
-      console.error('Error analyzing sentiment:', error);
+      console.error("Error analyzing sentiment:", error);
       return {
-        sentiment: 'neutral',
-        suggestedCTAs: ['Like & Share', 'Comment Your Thoughts', 'Follow for More'],
+        sentiment: "neutral",
+        suggestedCTAs: ["Like & Share", "Comment Your Thoughts", "Follow for More"],
       };
     }
   }
@@ -181,12 +187,14 @@ Respond in JSON format:
   /**
    * Détecte l'heure optimale de publication
    */
-  static async getOptimalPostingTime(platform: 'facebook' | 'instagram' | 'tiktok'): Promise<string[]> {
+  static async getOptimalPostingTime(
+    platform: "facebook" | "instagram" | "tiktok",
+  ): Promise<string[]> {
     // Statistiques générales par plateforme (à personnaliser selon la niche)
     const optimalTimes = {
-      instagram: ['09:00', '12:00', '18:00', '20:00', '21:00'],
-      tiktok: ['06:00', '10:00', '14:00', '19:00', '22:00'],
-      facebook: ['11:00', '13:00', '17:00', '19:00', '20:00'],
+      instagram: ["09:00", "12:00", "18:00", "20:00", "21:00"],
+      tiktok: ["06:00", "10:00", "14:00", "19:00", "22:00"],
+      facebook: ["11:00", "13:00", "17:00", "19:00", "20:00"],
     };
 
     return optimalTimes[platform] || [];
@@ -198,7 +206,7 @@ Respond in JSON format:
   static async predictViralPotential(
     caption: string,
     hashtags: string[],
-    platform: 'facebook' | 'instagram' | 'tiktok'
+    platform: "facebook" | "instagram" | "tiktok",
   ): Promise<number> {
     try {
       const prompt = `Rate the viral potential of this ${platform} post on a scale of 1-100, considering:
@@ -209,7 +217,7 @@ Respond in JSON format:
 - Length and readability
 
 Post: "${caption}"
-Hashtags: ${hashtags.join(', ')}
+Hashtags: ${hashtags.join(", ")}
 
 Respond with only a number between 1-100.`;
 
@@ -223,7 +231,7 @@ Respond with only a number between 1-100.`;
       const score = parseInt(text.trim());
       return isNaN(score) ? 50 : Math.max(1, Math.min(100, score));
     } catch (error) {
-      console.error('Error predicting viral potential:', error);
+      console.error("Error predicting viral potential:", error);
       return 50; // Default middle score
     }
   }
@@ -235,13 +243,13 @@ Respond with only a number between 1-100.`;
     caption: string,
     hashtags: string[],
     platform: string,
-    analytics?: any
+    analytics?: any,
   ): string {
     return `You are an expert social media strategist. Analyze this ${platform} post and provide detailed optimization recommendations.
 
 Post Caption: "${caption}"
-Hashtags: ${hashtags.join(', ')}
-${analytics ? `Current Analytics: Views: ${analytics.views}, Likes: ${analytics.likes}, Comments: ${analytics.comments}` : ''}
+Hashtags: ${hashtags.join(", ")}
+${analytics ? `Current Analytics: Views: ${analytics.views}, Likes: ${analytics.likes}, Comments: ${analytics.comments}` : ""}
 
 Provide recommendations in this exact JSON format:
 {
@@ -290,7 +298,7 @@ Provide recommendations in this exact JSON format:
         estimated_reach: parsed.estimated_reach || 5000,
       };
     } catch (error) {
-      console.error('Error parsing AI response:', error);
+      console.error("Error parsing AI response:", error);
       return this.getDefaultRecommendations();
     }
   }
@@ -301,15 +309,15 @@ Provide recommendations in this exact JSON format:
   private static getDefaultRecommendations(): AIOptimizationRecommendations {
     return {
       hooks_score: 50,
-      hooks_suggestions: ['Start with a powerful hook', 'Ask an engaging question'],
+      hooks_suggestions: ["Start with a powerful hook", "Ask an engaging question"],
       hashtags_score: 50,
-      hashtags_suggestions: ['#socialmedia', '#marketing', '#engagement'],
+      hashtags_suggestions: ["#socialmedia", "#marketing", "#engagement"],
       posting_time_score: 50,
-      optimal_posting_times: ['09:00', '12:00', '18:00', '20:00'],
+      optimal_posting_times: ["09:00", "12:00", "18:00", "20:00"],
       seo_score: 50,
-      seo_suggestions: ['Use relevant keywords', 'Optimize for search'],
+      seo_suggestions: ["Use relevant keywords", "Optimize for search"],
       cta_score: 50,
-      cta_suggestions: ['Like and Share', 'Follow for More', 'Comment Your Thoughts'],
+      cta_suggestions: ["Like and Share", "Follow for More", "Comment Your Thoughts"],
       overall_viral_score: 50,
       audience_engagement_prediction: 50,
       estimated_reach: 5000,
@@ -321,11 +329,11 @@ Provide recommendations in this exact JSON format:
    */
   static async cacheRecommendations(
     postId: string,
-    recommendations: AIOptimizationRecommendations
+    recommendations: AIOptimizationRecommendations,
   ): Promise<void> {
-    const { error } = await supabase.from('ai_optimization_cache').insert({
+    const { error } = await supabase.from("ai_optimization_cache").insert({
       post_id: postId,
-      optimization_type: 'full_analysis',
+      optimization_type: "full_analysis",
       scores: {
         hooks: recommendations.hooks_score,
         hashtags: recommendations.hashtags_score,
@@ -338,7 +346,7 @@ Provide recommendations in this exact JSON format:
     });
 
     if (error) {
-      console.error('Error caching recommendations:', error);
+      console.error("Error caching recommendations:", error);
     }
   }
 }

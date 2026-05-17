@@ -1,12 +1,31 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LayoutDashboard, Flame, Sparkles, Users, FileText, LogOut,
-  Share2, Calendar, BarChart3, Globe, Settings, Zap, ChevronRight
+  LayoutDashboard,
+  Flame,
+  Sparkles,
+  Users,
+  FileText,
+  LogOut,
+  Share2,
+  Calendar,
+  BarChart3,
+  Globe,
+  Settings,
+  Zap,
+  ChevronRight,
 } from "lucide-react";
 import {
-  Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent,
-  SidebarGroupLabel, SidebarHeader, SidebarFooter, SidebarMenu,
-  SidebarMenuButton, SidebarMenuItem, useSidebar,
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarFooter,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
@@ -39,8 +58,7 @@ export function AppSidebar() {
   const path = useRouterState({ select: (r) => r.location.pathname });
   const { signOut, user } = useAuth();
 
-  const isActive = (url: string) =>
-    url === "/app" ? path === "/app" : path.startsWith(url);
+  const isActive = (url: string) => (url === "/app" ? path === "/app" : path.startsWith(url));
 
   const initials = user?.email?.slice(0, 2).toUpperCase() ?? "AC";
 
@@ -57,7 +75,9 @@ export function AppSidebar() {
           {!collapsed && (
             <div className="leading-tight min-w-0">
               <div className="text-sm font-bold tracking-tight">Achakourou</div>
-              <div className="text-[10px] text-muted-foreground uppercase tracking-widest">Social AI</div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-widest">
+                Social AI
+              </div>
             </div>
           )}
         </Link>
@@ -95,7 +115,13 @@ export function AppSidebar() {
                         <span className="flex-1 flex items-center justify-between">
                           {item.title}
                           {item.badge && (
-                            <Badge className="text-[9px] px-1.5 py-0 h-4 ml-1" style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }}>
+                            <Badge
+                              className="text-[9px] px-1.5 py-0 h-4 ml-1"
+                              style={{
+                                background: "var(--gradient-brand)",
+                                color: "var(--primary-foreground)",
+                              }}
+                            >
                               {item.badge}
                             </Badge>
                           )}
@@ -132,7 +158,10 @@ export function AppSidebar() {
         {!collapsed && user?.email && (
           <div className="flex items-center gap-2 px-2 py-2">
             <Avatar className="h-7 w-7 shrink-0">
-              <AvatarFallback className="text-[10px] font-bold" style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }}>
+              <AvatarFallback
+                className="text-[10px] font-bold"
+                style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }}
+              >
                 {initials}
               </AvatarFallback>
             </Avatar>
@@ -142,7 +171,12 @@ export function AppSidebar() {
             </div>
           </div>
         )}
-        <Button variant="ghost" size="sm" onClick={signOut} className="justify-start gap-2 text-muted-foreground hover:text-foreground">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={signOut}
+          className="justify-start gap-2 text-muted-foreground hover:text-foreground"
+        >
           <LogOut className="h-4 w-4" />
           {!collapsed && "Sign out"}
         </Button>

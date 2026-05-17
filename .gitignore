@@ -14,9 +14,13 @@ node_modules
 dist
 dist-ssr
 build/
+.cache
 .output
 .vinxi
 .nitro
+
+# Temporary files
+*.tmp
 
 # TanStack
 .tanstack/

@@ -3,6 +3,7 @@
 ## 🚀 Get Started in 5 Minutes
 
 ### Prerequisites
+
 - Node.js 20+
 - Supabase account (project created)
 - OAuth app credentials (Facebook, Instagram, TikTok)
@@ -93,6 +94,7 @@ http://localhost:5000/app/social
 ## 📝 First Steps - What to Test
 
 ### 1. Connect an Account
+
 ```
 1. Go to http://localhost:5000/app/social
 2. Click "Connecter Facebook" button
@@ -101,6 +103,7 @@ http://localhost:5000/app/social
 ```
 
 ### 2. Create a Post
+
 ```
 1. Select account from list
 2. Click "Nouvelle Publication"
@@ -109,6 +112,7 @@ http://localhost:5000/app/social
 ```
 
 ### 3. Check Synchronization
+
 ```bash
 # Trigger manual sync
 curl -X POST http://localhost:5000/functions/v1/sync-social-accounts \
@@ -120,6 +124,7 @@ curl -X POST http://localhost:5000/functions/v1/sync-social-accounts \
 ## 🔍 Key Directories
 
 ### Frontend
+
 ```
 src/
 ├── components/social/        # UI Components
@@ -134,6 +139,7 @@ src/
 ```
 
 ### Backend
+
 ```
 supabase/
 ├── migrations/              # SQL migrations
@@ -166,6 +172,7 @@ npm test            # Run tests (if configured)
 ## 🐛 Debugging
 
 ### Check Logs
+
 ```bash
 # Supabase logs
 supabase functions logs sync-social-accounts
@@ -180,15 +187,17 @@ DevTools -> Network tab (check API calls)
 ### Common Issues
 
 #### OAuth redirect not working
+
 ```
 Problem: "Redirect URL mismatch"
-Solution: 
+Solution:
 1. Check VITE_*_CALLBACK_URL in .env.local
 2. Update OAuth app settings with correct URL
 3. Ensure port 5000 is accessible
 ```
 
 #### Token expired
+
 ```
 Problem: "Token has expired"
 Solution: Automatic refresh is implemented
@@ -196,6 +205,7 @@ Check sync.ts for refresh logic
 ```
 
 #### RLS permission denied
+
 ```
 Problem: "new row violates row level security policy"
 Solution:
@@ -208,17 +218,17 @@ Solution:
 
 ## 📚 Important Files to Know
 
-| File | Purpose |
-|------|---------|
-| `src/lib/social/types.ts` | All TypeScript types |
-| `src/lib/social/oauth.ts` | OAuth 2.0 implementation |
-| `src/lib/social/platforms.ts` | API client wrappers |
-| `src/lib/social/database.ts` | Supabase queries |
-| `src/lib/social/sync.ts` | Data synchronization |
-| `src/lib/social/ai-optimization.ts` | AI recommendations |
-| `supabase/migrations/*.sql` | Database schema |
-| `IMPLEMENTATION_GUIDE.md` | Full documentation |
-| `ROADMAP.md` | Project roadmap |
+| File                                | Purpose                  |
+| ----------------------------------- | ------------------------ |
+| `src/lib/social/types.ts`           | All TypeScript types     |
+| `src/lib/social/oauth.ts`           | OAuth 2.0 implementation |
+| `src/lib/social/platforms.ts`       | API client wrappers      |
+| `src/lib/social/database.ts`        | Supabase queries         |
+| `src/lib/social/sync.ts`            | Data synchronization     |
+| `src/lib/social/ai-optimization.ts` | AI recommendations       |
+| `supabase/migrations/*.sql`         | Database schema          |
+| `IMPLEMENTATION_GUIDE.md`           | Full documentation       |
+| `ROADMAP.md`                        | Project roadmap          |
 
 ---
 
@@ -327,6 +337,7 @@ Complete
 ## 🎉 You're Ready!
 
 Now you have:
+
 - ✅ Running development server
 - ✅ Connected database
 - ✅ OAuth configured
@@ -339,4 +350,4 @@ Now you have:
 
 **Happy Coding! 🚀**
 
-*Last Updated: May 16, 2026*
+_Last Updated: May 16, 2026_

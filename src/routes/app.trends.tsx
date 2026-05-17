@@ -15,15 +15,87 @@ export const Route = createFileRoute("/app/trends")({
 });
 
 const MOCK_TRENDS = [
-  { id: "1", hashtag: "#SénégalViral", topic: "Buzz culturel Sénégal", category: "Culture", growth: 124.5, viral_score: 97, platform: "tiktok" },
-  { id: "2", hashtag: "#DakarBusiness", topic: "Entrepreneuriat Dakar", category: "Business", growth: 88.2, viral_score: 91, platform: "tiktok" },
-  { id: "3", hashtag: "#MusiqueAfrique", topic: "Afrobeats & Mbalax", category: "Musique", growth: 76.4, viral_score: 89, platform: "instagram" },
-  { id: "4", hashtag: "#CuisineAfricaine", topic: "Recettes traditionnelles", category: "Food", growth: 63.1, viral_score: 84, platform: "tiktok" },
-  { id: "5", hashtag: "#ModeSénégal", topic: "Fashion week Dakar", category: "Mode", growth: 55.8, viral_score: 82, platform: "instagram" },
-  { id: "6", hashtag: "#TechAfrique", topic: "Startups africaines", category: "Tech", growth: 48.3, viral_score: 79, platform: "tiktok" },
-  { id: "7", hashtag: "#SportSN", topic: "Football & sport sénégalais", category: "Sport", growth: 42.7, viral_score: 76, platform: "facebook" },
-  { id: "8", hashtag: "#HumourDakar", topic: "Sketchs et humour local", category: "Humour", growth: 38.9, viral_score: 74, platform: "tiktok" },
-  { id: "9", hashtag: "#EducationAfrique", topic: "Conseils études & carrière", category: "Éducation", growth: 31.2, viral_score: 71, platform: "facebook" },
+  {
+    id: "1",
+    hashtag: "#SénégalViral",
+    topic: "Buzz culturel Sénégal",
+    category: "Culture",
+    growth: 124.5,
+    viral_score: 97,
+    platform: "tiktok",
+  },
+  {
+    id: "2",
+    hashtag: "#DakarBusiness",
+    topic: "Entrepreneuriat Dakar",
+    category: "Business",
+    growth: 88.2,
+    viral_score: 91,
+    platform: "tiktok",
+  },
+  {
+    id: "3",
+    hashtag: "#MusiqueAfrique",
+    topic: "Afrobeats & Mbalax",
+    category: "Musique",
+    growth: 76.4,
+    viral_score: 89,
+    platform: "instagram",
+  },
+  {
+    id: "4",
+    hashtag: "#CuisineAfricaine",
+    topic: "Recettes traditionnelles",
+    category: "Food",
+    growth: 63.1,
+    viral_score: 84,
+    platform: "tiktok",
+  },
+  {
+    id: "5",
+    hashtag: "#ModeSénégal",
+    topic: "Fashion week Dakar",
+    category: "Mode",
+    growth: 55.8,
+    viral_score: 82,
+    platform: "instagram",
+  },
+  {
+    id: "6",
+    hashtag: "#TechAfrique",
+    topic: "Startups africaines",
+    category: "Tech",
+    growth: 48.3,
+    viral_score: 79,
+    platform: "tiktok",
+  },
+  {
+    id: "7",
+    hashtag: "#SportSN",
+    topic: "Football & sport sénégalais",
+    category: "Sport",
+    growth: 42.7,
+    viral_score: 76,
+    platform: "facebook",
+  },
+  {
+    id: "8",
+    hashtag: "#HumourDakar",
+    topic: "Sketchs et humour local",
+    category: "Humour",
+    growth: 38.9,
+    viral_score: 74,
+    platform: "tiktok",
+  },
+  {
+    id: "9",
+    hashtag: "#EducationAfrique",
+    topic: "Conseils études & carrière",
+    category: "Éducation",
+    growth: 31.2,
+    viral_score: 71,
+    platform: "facebook",
+  },
 ];
 
 const PLATFORM_COLORS: Record<string, string> = {
@@ -50,7 +122,10 @@ function TrendsPage() {
   const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["trends"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("trends").select("*").order("viral_score", { ascending: false });
+      const { data, error } = await supabase
+        .from("trends")
+        .select("*")
+        .order("viral_score", { ascending: false });
       if (error || !data?.length) return MOCK_TRENDS;
       return data;
     },
@@ -58,7 +133,10 @@ function TrendsPage() {
 
   const trends = data ?? MOCK_TRENDS;
   const filtered = trends.filter((t: any) => {
-    const matchSearch = search === "" || t.hashtag.toLowerCase().includes(search.toLowerCase()) || t.topic?.toLowerCase().includes(search.toLowerCase());
+    const matchSearch =
+      search === "" ||
+      t.hashtag.toLowerCase().includes(search.toLowerCase()) ||
+      t.topic?.toLowerCase().includes(search.toLowerCase());
     const matchPlatform = filterPlatform === "all" || t.platform === filterPlatform;
     return matchSearch && matchPlatform;
   });
@@ -73,9 +151,17 @@ function TrendsPage() {
       <div className="flex items-end justify-between flex-wrap gap-2">
         <div>
           <h1 className="text-3xl font-black tracking-tight">Trends Engine</h1>
-          <p className="text-sm text-muted-foreground mt-1">Hashtags viraux scorés en temps réel — Afrique de l'Ouest.</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            Hashtags viraux scorés en temps réel — Afrique de l'Ouest.
+          </p>
         </div>
-        <Button variant="outline" size="sm" onClick={() => refetch()} className="gap-2" disabled={isFetching}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => refetch()}
+          className="gap-2"
+          disabled={isFetching}
+        >
           <RefreshCw className={`h-3.5 w-3.5 ${isFetching ? "animate-spin" : ""}`} /> Actualiser
         </Button>
       </div>
@@ -100,9 +186,17 @@ function TrendsPage() {
                   ? "border-transparent text-white font-semibold"
                   : "border-border text-muted-foreground hover:border-primary/40"
               }`}
-              style={filterPlatform === p && p !== "all" ? { background: PLATFORM_COLORS[p] } : filterPlatform === p ? { background: "var(--gradient-brand)" } : {}}
+              style={
+                filterPlatform === p && p !== "all"
+                  ? { background: PLATFORM_COLORS[p] }
+                  : filterPlatform === p
+                    ? { background: "var(--gradient-brand)" }
+                    : {}
+              }
             >
-              {p === "all" ? "Tous" : `${PLATFORM_EMOJI[p]} ${p.charAt(0).toUpperCase() + p.slice(1)}`}
+              {p === "all"
+                ? "Tous"
+                : `${PLATFORM_EMOJI[p]} ${p.charAt(0).toUpperCase() + p.slice(1)}`}
             </button>
           ))}
         </div>
@@ -119,10 +213,16 @@ function TrendsPage() {
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-4"
           initial="hidden"
           animate="show"
-          variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.05 } } }}
+          variants={{
+            hidden: { opacity: 0 },
+            show: { opacity: 1, transition: { staggerChildren: 0.05 } },
+          }}
         >
           {filtered.map((t: any) => (
-            <motion.div key={t.id} variants={{ hidden: { opacity: 0, scale: 0.96 }, show: { opacity: 1, scale: 1 } }}>
+            <motion.div
+              key={t.id}
+              variants={{ hidden: { opacity: 0, scale: 0.96 }, show: { opacity: 1, scale: 1 } }}
+            >
               <Card className="p-5 bg-card border-border hover:border-primary/40 transition-all h-full flex flex-col group">
                 <div className="flex items-start justify-between mb-2">
                   <div>
@@ -135,13 +235,24 @@ function TrendsPage() {
                   <Flame className={`h-5 w-5 shrink-0 ${scoreClass(t.viral_score)}`} />
                 </div>
                 <div className="text-sm text-foreground/80 mb-1">{t.topic}</div>
-                {t.description && <div className="text-xs text-muted-foreground mb-2 flex-1">{t.description}</div>}
+                {t.description && (
+                  <div className="text-xs text-muted-foreground mb-2 flex-1">{t.description}</div>
+                )}
                 <div className="mt-auto flex items-center justify-between pt-3 border-t border-border">
-                  <Badge variant="outline" className="text-[10px] border-secondary/50 text-secondary gap-1">
+                  <Badge
+                    variant="outline"
+                    className="text-[10px] border-secondary/50 text-secondary gap-1"
+                  >
                     <TrendingUp className="h-3 w-3" /> +{Number(t.growth).toFixed(1)}%
                   </Badge>
                   <div className="flex items-center gap-2">
-                    <Badge className="text-[10px]" style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }}>
+                    <Badge
+                      className="text-[10px]"
+                      style={{
+                        background: "var(--gradient-brand)",
+                        color: "var(--primary-foreground)",
+                      }}
+                    >
                       {t.viral_score}
                     </Badge>
                     <Button

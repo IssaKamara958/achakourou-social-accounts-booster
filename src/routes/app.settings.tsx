@@ -12,8 +12,16 @@ import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import {
-  Settings, User, Bell, Shield, Key, Globe, Zap,
-  CreditCard, LogOut, CheckCircle2
+  Settings,
+  User,
+  Bell,
+  Shield,
+  Key,
+  Globe,
+  Zap,
+  CreditCard,
+  LogOut,
+  CheckCircle2,
 } from "lucide-react";
 
 export const Route = createFileRoute("/app/settings")({
@@ -46,11 +54,16 @@ function SettingsPage() {
       className="space-y-6 max-w-3xl"
       initial="hidden"
       animate="show"
-      variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } }}
+      variants={{
+        hidden: { opacity: 0 },
+        show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+      }}
     >
       <motion.div variants={fadeUp}>
         <h1 className="text-3xl font-black tracking-tight">Paramètres</h1>
-        <p className="text-sm text-muted-foreground mt-1">Gérez votre profil, API et préférences.</p>
+        <p className="text-sm text-muted-foreground mt-1">
+          Gérez votre profil, API et préférences.
+        </p>
       </motion.div>
 
       <motion.div variants={fadeUp}>
@@ -60,14 +73,22 @@ function SettingsPage() {
           </div>
           <div className="flex items-center gap-4">
             <Avatar className="h-16 w-16">
-              <AvatarFallback className="text-lg font-black" style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }}>
+              <AvatarFallback
+                className="text-lg font-black"
+                style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }}
+              >
                 {initials}
               </AvatarFallback>
             </Avatar>
             <div>
               <div className="font-semibold">{fullName}</div>
               <div className="text-sm text-muted-foreground">{user?.email}</div>
-              <Badge variant="outline" className="text-[10px] mt-1 border-secondary/40 text-secondary">Plan gratuit</Badge>
+              <Badge
+                variant="outline"
+                className="text-[10px] mt-1 border-secondary/40 text-secondary"
+              >
+                Plan gratuit
+              </Badge>
             </div>
           </div>
           <Separator />
@@ -85,7 +106,11 @@ function SettingsPage() {
               <Input value={bio} onChange={(e) => setBio(e.target.value)} />
             </div>
           </div>
-          <Button onClick={save} style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }} className="font-semibold">
+          <Button
+            onClick={save}
+            style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }}
+            className="font-semibold"
+          >
             Sauvegarder le profil
           </Button>
         </Card>
@@ -97,7 +122,8 @@ function SettingsPage() {
             <Key className="h-4 w-4 text-primary" /> Clés API
           </div>
           <div className="p-3 rounded-lg bg-muted/50 text-xs text-muted-foreground">
-            Ces clés sont stockées localement et utilisées pour la génération IA et la connexion base de données.
+            Ces clés sont stockées localement et utilisées pour la génération IA et la connexion
+            base de données.
           </div>
           <div className="space-y-4">
             <div className="space-y-2">
@@ -108,7 +134,9 @@ function SettingsPage() {
                 onChange={(e) => setGeminiKey(e.target.value)}
                 placeholder="AIza…"
               />
-              <p className="text-[11px] text-muted-foreground">Utilisée pour la génération de scripts, hooks et SEO.</p>
+              <p className="text-[11px] text-muted-foreground">
+                Utilisée pour la génération de scripts, hooks et SEO.
+              </p>
             </div>
             <div className="space-y-2">
               <Label>Supabase URL</Label>
@@ -132,9 +160,24 @@ function SettingsPage() {
           </div>
           <div className="space-y-4">
             {[
-              { label: "Génération IA activée", desc: "Activer/désactiver la génération de scripts par IA", value: aiEnabled, onChange: setAiEnabled },
-              { label: "SEO automatique", desc: "Générer des pages SEO pour chaque contenu publié", value: seoEnabled, onChange: setSeoEnabled },
-              { label: "Publication automatique", desc: "Publier automatiquement selon le planning défini", value: autoPublish, onChange: setAutoPublish },
+              {
+                label: "Génération IA activée",
+                desc: "Activer/désactiver la génération de scripts par IA",
+                value: aiEnabled,
+                onChange: setAiEnabled,
+              },
+              {
+                label: "SEO automatique",
+                desc: "Générer des pages SEO pour chaque contenu publié",
+                value: seoEnabled,
+                onChange: setSeoEnabled,
+              },
+              {
+                label: "Publication automatique",
+                desc: "Publier automatiquement selon le planning défini",
+                value: autoPublish,
+                onChange: setAutoPublish,
+              },
             ].map((item) => (
               <div key={item.label} className="flex items-center justify-between">
                 <div>
@@ -156,7 +199,11 @@ function SettingsPage() {
           <div className="space-y-4">
             {[
               { label: "Nouveaux scripts générés", value: notifScripts, onChange: setNotifScripts },
-              { label: "Tendances virales détectées", value: notifTrends, onChange: setNotifTrends },
+              {
+                label: "Tendances virales détectées",
+                value: notifTrends,
+                onChange: setNotifTrends,
+              },
             ].map((item) => (
               <div key={item.label} className="flex items-center justify-between">
                 <div className="text-sm font-medium">{item.label}</div>
@@ -175,18 +222,34 @@ function SettingsPage() {
           <div className="flex items-center justify-between p-4 rounded-xl bg-muted/50">
             <div>
               <div className="font-bold">Plan Gratuit</div>
-              <div className="text-xs text-muted-foreground">10 générations IA · 1 réseau social · Analytics limités</div>
+              <div className="text-xs text-muted-foreground">
+                10 générations IA · 1 réseau social · Analytics limités
+              </div>
             </div>
-            <Button style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }} className="font-semibold">
+            <Button
+              style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }}
+              className="font-semibold"
+            >
               Upgrade →
             </Button>
           </div>
           <div className="grid md:grid-cols-2 gap-3">
             {[
-              { plan: "Creator", price: "9€/mois", features: ["IA illimitée", "3 réseaux", "SEO auto", "Scheduler"] },
-              { plan: "Agency", price: "29€/mois", features: ["Multi-clients", "Analytics avancés", "API accès", "Workers"] },
+              {
+                plan: "Creator",
+                price: "9€/mois",
+                features: ["IA illimitée", "3 réseaux", "SEO auto", "Scheduler"],
+              },
+              {
+                plan: "Agency",
+                price: "29€/mois",
+                features: ["Multi-clients", "Analytics avancés", "API accès", "Workers"],
+              },
             ].map((p) => (
-              <div key={p.plan} className="p-4 rounded-xl border border-border hover:border-primary/40 transition-all">
+              <div
+                key={p.plan}
+                className="p-4 rounded-xl border border-border hover:border-primary/40 transition-all"
+              >
                 <div className="flex items-center justify-between mb-2">
                   <div className="font-bold">{p.plan}</div>
                   <div className="text-sm font-semibold text-primary">{p.price}</div>
@@ -205,7 +268,11 @@ function SettingsPage() {
       </motion.div>
 
       <motion.div variants={fadeUp}>
-        <Button variant="ghost" onClick={signOut} className="gap-2 text-muted-foreground hover:text-destructive">
+        <Button
+          variant="ghost"
+          onClick={signOut}
+          className="gap-2 text-muted-foreground hover:text-destructive"
+        >
           <LogOut className="h-4 w-4" /> Se déconnecter
         </Button>
       </motion.div>

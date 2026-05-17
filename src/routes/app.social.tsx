@@ -14,11 +14,16 @@ function SocialPage() {
       className="space-y-6"
       initial="hidden"
       animate="show"
-      variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1 } } }}
+      variants={{
+        hidden: { opacity: 0 },
+        show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+      }}
     >
       <motion.div variants={fadeUp}>
         <h1 className="text-3xl font-black tracking-tight">Réseaux Sociaux</h1>
-        <p className="text-sm text-muted-foreground mt-1">Connectez et gérez vos comptes Facebook, Instagram et TikTok.</p>
+        <p className="text-sm text-muted-foreground mt-1">
+          Connectez et gérez vos comptes Facebook, Instagram et TikTok.
+        </p>
       </motion.div>
 
       <motion.div variants={fadeUp}>

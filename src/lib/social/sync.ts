@@ -1,10 +1,15 @@
 // Service de synchronisation multi-plateforme
 // Gère la récupération de données depuis les APIs sociales
 
-import { SocialAccountsService, SocialPostsService, SocialCommentsService, SocialAnalyticsService } from './database';
-import { FacebookAPI, InstagramAPI, TikTokAPI } from './platforms';
-import { SocialAccount, SocialPlatform } from './types';
-import { supabase } from '@/integrations/supabase';
+import {
+  SocialAccountsService,
+  SocialPostsService,
+  SocialCommentsService,
+  SocialAnalyticsService,
+} from "./database";
+import { FacebookAPI, InstagramAPI, TikTokAPI } from "./platforms";
+import { SocialAccount, SocialPlatform } from "./types";
+import { supabase } from "@/integrations/supabase";
 
 export class SocialSyncService {
   /**
@@ -12,7 +17,7 @@ export class SocialSyncService {
    */
   static async syncUserAccounts(userId: string): Promise<void> {
     const accounts = await SocialAccountsService.getUserAccounts(userId);
-    
+
     for (const account of accounts) {
       if (account.connected) {
         await this.syncAccount(account);
@@ -39,13 +44,13 @@ export class SocialSyncService {
 
       // Récupérer les données selon la plateforme
       switch (account.platform) {
-        case 'facebook':
+        case "facebook":
           await this.syncFacebookAccount(account);
           break;
-        case 'instagram':
+        case "instagram":
           await this.syncInstagramAccount(account);
           break;
-        case 'tiktok':
+        case "tiktok":
           await this.syncTikTokAccount(account);
           break;
       }
@@ -81,10 +86,10 @@ export class SocialSyncService {
   private static async syncFacebookPost(account: SocialAccount, post: any): Promise<void> {
     // Chercher si le post existe déjà
     const existingPost = await supabase
-      .from('social_posts')
-      .select('id')
-      .eq('account_id', account.id)
-      .eq('external_post_id', post.id)
+      .from("social_posts")
+      .select("id")
+      .eq("account_id", account.id)
+      .eq("external_post_id", post.id)
       .single();
 
     if (!existingPost.data) {
@@ -92,12 +97,12 @@ export class SocialSyncService {
       await SocialPostsService.createPost({
         account_id: account.id,
         external_post_id: post.id,
-        platform: 'facebook',
-        caption: post.message || post.story || '',
-        hashtags: this.extractHashtags(post.message || post.story || ''),
+        platform: "facebook",
+        caption: post.message || post.story || "",
+        hashtags: this.extractHashtags(post.message || post.story || ""),
         media_urls: [],
         media_types: [],
-        status: 'published',
+        status: "published",
         published_at: post.created_time,
         cross_posted: false,
         cross_posted_platforms: [],
@@ -119,10 +124,7 @@ export class SocialSyncService {
     // Synchroniser les commentaires
     if (existingPost.data?.id) {
       const comments = await new FacebookAPI(account.access_token).getPostComments(post.id);
-      const syncedCount = await SocialCommentsService.syncComments(
-        existingPost.data.id,
-        comments
-      );
+      const syncedCount = await SocialCommentsService.syncComments(existingPost.data.id, comments);
       console.log(`Synced ${syncedCount} new comments for post ${post.id}`);
     }
   }
@@ -149,22 +151,22 @@ export class SocialSyncService {
    */
   private static async syncInstagramMedia(account: SocialAccount, media: any): Promise<void> {
     const existingPost = await supabase
-      .from('social_posts')
-      .select('id')
-      .eq('account_id', account.id)
-      .eq('external_post_id', media.id)
+      .from("social_posts")
+      .select("id")
+      .eq("account_id", account.id)
+      .eq("external_post_id", media.id)
       .single();
 
     if (!existingPost.data) {
       await SocialPostsService.createPost({
         account_id: account.id,
         external_post_id: media.id,
-        platform: 'instagram',
-        caption: media.caption || '',
-        hashtags: this.extractHashtags(media.caption || ''),
+        platform: "instagram",
+        caption: media.caption || "",
+        hashtags: this.extractHashtags(media.caption || ""),
         media_urls: [media.media_url],
         media_types: [media.media_type.toLowerCase()],
-        status: 'published',
+        status: "published",
         published_at: media.timestamp,
         cross_posted: false,
         cross_posted_platforms: [],
@@ -179,9 +181,10 @@ export class SocialSyncService {
 
     // Synchroniser les commentaires
     if (existingPost.data?.id) {
-      const comments = await new InstagramAPI(account.access_token, account.account_id).getMediaComments(
-        media.id
-      );
+      const comments = await new InstagramAPI(
+        account.access_token,
+        account.account_id,
+      ).getMediaComments(media.id);
       await SocialCommentsService.syncComments(existingPost.data.id, comments);
     }
   }
@@ -204,10 +207,10 @@ export class SocialSyncService {
    */
   private static async syncTikTokVideo(account: SocialAccount, video: any): Promise<void> {
     const existingPost = await supabase
-      .from('social_posts')
-      .select('id')
-      .eq('account_id', account.id)
-      .eq('external_post_id', video.video_id)
+      .from("social_posts")
+      .select("id")
+      .eq("account_id", account.id)
+      .eq("external_post_id", video.video_id)
       .single();
 
     if (!existingPost.data) {
@@ -216,12 +219,12 @@ export class SocialSyncService {
       await SocialPostsService.createPost({
         account_id: account.id,
         external_post_id: video.video_id,
-        platform: 'tiktok',
-        caption: video.title || '',
-        hashtags: this.extractHashtags(video.title || ''),
+        platform: "tiktok",
+        caption: video.title || "",
+        hashtags: this.extractHashtags(video.title || ""),
         media_urls: [video.video_url],
-        media_types: ['video'],
-        status: 'published',
+        media_types: ["video"],
+        status: "published",
         published_at: new Date(video.create_time * 1000).toISOString(),
         cross_posted: false,
         cross_posted_platforms: [],
@@ -237,17 +240,44 @@ export class SocialSyncService {
   }
 
   /**
+   * Normalise les insights de compte en données analytiques standardisées
+   */
+  private static normalizeAccountInsights(insights: any) {
+    return {
+      reach: insights.reach || insights.totalReach || insights.impressions || 0,
+      impressions: insights.impressions || insights.totalImpressions || 0,
+      engagement: insights.engagement || insights.totalEngagement || 0,
+      likes: insights.likes || insights.totalLikes || 0,
+      comments: insights.comments || insights.totalComments || 0,
+      shares: insights.shares || insights.totalShares || 0,
+      saves: insights.saves || insights.totalSaves || 0,
+      clicks: insights.clicks || insights.totalClicks || 0,
+      watch_time: insights.watch_time || insights.totalWatchTime || 0,
+      followers_gained: insights.followers_gained || insights.new_followers || 0,
+      followers_lost: insights.followers_lost || insights.lost_followers || 0,
+      engagement_rate: insights.engagement_rate || insights.averageEngagementRate || 0,
+      net_followers_change:
+        (insights.followers_gained || insights.new_followers || 0) -
+        (insights.followers_lost || insights.lost_followers || 0),
+    };
+  }
+
+  /**
    * Enregistre les analytics du compte
    */
-  private static async recordAccountAnalytics(account: SocialAccount, insights: any): Promise<void> {
-    const today = new Date().toISOString().split('T')[0];
+  private static async recordAccountAnalytics(
+    account: SocialAccount,
+    insights: any,
+  ): Promise<void> {
+    const today = new Date().toISOString().split("T")[0];
+    const normalized = this.normalizeAccountInsights(insights);
 
     // Chercher si l'entrée d'aujourd'hui existe
     const existing = await supabase
-      .from('social_analytics')
-      .select('id')
-      .eq('account_id', account.id)
-      .eq('date', today)
+      .from("social_analytics")
+      .select("id")
+      .eq("account_id", account.id)
+      .eq("date", today)
       .single();
 
     const analyticsData = {
@@ -255,11 +285,11 @@ export class SocialSyncService {
       post_id: null,
       platform: account.platform,
       date: today,
-      reach: insights.reach || 0,
-      impressions: insights.impressions || 0,
-      engagement: insights.engagement || 0,
-      followers_gained: insights.followers_gained || 0,
-      followers_lost: insights.followers_lost || 0,
+      reach: normalized.reach,
+      impressions: normalized.impressions,
+      engagement: normalized.engagement,
+      followers_gained: normalized.followers_gained,
+      followers_lost: normalized.followers_lost,
       metadata: insights,
     };
 
@@ -268,6 +298,21 @@ export class SocialSyncService {
     } else {
       await SocialAnalyticsService.recordAnalytics(analyticsData);
     }
+
+    await SocialAnalyticsService.upsertAnalyticsSummary(account.id, today, {
+      reach: normalized.reach,
+      impressions: normalized.impressions,
+      engagement: normalized.engagement,
+      likes: normalized.likes,
+      comments: normalized.comments,
+      shares: normalized.shares,
+      saves: normalized.saves,
+      clicks: normalized.clicks,
+      watch_time: normalized.watch_time,
+      engagement_rate: normalized.engagement_rate,
+      net_followers_change: normalized.net_followers_change,
+      metadata: insights,
+    });
   }
 
   /**
@@ -276,10 +321,10 @@ export class SocialSyncService {
   private static async refreshAccountToken(account: SocialAccount): Promise<void> {
     try {
       // Importer ici pour éviter les imports circulaires
-      const { OAuthService } = await import('./oauth');
+      const { OAuthService } = await import("./oauth");
 
       if (!account.refresh_token) {
-        throw new Error('No refresh token available');
+        throw new Error("No refresh token available");
       }
 
       const newToken = await OAuthService.refreshToken(account.platform, account.refresh_token);
@@ -287,10 +332,12 @@ export class SocialSyncService {
         account.id,
         newToken.access_token,
         newToken.refresh_token,
-        newToken.expires_in ? new Date(Date.now() + newToken.expires_in * 1000).toISOString() : undefined
+        newToken.expires_in
+          ? new Date(Date.now() + newToken.expires_in * 1000).toISOString()
+          : undefined,
       );
     } catch (error) {
-      console.error('Token refresh failed:', error);
+      console.error("Token refresh failed:", error);
       throw error;
     }
   }
@@ -316,18 +363,16 @@ export class SocialSyncService {
    */
   private static async logSyncError(accountId: string, error: Error): Promise<void> {
     try {
-      await supabase
-        .from('social_sync_queue')
-        .insert({
-          account_id: accountId,
-          sync_type: 'posts',
-          status: 'failed',
-          error_message: error.message,
-          retry_count: 0,
-          next_retry_at: new Date(Date.now() + 5 * 60 * 1000).toISOString(), // Retry in 5 minutes
-        });
+      await supabase.from("social_sync_queue").insert({
+        account_id: accountId,
+        sync_type: "posts",
+        status: "failed",
+        error_message: error.message,
+        retry_count: 0,
+        next_retry_at: new Date(Date.now() + 5 * 60 * 1000).toISOString(), // Retry in 5 minutes
+      });
     } catch (err) {
-      console.error('Error logging sync error:', err);
+      console.error("Error logging sync error:", err);
     }
   }
 }

@@ -56,7 +56,9 @@ function ScriptsPage() {
           <p className="text-sm text-muted-foreground">All generated scripts, ready to ship.</p>
         </div>
         {!!scripts?.length && (
-          <Button variant="outline" onClick={exportAll}><Download className="h-4 w-4 mr-2" /> Export JSON</Button>
+          <Button variant="outline" onClick={exportAll}>
+            <Download className="h-4 w-4 mr-2" /> Export JSON
+          </Button>
         )}
       </div>
 
@@ -74,19 +76,41 @@ function ScriptsPage() {
                   <div className="font-semibold truncate">{s.topic}</div>
                   <div className="text-xs text-muted-foreground">
                     {new Date(s.created_at).toLocaleDateString()}
-                    {s.clients && ` · ${((s.clients as unknown as { name: string })).name}`}
+                    {s.clients && ` · ${(s.clients as unknown as { name: string }).name}`}
                   </div>
                 </div>
-                <Badge style={{ background: "var(--gradient-brand)", color: "var(--primary-foreground)" }}>{s.viral_score}</Badge>
+                <Badge
+                  style={{
+                    background: "var(--gradient-brand)",
+                    color: "var(--primary-foreground)",
+                  }}
+                >
+                  {s.viral_score}
+                </Badge>
               </div>
               <div className="space-y-2 text-sm">
-                <div><span className="text-[10px] font-bold tracking-widest text-primary">HOOK</span><div>{s.hook}</div></div>
-                <div><span className="text-[10px] font-bold tracking-widest text-muted-foreground">CONTENT</span><div className="whitespace-pre-wrap">{s.content}</div></div>
-                <div><span className="text-[10px] font-bold tracking-widest text-primary">CTA</span><div>{s.cta}</div></div>
+                <div>
+                  <span className="text-[10px] font-bold tracking-widest text-primary">HOOK</span>
+                  <div>{s.hook}</div>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold tracking-widest text-muted-foreground">
+                    CONTENT
+                  </span>
+                  <div className="whitespace-pre-wrap">{s.content}</div>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold tracking-widest text-primary">CTA</span>
+                  <div>{s.cta}</div>
+                </div>
               </div>
               <div className="flex gap-1 justify-end">
-                <Button variant="ghost" size="sm" onClick={() => copyOne(s)}><Copy className="h-4 w-4" /></Button>
-                <Button variant="ghost" size="sm" onClick={() => del(s.id)}><Trash2 className="h-4 w-4" /></Button>
+                <Button variant="ghost" size="sm" onClick={() => copyOne(s)}>
+                  <Copy className="h-4 w-4" />
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => del(s.id)}>
+                  <Trash2 className="h-4 w-4" />
+                </Button>
               </div>
             </Card>
           ))}
