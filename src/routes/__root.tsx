@@ -1,5 +1,4 @@
 import React from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Outlet, Link, createRootRouteWithContext, useRouter } from "@tanstack/react-router";
 
 import "../styles.css";
@@ -94,25 +93,21 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient; request?: Request }>()({
+export const Route = createRootRouteWithContext<{ request?: Request }>()({
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
-
   return (
     <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <AppStatusProvider>
-            <Outlet />
-            <Toaster theme="dark" position="top-right" />
-          </AppStatusProvider>
-        </AuthProvider>
-      </QueryClientProvider>
+      <AuthProvider>
+        <AppStatusProvider>
+          <Outlet />
+          <Toaster theme="dark" position="top-right" />
+        </AppStatusProvider>
+      </AuthProvider>
     </ErrorBoundary>
   );
 }
