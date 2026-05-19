@@ -1,6 +1,6 @@
 import { streamText } from "ai";
 import { requireUser } from "@/lib/api-auth.server";
-import { createLovableAiGatewayProvider } from "@/lib/ai-gateway";
+import { createOpenAiGatewayProvider } from "@/lib/ai-gateway";
 
 export async function POST(request: Request) {
   if (request.method !== "POST") {
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 
   const { prompt, on, service } = await request.json();
 
-  const openai = createLovableAiGatewayProvider(process.env.OPENAI_API_KEY!);
+  const openai = createOpenAiGatewayProvider(process.env.OPENAI_API_KEY!);
 
   const result = await streamText({
     model: openai("gpt-4-turbo"),

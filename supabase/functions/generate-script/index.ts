@@ -2,7 +2,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.43.4";
 import { generateText, Output } from "ai";
 import { z } from "zod";
-import { createLovableAiGatewayProvider } from "@/lib/ai-gateway";
+import { createOpenAiGatewayProvider } from "@/lib/ai-gateway";
 
 const schema = z.object({
   hook: z.string().describe("Powerful 0-2s hook, max 12 words"),
@@ -55,10 +55,10 @@ Deno.serve(async (req: Request) => {
       return new Response(msg, { status: 400 });
     }
     // @ts-ignore
-    const key = Deno.env.get("LOVABLE_API_KEY");
-    if (!key) return new Response("Missing LOVABLE_API_KEY", { status: 500 });
+    const key = Deno.env.get("OPENAI_API_KEY");
+    if (!key) return new Response("Missing OPENAI_API_KEY", { status: 500 });
 
-    const gateway = createLovableAiGatewayProvider(key);
+    const gateway = createOpenAiGatewayProvider(key);
     try {
       const { output } = await generateText({
         model: gateway("google/gemini-3-flash-preview"),
