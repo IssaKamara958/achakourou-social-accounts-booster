@@ -9,6 +9,7 @@ const queryClient = new QueryClient();
 // Création de l'instance du routeur
 const router = createRouter({
   routeTree,
+  context: { queryClient },
 });
 
 // Enregistrement du routeur pour le support de l'auto-complétion (TypeScript)

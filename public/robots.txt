@@ -4,4 +4,4 @@ Disallow: /app/
 Disallow: /api/
 Disallow: /login
 
-Sitemap: https://achakourou-booster.replit.app/sitemap.xml
+Sitemap: https://achakourou-social-accounts-booster.netlify.app/sitemap.xml

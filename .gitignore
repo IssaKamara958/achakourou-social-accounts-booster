@@ -18,14 +18,7 @@ build/
 .output
 .vinxi
 .nitro
-
-# Temporary files
-*.tmp
-
-# TanStack
-.tanstack/
-vite.config.ts.timestamp-*
-
+ .replit
 # TanStack Router (auto-generated)
 src/routeTree.gen.ts
 
