@@ -1,46 +1,47 @@
 import { createClient } from "@supabase/supabase-js";
-import type { Database } from "@/integrations/supabase/types";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() || "";
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() || "";
 
+// Warning si env manquantes
 if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes("your-project-id")) {
   console.warn(
-    "Supabase URL or Anon Key is not set. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env file.",
+    "⚠️ Supabase URL ou Anon Key manquante. Vérifie ton fichier .env (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY)"
   );
 }
 
+// Singleton global (évite re-init en dev avec HMR)
 declare global {
-  var __supabase_client: ReturnType<typeof createClient<Database>> | undefined;
+  // eslint-disable-next-line no-var
+  var __supabase_client: ReturnType<typeof createClient> | undefined;
 }
 
-let supabase: ReturnType<typeof createClient<Database>>;
+const options = {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+  },
+};
 
-const PLACEHOLDER_URL = "https://placeholder.supabase.co";
-const PLACEHOLDER_KEY = "placeholder-anon-key";
-
-const effectiveUrl = supabaseUrl || PLACEHOLDER_URL;
-const effectiveKey = supabaseAnonKey || PLACEHOLDER_KEY;
+let supabase: ReturnType<typeof createClient>;
 
 if (import.meta.env.DEV) {
   if (!globalThis.__supabase_client) {
-    globalThis.__supabase_client = createClient<Database>(effectiveUrl, effectiveKey, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true,
-      },
-    });
+    globalThis.__supabase_client = createClient(
+      supabaseUrl || "https://placeholder.supabase.co",
+      supabaseAnonKey || "placeholder-anon-key",
+      options
+    );
   }
+
   supabase = globalThis.__supabase_client;
 } else {
-  supabase = createClient<Database>(effectiveUrl, effectiveKey, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true,
-    },
-  });
+  supabase = createClient(
+    supabaseUrl || "https://placeholder.supabase.co",
+    supabaseAnonKey || "placeholder-anon-key",
+    options
+  );
 }
 
 export { supabase };

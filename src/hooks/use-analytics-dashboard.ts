@@ -8,18 +8,16 @@ import {
 export function useAnalyticsDashboard(startDate?: string, endDate?: string) {
   const { user } = useAuth();
 
-  const query = useQuery(
-    ["analyticsDashboard", user?.id, startDate, endDate],
-    async () => {
+  const query = useQuery({
+    queryKey: ["analyticsDashboard", user?.id, startDate, endDate],
+    queryFn: async () => {
       if (!user?.id) return null;
       const analyticsRows = await fetchUserAnalyticsRows(user.id, startDate, endDate);
       return buildDashboardAnalyticsSummary(analyticsRows);
     },
-    {
-      enabled: !!user?.id,
-      refetchInterval: 60_000,
-    },
-  );
+    enabled: !!user?.id,
+    refetchInterval: 60_000,
+  });
 
   return {
     ...query,

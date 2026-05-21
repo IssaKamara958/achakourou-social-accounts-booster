@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase";
 
 export function useSyncStatus(userId?: string) {
-  const query = useQuery(
-    ["syncJobs", userId],
-    async () => {
+  const query = useQuery({
+    queryKey: ["syncJobs", userId],
+    queryFn: async () => {
       if (!userId) return [];
       const { data, error } = await supabase
         .from("sync_jobs")
@@ -14,8 +14,9 @@ export function useSyncStatus(userId?: string) {
       if (error) throw error;
       return data || [];
     },
-    { enabled: !!userId, refetchInterval: 5000 },
-  );
+    enabled: !!userId,
+    refetchInterval: 5000,
+  });
 
   return { jobs: query.data || [], isLoading: query.isLoading, error: query.error };
 }

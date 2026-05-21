@@ -43,22 +43,20 @@ export function AppStatusProvider({ children }: { children: ReactNode }) {
   const isOnline = useNetworkStatus();
   const { jobs = [] } = useSyncStatus(user?.id);
 
-  const backendQuery = useQuery<boolean>(
-    ["backendHealth"],
-    async () => {
+  const backendQuery = useQuery<boolean>({
+    queryKey: ["backendHealth"],
+    queryFn: async () => {
       const { error } = await supabase.from("trends").select("id").limit(1);
       if (error) {
         throw error;
       }
       return true;
     },
-    {
-      enabled: isOnline,
-      staleTime: 1000 * 30,
-      refetchInterval: 15000,
-      retry: 1,
-    },
-  );
+    enabled: isOnline,
+    staleTime: 1000 * 30,
+    refetchInterval: 15000,
+    retry: 1,
+  });
 
   const backendAvailable = isOnline && !backendQuery.isError;
   const backendError = backendQuery.error?.message ?? null;
