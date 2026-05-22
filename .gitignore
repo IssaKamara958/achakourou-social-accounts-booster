@@ -1,4 +1,6 @@
+# =========================
 # Logs
+# =========================
 logs
 *.log
 npm-debug.log*
@@ -7,22 +9,33 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# =========================
 # Dependencies
-node_modules
+# =========================
+node_modules/
 
+# =========================
 # Build outputs
-dist
-dist-ssr
+# =========================
+dist/
+dist-ssr/
 build/
-.cache
-.output
-.vinxi
-.nitro
- .replit
+.cache/
+.output/
+.vinxi/
+.nitro/
+
+# Replit
+.replit
+
+# =========================
 # TanStack Router (auto-generated)
+# =========================
 src/routeTree.gen.ts
 
-# Environment variables — NEVER commit
+# =========================
+# Environment variables (NEVER commit)
+# =========================
 .env
 .env.local
 .env.development
@@ -31,7 +44,9 @@ src/routeTree.gen.ts
 .env.*
 !.env.example
 
+# =========================
 # Supabase
+# =========================
 .supabase/
 supabase/.temp/
 supabase/.branches/
@@ -40,28 +55,38 @@ supabase/functions/**/node_modules/
 supabase/functions/**/.env
 deno.lock
 
+# =========================
 # Firebase / Netlify
+# =========================
 .firebase/
 .netlify/
 
-# Wrangler / Cloudflare
+# =========================
+# Cloudflare / Wrangler
+# =========================
 .wrangler/
 .dev.vars
 _worker.js
 
+# =========================
 # Editor
-.vscode/*
+# =========================
+.vscode/
 !.vscode/extensions.json
-.idea
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
+# =========================
 # OS
+# =========================
 .DS_Store
 Thumbs.db
 
+# =========================
 # Package managers
+# =========================
 bun.lockb

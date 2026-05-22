@@ -1,26 +1,30 @@
-import path from "path";
+/// <reference types="node" />
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { TanStackRouterVite } from "@tanstack/router-vite-plugin";
 import tsconfigPaths from "vite-tsconfig-paths";
+import path from "node:path";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  resolve: {
-    alias: [{ find: "@", replacement: path.resolve(__dirname, "./src") }],
-  },
-
   plugins: [
     TanStackRouterVite(),
     react(),
-    tailwindcss(),
+     tailwindcss(),
     tsconfigPaths(),
   ],
+
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
 
   server: {
     host: "0.0.0.0",
     port: 5000,
-    allowedHosts: true,
+    strictPort: true,
   },
 
   esbuild: {
@@ -39,7 +43,7 @@ export default defineConfig({
 
           "vendor-router": [
             "@tanstack/react-router",
-            "@tanstack/react-query"
+            "@tanstack/react-query",
           ],
 
           "vendor-ui": [
@@ -48,20 +52,22 @@ export default defineConfig({
             "@radix-ui/react-select",
             "@radix-ui/react-tabs",
             "@radix-ui/react-tooltip",
-            "@radix-ui/react-popover"
+            "@radix-ui/react-popover",
           ],
 
           "vendor-charts": ["recharts"],
+
           "vendor-motion": ["framer-motion"],
-          "vendor-supabase": ["@supabase/supabase-js"]
-        }
-      }
-    }
+
+          "vendor-supabase": ["@supabase/supabase-js"],
+        },
+      },
+    },
   },
 
   optimizeDeps: {
     esbuildOptions: {
-      target: "es2022"
-    }
-  }
+      target: "es2022",
+    },
+  },
 });
