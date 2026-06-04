@@ -1,10 +1,13 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase";
+import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 import { useNetworkStatus } from "@/use-network-status";
 import useSyncStatus from "@/hooks/use-sync-status";
+import type { Database } from "@/lib/supabase/types";
+
+type SyncJob = (Database["public"]["Tables"]["sync_jobs"]["Row"] & { status: string });
 
 type AppStatusContextType = {
   isOnline: boolean;
@@ -41,7 +44,7 @@ const AppStatusContext = createContext<AppStatusContextType>(defaultContext);
 export function AppStatusProvider({ children }: { children: ReactNode }) {
   const { user, loading: authLoading } = useAuth();
   const isOnline = useNetworkStatus();
-  const { jobs = [] } = useSyncStatus(user?.id);
+  const { jobs = [] } = useSyncStatus(user?.id) as { jobs: SyncJob[] };
 
   const backendQuery = useQuery<boolean>({
     queryKey: ["backendHealth"],

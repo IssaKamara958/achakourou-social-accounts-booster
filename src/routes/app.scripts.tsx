@@ -1,12 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Copy, Trash2, Download, FileText } from "lucide-react";
 import { toast } from "sonner";
+
+interface GeneratedScript {
+  id: string;
+  topic: string;
+  created_at: string;
+  viral_score: number;
+  hook: string;
+  content: string;
+  cta: string;
+  clients: { name: string } | null;
+}
 
 export const Route = createFileRoute("/app/scripts")({
   component: ScriptsPage,
@@ -16,7 +27,7 @@ function ScriptsPage() {
   const { user } = useAuth();
   const qc = useQueryClient();
 
-  const { data: scripts } = useQuery({
+  const { data: scripts } = useQuery<GeneratedScript[]>({
     queryKey: ["scripts", user?.id],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -76,7 +87,7 @@ function ScriptsPage() {
                   <div className="font-semibold truncate">{s.topic}</div>
                   <div className="text-xs text-muted-foreground">
                     {new Date(s.created_at).toLocaleDateString()}
-                    {s.clients && ` · ${(s.clients as unknown as { name: string }).name}`}
+                    {s.clients && ` · ${s.clients.name}`}
                   </div>
                 </div>
                 <Badge

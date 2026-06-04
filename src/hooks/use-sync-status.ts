@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase";
+import { supabase } from "@/lib/supabase";
 
 export function useSyncStatus(userId?: string) {
   const query = useQuery({

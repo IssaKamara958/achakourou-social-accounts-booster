@@ -1,134 +1,109 @@
 # Achakourou Social Accounts Booster (ACAB)
 
-Achakourou Social Accounts Booster est une plateforme SaaS de gestion et optimisation des comptes sociaux, pensée pour les créateurs, les marketeurs et les petites équipes qui veulent piloter TikTok, Instagram et Facebook depuis un seul tableau de bord.
+Achakourou Social Accounts Booster est une plateforme SaaS de gestion de réseaux sociaux multi-plateformes, conçue pour centraliser, automatiser et optimiser votre présence en ligne. Elle intègre des outils d'IA pour la création de contenu, la migration entre plateformes, l'analyse SEO et la gestion publicitaire.
 
-## Présentation
+## ✨ Fonctionnalités Clés
 
-ACAB centralise :
+- **Connexion Multi-Plateformes**: Connectez et gérez vos comptes Facebook, Instagram et TikTok depuis une seule interface.
+- **Synchronisation Automatique**: Vos données (posts, statistiques, abonnés) sont synchronisées en arrière-plan.
+- **Tableau de Bord Unifié**: Visualisez toutes vos statistiques et gérez vos comptes en temps réel.
+- **Gestion de Contenu Avancée**: Uploadez, stockez et organisez votre contenu multimédia. Publiez ou programmez vos posts sur plusieurs plateformes.
+- **Migration de Contenu**: Migrez facilement votre contenu (posts, et bientôt abonnés) d'un compte à un autre.
+- **Studio IA**:
+    - **Génération de contenu**: Créez des légendes, des hashtags et des scripts vidéo avec l'IA.
+    - **Génération d'images**: Générez des visuels uniques pour vos posts.
+    - **Templates Intelligents**: Utilisez des modèles de contenu pré-conçus et optimisés par l'IA.
+- **Analyse SEO**: Analysez le SEO de vos profils sociaux et obtenez des recommandations pour améliorer votre visibilité.
+- **Gestion Publicitaire (Prochainement)**: Créez, gérez et optimisez vos campagnes publicitaires avec l'aide de l'IA.
 
-- l'authentification OAuth des comptes sociaux,
-- la synchronisation des publications,
-- les analytics en temps réel,
-- les recommandations SEO par IA,
-- la supervision de l'état de connexion,
-- un tableau de bord moderne compatible Netlify.
+## 🚀 Stack Technique
 
-## MVP
+| Couche          | Technologie                                               |
+| --------------- | --------------------------------------------------------- |
+| **Frontend**    | Next.js, React, TypeScript, TailwindCSS, shadcn/ui        |
+| **State Mgmt**  | Zustand, TanStack Query                                   |
+| **Backend**     | NestJS, TypeScript                                        |
+| **Base de Données** | PostgreSQL, Prisma ORM                                    |
+| **Cache & Jobs**| Redis, BullMQ                                             |
+| **Stockage Fichiers** | MinIO (compatible S3)                                     |
+| **Temps Réel**    | WebSockets (Socket.io)                                    |
+| **Authentification** | JWT, OAuth2 (Passport.js)                                 |
+| **IA & LLM**      | OpenAI API                                                |
+| **Déploiement**   | Docker, GitHub Actions                                    |
 
-- OAuth TikTok / Facebook / Instagram
-- Dashboard analytics temps réel
-- AI SEO Booster pour l'optimisation des profils et contenus
-- Publication multi-réseaux et gestion de workflow
-- Synchronisation sociale avec suivi des jobs
-- Supervision de l'état de connexion et du backend
-- Interface responsive et PWA ready
-- Suivi sécurisé avec Supabase Auth + RLS
+## 🏁 Démarrage Rapide
 
-## Stack Technique
+### Pré-requis
 
-- Frontend : React 18 + TypeScript
-- Routing : TanStack Router
-- Data fetching : TanStack Query v5
-- Build : Vite
-- UI : Tailwind CSS + shadcn/ui
-- Animations : Framer Motion
-- Graphiques : Recharts
-- Backend : Supabase (Auth, PostgreSQL, RLS)
-- Déploiement : Netlify
-- IA : AI SDK compatible OpenAI / Gemini
+- [Node.js](https://nodejs.org/en/) >= 18.0
+- [Docker](https://www.docker.com/get-started) et Docker Compose
+- Un compte [OpenAI](https://platform.openai.com/) pour les fonctionnalités d'IA.
 
-## Installation locale
+### 1. Installation
 
-### Prérequis
+1.  **Clonez le dépôt :**
+    ```bash
+    git clone https://github.com/IssaKamara958/achakourou-social-accounts-booster.git
+    cd achakourou-social-accounts-booster
+    ```
 
-- Node.js >= 20
-- npm
-- Compte Supabase
+2.  **Configurez les variables d'environnement :**
+    Créez un fichier `.env` à la racine du projet en copiant `.env.example`. Remplissez les variables, notamment pour la base de données, les clés API OpenAI et les clés des fournisseurs OAuth.
 
-### Installer le projet
+    ```bash
+    cp .env.example .env
+    ```
 
-```bash
-git clone <repo-url>
-cd achakourou-social-accounts-booster
-npm install
-```
+3.  **Installez les dépendances :**
+    ```bash
+    # Dans le dossier backend
+    cd backend
+    npm install
 
-### Variables d'environnement
+    # Dans le dossier frontend
+    cd ../frontend
+    npm install
+    ```
 
-Copiez le fichier d'exemple :
+### 2. Lancement
 
-```bash
-cp .env.example .env
-```
+1.  **Démarrez les services avec Docker :**
+    À la racine du projet, lancez PostgreSQL, Redis et MinIO.
+    ```bash
+    docker-compose up -d
+    ```
 
-Remplissez les variables principales :
+2.  **Appliquez les migrations de la base de données :**
+    ```bash
+    cd backend
+    npx prisma migrate dev
+    ```
 
-```env
-VITE_SUPABASE_URL=https://xxxx.supabase.co
-VITE_SUPABASE_ANON_KEY=your_public_anon_key
-```
+3.  **Démarrez les serveurs :**
+    - **Backend API (port 3001) :**
+      ```bash
+      # Dans le terminal 1 (dossier backend)
+      npm run start:dev
+      ```
+    - **Frontend App (port 3000) :**
+      ```bash
+      # Dans le terminal 2 (dossier frontend)
+      npm run dev
+      ```
 
-Variables optionnelles disponibles :
+4.  **Accédez à l'application :**
+    Ouvrez votre navigateur et allez sur [http://localhost:3000](http://localhost:3000).
 
-- `VITE_OPENAI_API_KEY`
-- `VITE_AI_API_URL`
-- `VITE_FACEBOOK_APP_SECRET`
-- `VITE_INSTAGRAM_APP_SECRET`
-- `VITE_TIKTOK_CLIENT_SECRET`
-- `SUPABASE_SERVICE_ROLE_KEY`
+## 📄 API
 
-### Lancer en développement
+La documentation de l'API Backend est générée automatiquement avec Swagger et est disponible à l'adresse suivante lorsque le serveur est en cours d'exécution :
+[http://localhost:3001/api/docs](http://localhost:3001/api/docs)
 
-```bash
-npm run dev
-```
+## 🗺️ Roadmap
 
-Ouvrez `http://localhost:5173`.
-
-## Build production
-
-```bash
-npm run build
-```
-
-## Déploiement Netlify
-
-1. Connectez le dépôt GitHub à Netlify.
-2. Ajoutez les variables d'environnement dans Netlify.
-3. Configurez la commande de build :
-
-```bash
-npm run build
-```
-
-4. Déployez :
-
-```bash
-netlify deploy --build --prod
-```
-
-> Assurez-vous que `VITE_SUPABASE_URL` et `VITE_SUPABASE_ANON_KEY` sont bien définis dans Netlify.
-
-## Sécurité
-
-- RLS activé sur les tables critiques.
-- Authentification Supabase sécurisée.
-- Secrets OAuth et API uniquement en variables d'environnement.
-- Ne commitez jamais de `.env`, de clés privées ou de tokens.
-- Utilisez `.env.example` comme gabarit.
-
-## Architecture du projet
-
-- `src/routes` : pages et routes de l'application
-- `src/hooks` : hooks métier réutilisables
-- `src/lib` : services, providers et utilitaires
-- `src/integrations` : client Supabase et configuration
-- `supabase/functions` : fonctions Edge Supabase
-- `supabase/migrations` : schéma et migrations SQL
-- `public` : manifest PWA, service worker, assets statiques
-
-## Roadmap
-
-- v1 : MVP stable avec auth, analytics, sync social et IA SEO
-- v2 : multi-tenant, billing, plans Pro, rapports exportables
-- v3 : collaboration équipe, notifications push, monitoring avancé
+- **Phase 1 (MVP)**: Authentification, connexion des comptes, publication simple.
+- **Phase 2 (Sync)**: Synchronisation des données en arrière-plan, tableau de bord temps réel.
+- **Phase 3 (Contenu Avancé)**: Bibliothèque multimédia, planification, formats complexes.
+- **Phase 4 (Migration)**: Moteur de migration cross-plateforme.
+- **Phase 5 (IA)**: Génération de contenu, templates IA.
+- **Phase 6 (SEO & Ads)**: Analyse SEO, gestion des publicités.

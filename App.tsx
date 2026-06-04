@@ -12,6 +12,13 @@ const router = createRouter({
   context: { queryClient },
 });
 
+// Augmenting RouterContext for TanStack Router
+declare module '@tanstack/react-router' {
+  interface RouterContext {
+    queryClient: QueryClient
+  }
+}
+
 // Enregistrement du routeur pour le support de l'auto-complétion (TypeScript)
 declare module "@tanstack/react-router" {
   interface Register {

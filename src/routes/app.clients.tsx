@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Trash2, Plus, Users } from "lucide-react";
 import { toast } from "sonner";
+import type { Database } from "@/lib/supabase/types";
+
+type Client = Database["public"]["Tables"]["clients"]["Row"];
 
 export const Route = createFileRoute("/app/clients")({
   component: ClientsPage,
@@ -20,7 +23,7 @@ function ClientsPage() {
   const qc = useQueryClient();
   const [form, setForm] = useState({ name: "", handle: "", niche: "", notes: "" });
 
-  const { data: clients } = useQuery({
+  const { data: clients } = useQuery<Client[]>({
     queryKey: ["clients", user?.id],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -119,7 +122,7 @@ function ClientsPage() {
               No clients yet. Add your first one.
             </Card>
           ) : (
-            clients.map((c: any) => (
+            clients.map((c) => (
               <Card
                 key={c.id}
                 className="p-4 bg-card border-border flex items-start justify-between gap-3"

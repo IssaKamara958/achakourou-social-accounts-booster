@@ -1,5 +1,5 @@
-import { supabase } from "@/integrations/supabase";
-import type { SocialPlatform } from "./types";
+import { supabase } from "@/lib/supabase";
+import type { SocialPlatform } from "../integrations/types";
 
 export interface DashboardAnalyticsPoint {
   date: string;

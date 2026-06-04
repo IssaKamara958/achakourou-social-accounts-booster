@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -75,7 +75,7 @@ function Generator() {
 
   const refreshQuota = () => setQuota(getQuota("ai"));
 
-  const { data: clients } = useQuery({
+  const { data: clients } = useQuery<{ id: string; name: string }[]>({
     queryKey: ["clients-min", user?.id],
     queryFn: async () => {
       const { data } = await supabase.from("clients").select("id, name").order("name");
@@ -299,7 +299,7 @@ function Generator() {
               className="w-full h-9 rounded-md border border-input bg-input px-3 text-sm disabled:opacity-40"
             >
               <option value="">— Aucun —</option>
-              {clients?.map((c: { id: string; name: string }) => (
+              {clients?.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name}
                 </option>
