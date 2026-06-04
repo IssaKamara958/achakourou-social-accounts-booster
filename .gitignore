@@ -50,3 +50,10 @@ Thumbs.db
 # Cloudflare Wrangler
 /.wrangler
 /.mf
+
+node_modules
+frontend/node_modules
+dist
+build
+.next
+.env
