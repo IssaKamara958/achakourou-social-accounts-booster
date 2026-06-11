@@ -56,7 +56,7 @@ ALTER TABLE public.posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.sync_jobs ENABLE ROW LEVEL SECURITY;
 
 -- Create policies for profiles
-CREATE POLICY "Enable read access for all users" ON public.profiles FOR SELECT USING (true);
+CREATE POLICY "Enable read for users based on user_id" ON public.profiles FOR SELECT USING (auth.uid() = id);
 CREATE POLICY "Enable insert for authenticated users only" ON public.profiles FOR INSERT WITH CHECK (auth.role() = 'authenticated');
 CREATE POLICY "Enable update for users based on email" ON public.profiles FOR UPDATE USING (auth.uid() = id);
 

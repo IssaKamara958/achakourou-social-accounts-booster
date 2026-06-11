@@ -1,0 +1,1 @@
+ALTER TABLE public.sync_jobs ADD COLUMN payload JSONB;

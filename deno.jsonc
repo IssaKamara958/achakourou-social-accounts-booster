@@ -1,0 +1,25 @@
+{
+  "//": "Ce fichier configure l'environnement Deno pour vos fonctions Supabase Edge.",
+  "//": "Pour que ces paramètres prennent effet dans votre éditeur (ex: VS Code),",
+  "//": "vous devez installer l'extension officielle 'Deno'.",
+  "compilerOptions": {
+    "lib": [
+      "deno.ns",
+      "dom"
+    ]
+  },
+  "imports": {
+    "http/": "https://deno.land/std@0.168.0/http/",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2"
+  },
+  "lint": {
+    "include": [
+      "supabase/functions/"
+    ]
+  },
+  "fmt": {
+    "include": [
+      "supabase/functions/"
+    ]
+  }
+}

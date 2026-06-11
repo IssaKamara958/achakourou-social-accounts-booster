@@ -9,6 +9,22 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      profiles: {
+        Row: {
+          id: string
+          created_at: string
+          email: string
+        }
+        Insert: {
+          id: string
+          email: string
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          email?: string
+        }
+      }
       social_accounts: {
         Row: {
           id: string
@@ -53,7 +69,6 @@ export interface Database {
           hook: string
           content: string
           cta: string
-          clients: any[]
         }
         Insert: {
           social_account_id: string
@@ -75,7 +90,6 @@ export interface Database {
           hook?: string
           content?: string
           cta?: string
-          clients?: any[]
         }
       }
       sync_jobs: {

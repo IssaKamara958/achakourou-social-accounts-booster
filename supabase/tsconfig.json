@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "ESNext"],
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "functions/**/*"
+  ]
+}

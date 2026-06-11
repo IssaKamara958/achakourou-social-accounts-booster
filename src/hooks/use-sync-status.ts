@@ -6,11 +6,7 @@ export function useSyncStatus(userId?: string) {
     queryKey: ["syncJobs", userId],
     queryFn: async () => {
       if (!userId) return [];
-      const { data, error } = await supabase
-        .from("sync_jobs")
-        .select("*")
-        .or(`account_id.eq.${userId},payload->>user_id.eq.${userId}`)
-        .order("scheduled_at", { ascending: false });
+      const { data, error } = await supabase.rpc("get_sync_jobs", { uid: userId });
       if (error) throw error;
       return data || [];
     },
