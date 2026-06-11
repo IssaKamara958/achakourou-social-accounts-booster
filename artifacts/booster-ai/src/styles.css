@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gradient-brand: linear-gradient(135deg, oklch(0.72 0.20 340), oklch(0.80 0.15 200));
+  --gradient-radial: radial-gradient(ellipse at 50% 0%, oklch(0.18 0.05 280) 0%, oklch(0.12 0.02 280) 60%);
+  --shadow-glow: 0 0 40px oklch(0.72 0.20 340 / 0.3);
+}
