@@ -22,3 +22,9 @@ timeoutMs = 20000
 [[ports]]
 localPort = 25851
 externalPort = 80
+
+[userenv]
+
+[userenv.shared]
+VITE_SUPABASE_URL = "https://jaqotacitljdsurbcrtx.supabase.co"
+VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphcW90YWNpdGxqZHN1cmJjcnR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTY5MDgsImV4cCI6MjA5NDI3MjkwOH0.CKi81AKwcuqhqq6MYrKBIvuzMoFik0yl3maHLCAAtyo"

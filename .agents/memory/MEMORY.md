@@ -1,0 +1,2 @@
+- [Supabase direct DB connection](supabase-db-connection.md) — Replit blocks outbound port 5432; use SQL Editor in Supabase dashboard instead of psql/pg.
+- [Booster AI env vars](booster-ai-env.md) — VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY set as shared env vars; never throw on missing Supabase creds in supabase.ts, use placeholder fallback.
